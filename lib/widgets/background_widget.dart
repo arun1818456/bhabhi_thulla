@@ -24,13 +24,14 @@ class BackgroundWidget extends StatelessWidget {
           Positioned.fill(
             child: Image.asset(
               AppImages.background,
+              opacity: const AlwaysStoppedAnimation(.7),
               fit: BoxFit.cover,
             ),
           ),
           BackdropFilter(
             filter: ImageFilter.blur(
-              sigmaX: 2,
-              sigmaY: 2,
+              sigmaX: 0.5,
+              sigmaY: 0.5,
             ),
             child: Container(
               color: Colors.black.withValues(alpha: 0.2),

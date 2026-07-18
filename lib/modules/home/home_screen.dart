@@ -1,90 +1,171 @@
+import 'package:bhabhi_thulla/constant/images_text.dart';
 import 'package:bhabhi_thulla/widgets/background_widget.dart';
-import 'package:flutter/material.dart';
-
+import 'package:bhabhi_thulla/widgets/my_text.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../constant/export_file.dart';
-import '../../constant/images_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final w = size.width;
-    final h = size.height;
+    // final size = MediaQuery.of(context).size;
+    // final w = size.width;
+    // final h = size.height;
 
-    Widget menuButton(IconData icon, String text) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: w * .09,
-            height: w * .09,
-            constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(icon),
-          ),
-          const SizedBox(height: 4),
-          SizedBox(
-            width: 80,
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
+    // Widget menuButton(IconData icon, String text) {
+    //   return Column(
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: [
+    //       Container(
+    //         width: w * .09,
+    //         height: w * .09,
+    //         constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
+    //         decoration: BoxDecoration(
+    //           color: Colors.white,
+    //           borderRadius: BorderRadius.circular(16),
+    //         ),
+    //         child: Icon(icon),
+    //       ),
+    //       const SizedBox(height: 4),
+    //       SizedBox(
+    //         width: 80,
+    //         child: Text(
+    //           text,
+    //           textAlign: TextAlign.center,
+    //           style: const TextStyle(
+    //             color: Colors.white,
+    //             fontWeight: FontWeight.bold,
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   );
+    // }
 
     return BackgroundWidget(
-      child: Column(
+      child: Stack(
         children: [
-          Row(
+          Column(
             children: [
-              Container(
-                width: Get.width*0.05,
-                height: Get.width*0.05,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.person, size: 20),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                height: Get.width*0.05,
-                width: Get.width/3-50,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade700,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Arun",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10
-                      ),
+              Row(
+                children: [
+                  Container(
+                    width: Get.width * 0.06,
+                    height: Get.width * 0.06,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(width: 2, color: Colors.black),
                     ),
-                    SizedBox(height: 2),
-                    LinearProgressIndicator(value: .8),
-                  ],
-                ),
+                    child: const Icon(Icons.person, size: 20),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    width: Get.width / 3 - 150,
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        MyText(text: "Arun Kumar", fontSize: 12),
+                        SizedBox(height: 2),
+                        LinearProgressIndicator(value: .8),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      headerChip(AppImages.moneyBag, "990"),
+                      const SizedBox(width: 12),
+                      headerChip(AppImages.diamond, "17"),
+                    ],
+                  ),
+                ],
               ),
-              Spacer(),
             ],
+          ),
+          Positioned(
+            bottom: 50,
+            left: 10,
+            child: Column(
+              children: [
+                chipWithTxt(
+                  iconImage: AppImages.lottery,
+                  text: "Daily Spin",
+                  onTap: () {},
+                ),
+                const SizedBox(height: 15),
+                chipWithTxt(
+                  iconImage: AppImages.settings,
+                  text: "Settings",
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 1,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                chipWithTxt(
+                  iconImage: AppImages.leaderboard,
+                  text: "Leaderboards",
+                  onTap: () {},
+                ),
+                const SizedBox(width: 15),
+                chipWithTxt(
+                  iconImage: AppImages.tutorial,
+                  text: "Tutorial",
+                  onTap: () {},
+                ),
+                const SizedBox(width: 15),
+
+                chipWithTxt(
+                  iconImage: AppImages.friends,
+                  text: "Friends",
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 50,
+            right: 5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                chipWithTxt(
+                  iconImage: AppImages.gift,
+                  text: "Rewards",
+                  onTap: () {},
+                ),
+                const SizedBox(height: 15),
+                chipWithTxt(
+                  iconImage: AppImages.store,
+                  text: "Shop",
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: 25),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(AppImages.soloPlay, height: Get.height / 2),
+                  SizedBox(width: 20),
+                  Image.asset(AppImages.friendPlay, height: Get.height / 2),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -224,53 +305,69 @@ class HomeScreen extends StatelessWidget {
     // );
   }
 
-  Widget chip(IconData icon, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: Colors.amber),
-          const SizedBox(width: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+  Widget headerChip(String icon, String value) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.centerLeft,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 22),
+          padding: const EdgeInsets.only(left: 30, right: 5),
+          decoration: BoxDecoration(
+            color: Colors.black87,
+            borderRadius: BorderRadius.circular(14),
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                margin: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                height: 25,
+                width: 25,
+                child: Icon(Icons.add, color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0,
+          child: SizedBox(height: 30, width: 35, child: Image.asset(icon)),
+        ),
+      ],
     );
   }
 
-  Widget card(Color color, IconData icon, String title, double w, double h) {
-    return Container(
-      width: w.clamp(140, 260),
-      height: h.clamp(180, 320),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: color,
-            child: Icon(icon, color: Colors.white, size: 40),
-          ),
-          const SizedBox(height: 15),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
-          ),
-        ],
+  Widget chipWithTxt({
+    required String iconImage,
+    required String text,
+    required GestureTapCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      child: Container(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            Image.asset(iconImage, width: 45, height: 45),
+            MyText(text: text, fontSize: 15),
+          ],
+        ),
       ),
     );
   }
