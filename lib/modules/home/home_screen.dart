@@ -1,7 +1,6 @@
-import 'package:bhabhi_thulla/constant/images_text.dart';
-import 'package:bhabhi_thulla/widgets/background_widget.dart';
-import 'package:bhabhi_thulla/widgets/my_text.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:bhabhi_thulla/modules/home/home_controller.dart';
+import 'package:bhabhi_thulla/widgets/solo_room.dart';
+
 import '../../constant/export_file.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,132 +8,169 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundWidget(
-      child: Stack(
-        children: [
-          Column(
+    return GetBuilder<HomeController>(
+      init: HomeController(),
+      builder: (controller) {
+        return BackgroundWidget(
+          child: Stack(
             children: [
-              Row(
+              Column(
                 children: [
-                  Container(
-                    width: Get.width * 0.06,
-                    height: Get.width * 0.06,
-                    decoration: BoxDecoration(
-                      color: Colors.yellowAccent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(width: 2, color: Colors.black),
-                    ),
-                    child: Image.asset(AppImages.p4),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    width: Get.width / 3 - 150,
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        MyText(text: "Arun Kumar", fontSize: 12),
-                        SizedBox(height: 2),
-                        LinearProgressIndicator(value: .8),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      headerChip(AppImages.moneyBag, "990"),
-                      const SizedBox(width: 12),
-                      headerChip(AppImages.diamond, "17"),
+                      if (controller.isSoloMode) ...[
+                        InkWell(
+                          onTap: () {
+                            controller.isSoloMode = false;
+                            controller.update();
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                AppImages.arrowBack,
+                                height: 50,
+                                width: 60,
+                              ),
+                              MyText(
+                                text: "Solo Mode",
+                                fontSize: 25,
+                                color: Colors.yellow,
+                                borderColor: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ] else ...[
+                        Container(
+                          width: Get.width * 0.06,
+                          height: Get.width * 0.06,
+                          decoration: BoxDecoration(
+                            color: Colors.yellowAccent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(width: 2, color: Colors.black),
+                          ),
+                          child: Image.asset(AppImages.p4),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: Get.width / 3 - 150,
+                          padding: const EdgeInsets.all(5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              MyText(text: "Arun Kumar", fontSize: 12),
+                              SizedBox(height: 2),
+                              LinearProgressIndicator(value: .8),
+                            ],
+                          ),
+                        ),
+                      ],
+                      Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          headerChip(AppImages.moneyBag, "990"),
+                          const SizedBox(width: 12),
+                          headerChip(AppImages.diamond, "17"),
+                        ],
+                      ),
                     ],
                   ),
                 ],
               ),
+
+              if (!controller.isSoloMode) ...[
+                Positioned(
+                  bottom: 50,
+                  left: 10,
+                  child: Column(
+                    children: [
+                      chipWithTxt(
+                        iconImage: AppImages.lottery,
+                        text: "Daily Spin",
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 15),
+                      chipWithTxt(
+                        iconImage: AppImages.settings,
+                        text: "Settings",
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 1,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      chipWithTxt(
+                        iconImage: AppImages.leaderboard,
+                        text: "Ranks",
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 15),
+                      chipWithTxt(
+                        iconImage: AppImages.tutorial,
+                        text: "Tutorial",
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 15),
+
+                      chipWithTxt(
+                        iconImage: AppImages.friends,
+                        text: "Friends",
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 50,
+                  right: 5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      chipWithTxt(
+                        iconImage: AppImages.gift,
+                        text: "Rewards",
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 15),
+                      chipWithTxt(
+                        iconImage: AppImages.store,
+                        text: "Shop",
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 25),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        gameCards(
+                          image: AppImages.soloPlay,
+                          onTap: controller.onTapSoloPlay,
+                        ),
+                        SizedBox(width: 20),
+                        gameCards(image: AppImages.friendPlay, onTap: () {}),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else ...[
+                Center(child: SoloRoom()),
+              ],
             ],
           ),
-          Positioned(
-            bottom: 50,
-            left: 10,
-            child: Column(
-              children: [
-                chipWithTxt(
-                  iconImage: AppImages.lottery,
-                  text: "Daily Spin",
-                  onTap: () {},
-                ),
-                const SizedBox(height: 15),
-                chipWithTxt(
-                  iconImage: AppImages.settings,
-                  text: "Settings",
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 1,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                chipWithTxt(
-                  iconImage: AppImages.leaderboard,
-                  text: "Ranks",
-                  onTap: () {},
-                ),
-                const SizedBox(width: 15),
-                chipWithTxt(
-                  iconImage: AppImages.tutorial,
-                  text: "Tutorial",
-                  onTap: () {},
-                ),
-                const SizedBox(width: 15),
-
-                chipWithTxt(
-                  iconImage: AppImages.friends,
-                  text: "Friends",
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 50,
-            right: 5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                chipWithTxt(
-                  iconImage: AppImages.gift,
-                  text: "Rewards",
-                  onTap: () {},
-                ),
-                const SizedBox(height: 15),
-                chipWithTxt(
-                  iconImage: AppImages.store,
-                  text: "Shop",
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 25),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  gameCards(image: AppImages.soloPlay, onTap: (){}),
-                  SizedBox(width: 20),
-                  gameCards(image: AppImages.friendPlay, onTap: (){}),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -204,9 +240,19 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  Widget gameCards({required String image, required GestureTapCallback onTap}){
-    return InkWell(
+
+  Widget gameCards({required String image, required GestureTapCallback onTap}) {
+    return TweenAnimationBuilder(
+      tween: Tween(begin: -5.0, end: 5.0),
+      duration: const Duration(seconds: 2),
+      curve: Curves.easeInOut,
+      builder: (context, value, child) {
+        return Transform.translate(offset: Offset(0, value), child: child);
+      },
+      child: InkWell(
         onTap: onTap,
-        child: Image.asset(image, height: Get.height / 2));
+        child: Image.asset(image, height: Get.height / 2),
+      ),
+    );
   }
 }

@@ -10,7 +10,9 @@ export 'package:bhabhi_thulla/routes/app_pages.dart';
 // export 'package:bhabhi_thulla/modules/splash/controller/splash_controller.dart';
 export 'dart:async';
 export 'package:bhabhi_thulla/routes/app_routes.dart';
-
+export 'package:bhabhi_thulla/constant/images_text.dart';
+export 'package:bhabhi_thulla/widgets/background_widget.dart';
+export 'package:bhabhi_thulla/widgets/my_text.dart';
 // Comman
 
 export 'package:get/get.dart';
