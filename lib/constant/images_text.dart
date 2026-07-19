@@ -1,8 +1,8 @@
-
- class AppImages{
+class AppImages {
   static const String path = "assets/images";
-  static const loadingGif="assets/gifs/loading.gif";
-  static const spinGif="assets/gifs/spinning-wheel.gif";
+  static const String path2 = "assets/profiles";
+  static const loadingGif = "assets/gifs/loading.gif";
+  static const spinGif = "assets/gifs/spinning-wheel.gif";
   static const String background = "$path/background.png";
   static const String diamond = "$path/diamond.png";
   static const String moneyBag = "$path/money_bag.png";
@@ -15,4 +15,24 @@
   static const String lottery = "$path/lottery.png";
   static const String friendPlay = "$path/friend_play.png";
   static const String soloPlay = "$path/solo.png";
- }
+  static const String p1 = "$path2/p1.png";
+  static const String p2 = "$path2/p2.png";
+  static const String p3 = "$path2/p3.png";
+  static const String p4 = "$path2/p4.png";
+  static const String p5 = "$path2/p5.png";
+  static const String p6 = "$path2/p6.png";
+  static const String p7 = "$path2/p7.png";
+  static const String p8 = "$path2/p8.png";
+  static const String p9 = "$path2/p9.png";
+  static const String p10 = "$path2/p10.png";
+  static const String p11 = "$path2/p11.png";
+  static const String p12 = "$path2/p12.png";
+  static const String p13 = "$path2/p13.png";
+  static const String p14 = "$path2/p14.png";
+  static const String p15 = "$path2/p15.png";
+  static const String p16 = "$path2/p16.png";
+  static const String p17 = "$path2/p17.png";
+  static const String p18 = "$path2/p18.png";
+  static const String p19 = "$path2/p19.png";
+  static const String p20 = "$path2/p20.png";
+}
