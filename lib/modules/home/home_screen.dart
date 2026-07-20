@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                               MyText(
                                 text: "Solo Mode",
                                 fontSize: 25,
-                                color: Colors.yellow,
+                                color: Colors.white,
                                 borderColor: Colors.black,
                               ),
                             ],
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(width: 2, color: Colors.black),
                           ),
-                          child: Image.asset(AppImages.p4),
+                          child: Image.asset(AppImages.p8),
                         ),
                         const SizedBox(width: 10),
                         Container(
@@ -70,9 +70,9 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          headerChip(AppImages.moneyBag, "990"),
+                          headerChip(AppImages.moneyBag, "990",Colors.orange),
                           const SizedBox(width: 12),
-                          headerChip(AppImages.diamond, "17"),
+                          headerChip(AppImages.diamond, "17",Colors.lightBlueAccent),
                         ],
                       ),
                     ],
@@ -87,12 +87,14 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       chipWithTxt(
+                        size: 50,
                         iconImage: AppImages.lottery,
                         text: "Daily Spin",
                         onTap: () {},
                       ),
                       const SizedBox(height: 15),
                       chipWithTxt(
+                        size: 50,
                         iconImage: AppImages.settings,
                         text: "Settings",
                         onTap: () {},
@@ -112,13 +114,13 @@ class HomeScreen extends StatelessWidget {
                         text: "Ranks",
                         onTap: () {},
                       ),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 25),
                       chipWithTxt(
                         iconImage: AppImages.tutorial,
-                        text: "Tutorial",
+                        text: "Training",
                         onTap: () {},
                       ),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 25),
 
                       chipWithTxt(
                         iconImage: AppImages.friends,
@@ -135,12 +137,14 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       chipWithTxt(
+                        size: 55,
                         iconImage: AppImages.gift,
                         text: "Rewards",
                         onTap: () {},
                       ),
                       const SizedBox(height: 15),
                       chipWithTxt(
+                        size: 50,
                         iconImage: AppImages.store,
                         text: "Shop",
                         onTap: () {},
@@ -174,16 +178,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget headerChip(String icon, String value) {
+  Widget headerChip(String icon, String value,Color iconColor) {
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.centerLeft,
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 22),
+          margin: const EdgeInsets.only(left: 12),
           padding: const EdgeInsets.only(left: 30, right: 5),
           decoration: BoxDecoration(
-            color: Colors.black87,
+            color: Colors.black87.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(14),
           ),
           child: Row(
@@ -200,12 +204,12 @@ class HomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:iconColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                height: 25,
-                width: 25,
-                child: Icon(Icons.add, color: Colors.black),
+                height: 20,
+                width: 20,
+                child: Icon(Icons.add, color: Colors.white,fontWeight: FontWeight.bold,size: 15,),
               ),
             ],
           ),
@@ -222,6 +226,7 @@ class HomeScreen extends StatelessWidget {
     required String iconImage,
     required String text,
     required GestureTapCallback onTap,
+    double? size,
   }) {
     return InkWell(
       onTap: onTap,
@@ -233,7 +238,7 @@ class HomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: Column(
           children: [
-            Image.asset(iconImage, width: 45, height: 45),
+            Image.asset(iconImage, width:size?? 45, height:size?? 45),
             MyText(text: text, fontSize: 15),
           ],
         ),

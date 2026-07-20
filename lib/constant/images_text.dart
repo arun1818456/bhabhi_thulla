@@ -16,6 +16,7 @@ class AppImages {
   static const String friendPlay = "$path/friend_play.png";
   static const String soloPlay = "$path/solo.png";
   static const String arrowBack = "$path/arrow_back.png";
+  static const String coin = "$path/coin.png";
   static const String p1 = "$path2/p1.png";
   static const String p2 = "$path2/p2.png";
   static const String p3 = "$path2/p3.png";
