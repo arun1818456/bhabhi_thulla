@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import '../constant/export_file.dart';
+import '../../constant/export_file.dart';
 
 class SoloRoom extends StatelessWidget {
   const SoloRoom({super.key});

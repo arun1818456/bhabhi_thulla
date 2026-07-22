@@ -1,5 +1,6 @@
 import 'package:bhabhi_thulla/modules/home/home_controller.dart';
-import 'package:bhabhi_thulla/widgets/solo_room.dart';
+import 'package:bhabhi_thulla/modules/ui_widgets/friends_room.dart';
+import 'package:bhabhi_thulla/modules/ui_widgets/solo_room.dart';
 
 import '../../constant/export_file.dart';
 
@@ -18,22 +19,27 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (controller.isSoloMode) ...[
+                      if (controller.isSoloMode || controller.isFriendMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isSoloMode = false;
+                            controller.isFriendMode = false;
                             controller.update();
                           },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          focusColor: Colors.transparent,
                           child: Row(
                             children: [
                               Image.asset(
                                 AppImages.arrowBack,
-                                height: 50,
-                                width: 60,
+                                height: 45,
+                                width: 55,
                               ),
                               MyText(
                                 text: "Solo Mode",
-                                fontSize: 25,
+                                fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
                               ),
@@ -70,9 +76,13 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          headerChip(AppImages.moneyBag, "990",Colors.orange),
+                          headerChip(AppImages.moneyBag, "990", Colors.orange),
                           const SizedBox(width: 12),
-                          headerChip(AppImages.diamond, "17",Colors.lightBlueAccent),
+                          headerChip(
+                            AppImages.diamond,
+                            "17",
+                            Colors.lightBlueAccent,
+                          ),
                         ],
                       ),
                     ],
@@ -80,7 +90,14 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
 
-              if (!controller.isSoloMode) ...[
+              if (controller.isSoloMode) ...[
+                Center(child: SoloRoom()),
+              ] else if (controller.isFriendMode)
+                ...[
+                  Center(child: FriendRoomScreen())
+
+                ]
+              else ...[
                 Positioned(
                   bottom: 50,
                   left: 10,
@@ -163,13 +180,14 @@ class HomeScreen extends StatelessWidget {
                           onTap: controller.onTapSoloPlay,
                         ),
                         SizedBox(width: 20),
-                        gameCards(image: AppImages.friendPlay, onTap: () {}),
+                        gameCards(
+                          image: AppImages.friendPlay,
+                          onTap: controller.onTapFriendPlay,
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ] else ...[
-                Center(child: SoloRoom()),
               ],
             ],
           ),
@@ -178,7 +196,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget headerChip(String icon, String value,Color iconColor) {
+  Widget headerChip(String icon, String value, Color iconColor) {
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.centerLeft,
@@ -204,12 +222,17 @@ class HomeScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color:iconColor,
+                  color: iconColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 height: 20,
                 width: 20,
-                child: Icon(Icons.add, color: Colors.white,fontWeight: FontWeight.bold,size: 15,),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  size: 15,
+                ),
               ),
             ],
           ),
@@ -238,7 +261,7 @@ class HomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: Column(
           children: [
-            Image.asset(iconImage, width:size?? 45, height:size?? 45),
+            Image.asset(iconImage, width: size ?? 45, height: size ?? 45),
             MyText(text: text, fontSize: 15),
           ],
         ),
