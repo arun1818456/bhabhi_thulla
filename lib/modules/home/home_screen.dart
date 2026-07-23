@@ -1,7 +1,3 @@
-import 'package:bhabhi_thulla/modules/home/home_controller.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/friends_room.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/solo_room.dart';
-
 import '../../constant/export_file.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -38,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                                 width: 55,
                               ),
                               MyText(
-                                text: "Solo Mode",
+                                text:controller.isFriendMode?"Custom Room": "Solo Mode",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -46,16 +42,40 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ] else ...[
-                        Container(
-                          width: Get.width * 0.06,
-                          height: Get.width * 0.06,
-                          decoration: BoxDecoration(
-                            color: Colors.yellowAccent,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(width: 2, color: Colors.black),
+                      ] else if (controller.isProfileMode) ...[
+                        InkWell(
+                          onTap: () {
+                            controller.isProfileMode = false;
+                            controller.update();
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                AppImages.arrowBackBox,
+                                height: 45,
+                                width: 55,
+                              ),
+                              MyText(text: "My Profile", fontSize: 23),
+                            ],
                           ),
-                          child: Image.asset(AppImages.p8),
+                        ),
+                      ] else ...[
+                        GestureDetector(
+                          onTap: controller.onTapToProfile,
+                          child: Container(
+                            width: Get.width * 0.06,
+                            height: Get.width * 0.06,
+                            decoration: BoxDecoration(
+                              color: Colors.yellowAccent,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(width: 2, color: Colors.black),
+                            ),
+                            child: Image.asset(AppImages.p8),
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Container(
@@ -92,12 +112,11 @@ class HomeScreen extends StatelessWidget {
 
               if (controller.isSoloMode) ...[
                 Center(child: SoloRoom()),
-              ] else if (controller.isFriendMode)
-                ...[
-                  Center(child: FriendRoomScreen())
-
-                ]
-              else ...[
+              ] else if (controller.isProfileMode)
+                ...[]
+              else if (controller.isFriendMode) ...[
+                Center(child: FriendRoomScreen()),
+              ] else ...[
                 Positioned(
                   bottom: 50,
                   left: 10,
@@ -193,55 +212,6 @@ class HomeScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget headerChip(String icon, String value, Color iconColor) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.centerLeft,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 12),
-          padding: const EdgeInsets.only(left: 30, right: 5),
-          decoration: BoxDecoration(
-            color: Colors.black87.withValues(alpha: 0.6),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Row(
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: iconColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                height: 20,
-                width: 20,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  size: 15,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          left: 0,
-          child: SizedBox(height: 30, width: 35, child: Image.asset(icon)),
-        ),
-      ],
     );
   }
 
