@@ -4,6 +4,7 @@ class HomeController extends GetxController {
   bool isSoloMode = false;
   bool isFriendMode = false;
   bool isProfileMode=false;
+  bool spinPage=false;
   void onTapSoloPlay() {
     isSoloMode = true;
     update();
@@ -14,6 +15,10 @@ class HomeController extends GetxController {
   }
   void onTapToProfile() {
     isProfileMode = true;
+    update();
+  }
+  void onTapToSpinPage() {
+    spinPage = true;
     update();
   }
 }

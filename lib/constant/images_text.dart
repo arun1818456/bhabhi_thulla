@@ -1,8 +1,9 @@
 class AppImages {
   static const String path = "assets/images";
   static const String path2 = "assets/profiles";
-  static const loadingGif = "assets/gifs/loading.gif";
-  static const spinGif = "assets/gifs/spinning-wheel.gif";
+  static const String gifPath = "assets/gifs";
+  static const loadingGif = "$gifPath/loading.gif";
+  static const spinGif = "$gifPath/spinning-wheel.gif";
   static const String background = "$path/background.png";
   static const String diamond = "$path/diamond.png";
   static const String moneyBag = "$path/money_bag.png";
@@ -12,7 +13,7 @@ class AppImages {
   static const String leaderboard = "$path/leaderboard.png";
   static const String store = "$path/store.png";
   static const String gift = "$path/gift.png";
-  static const String lottery = "$path/lottery.png";
+  static const String spinner = "$gifPath/spinner.gif";
   static const String friendPlay = "$path/friend_play.png";
   static const String soloPlay = "$path/solo.png";
   static const String arrowBack = "$path/arrow_back.png";
@@ -38,4 +39,23 @@ class AppImages {
   static const String p18 = "$path2/p18.png";
   static const String p19 = "$path2/p19.png";
   static const String p20 = "$path2/p20.png";
+  static const String profile = "$path/profile.png";
+  static const String avatar = "$path/avatar.png";
+  static const String emojis = "$path/emojis.png";
+  static const String theme = "$path/theme.png";
+  static const String cards = "$path/cards.png";
+  static const String profileCard = "$path/profile_card.png";
+  static const String profileBgCard = "$path/profile_bg.png";
+  static const String arrowFor = "$path/arrow_for.png";
+  static const String starCard = "$path/star_card.png";
+  static const String game = "$path/game.png";
+  static const String won = "$path/won.png";
+  static const String winTarget = "$path/win_target.png";
+  static const String exit = "$path/exit.png";
+  static const String bhabhi = "$path/bhabhi.png";
+  static const String thulla = "$path/thulla.png";
+  static const String winStreak = "$path/win_streak.png";
+  static const String bestWin = "$path/best_win.png";
+  static const String spinBg = "$path/spin_bg.png";
+  static const String lockedGif = "$gifPath/locked.gif";
 }

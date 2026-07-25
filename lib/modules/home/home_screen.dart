@@ -1,3 +1,5 @@
+import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
+
 import '../../constant/export_file.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,6 +11,8 @@ class HomeScreen extends StatelessWidget {
       init: HomeController(),
       builder: (controller) {
         return BackgroundWidget(
+          image: controller.spinPage?AppImages.spinBg:null,
+          opacity: controller.spinPage?1.0:null,
           child: Stack(
             children: [
               Column(
@@ -34,7 +38,9 @@ class HomeScreen extends StatelessWidget {
                                 width: 55,
                               ),
                               MyText(
-                                text:controller.isFriendMode?"Custom Room": "Solo Mode",
+                                text: controller.isFriendMode
+                                    ? "Custom Room"
+                                    : "Solo Mode",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -63,7 +69,25 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ] else ...[
+                      ] else if (controller.spinPage) ...[
+                        InkWell(
+                          onTap: () {
+                            controller.spinPage = false;
+                            controller.update();
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          child: Image.asset(
+                            AppImages.arrowBackBox,
+                            height: 45,
+                            width: 55,
+                          ),
+                        ),
+                      ] else if (controller.spinPage)
+                        ...[]
+                      else ...[
                         GestureDetector(
                           onTap: controller.onTapToProfile,
                           child: Container(
@@ -112,10 +136,12 @@ class HomeScreen extends StatelessWidget {
 
               if (controller.isSoloMode) ...[
                 Center(child: SoloRoom()),
-              ] else if (controller.isProfileMode)
-                ...[]
-              else if (controller.isFriendMode) ...[
+              ] else if (controller.isProfileMode) ...[
+                Center(child: ProfileScreen()),
+              ] else if (controller.isFriendMode) ...[
                 Center(child: FriendRoomScreen()),
+              ] else if (controller.spinPage) ...[
+                // Center(child: FriendRoomScreen()),
               ] else ...[
                 Positioned(
                   bottom: 50,
@@ -123,10 +149,10 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       chipWithTxt(
-                        size: 50,
-                        iconImage: AppImages.lottery,
+                        size: 70,
+                        iconImage: AppImages.spinner,
                         text: "Daily Spin",
-                        onTap: () {},
+                        onTap: controller.onTapToSpinPage,
                       ),
                       const SizedBox(height: 15),
                       chipWithTxt(
