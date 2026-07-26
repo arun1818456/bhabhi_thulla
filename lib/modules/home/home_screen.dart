@@ -1,4 +1,5 @@
 import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
+import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 
 import '../../constant/export_file.dart';
 
@@ -85,9 +86,7 @@ class HomeScreen extends StatelessWidget {
                             width: 55,
                           ),
                         ),
-                      ] else if (controller.spinPage)
-                        ...[]
-                      else ...[
+                      ]  else ...[
                         GestureDetector(
                           onTap: controller.onTapToProfile,
                           child: Container(
@@ -141,7 +140,7 @@ class HomeScreen extends StatelessWidget {
               ] else if (controller.isFriendMode) ...[
                 Center(child: FriendRoomScreen()),
               ] else if (controller.spinPage) ...[
-                // Center(child: FriendRoomScreen()),
+                Center(child: SpinnerScreen()),
               ] else ...[
                 Positioned(
                   bottom: 50,

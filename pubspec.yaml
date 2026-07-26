@@ -44,7 +44,8 @@ dependencies:
   get_storage: ^2.1.1
   cached_network_image: ^3.4.1
   google_fonts: ^8.2.0
-
+  spinning_wheel: ^0.0.7
+  confetti: ^0.8.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
