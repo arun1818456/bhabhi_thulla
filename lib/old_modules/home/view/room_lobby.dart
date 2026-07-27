@@ -20,22 +20,18 @@ class _RoomLobbyState extends State<RoomLobby> {
       init: RoomLobbyController(),
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text("Game Room"),
-          ),
-          body:  Column(
+          appBar: AppBar(title: const Text("Game Room")),
+          body: Column(
             children: [
               const Spacer(),
-              CustomButton(text: "Start", onPressed: (){})
+              CustomButton(text: "Start", onPressed: () {}),
             ],
           ),
           drawer: Drawer(
             child: Column(
               children: [
                 // Upper section (Profile and Stats)
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Row(
@@ -46,8 +42,9 @@ class _RoomLobbyState extends State<RoomLobby> {
                           height: 62,
                           width: 62,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.lightBlueAccent)),
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.lightBlueAccent),
+                          ),
                           child: NetworkImageWidget(
                             imageUrl: UserData.profileUrl,
                           ),
@@ -59,21 +56,24 @@ class _RoomLobbyState extends State<RoomLobby> {
                           Text(
                             UserData.name,
                             style: const TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
                           ),
                           if (UserData.userName != "")
                             Text(
                               UserData.userName,
                               style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w400),
-                            )
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                         ],
                       ),
                       const Spacer(),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.back();
                           Get.toNamed(AppRoutes.addFriendScreen);
                         },
@@ -91,31 +91,26 @@ class _RoomLobbyState extends State<RoomLobby> {
                               Icon(Icons.person_add_alt),
                               Text(
                                 "Add Friend",
-                                style: TextStyle(fontSize: 6, fontWeight: FontWeight.w500),
-                              )
+                                style: TextStyle(
+                                  fontSize: 6,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 const Row(
                   children: [
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
-                            "Total Friends",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            "50",
-                            style: TextStyle(fontSize: 20),
-                          )
+                          Text("Total Friends", style: TextStyle(fontSize: 16)),
+                          Text("50", style: TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -126,16 +121,11 @@ class _RoomLobbyState extends State<RoomLobby> {
                             "Active Friends",
                             style: TextStyle(fontSize: 16),
                           ),
-                          Text(
-                            "10",
-                            style: TextStyle(fontSize: 20),
-                          )
+                          Text("10", style: TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                   ],
                 ),
                 const Divider(),
@@ -158,7 +148,7 @@ class _RoomLobbyState extends State<RoomLobby> {
                 ),
               ],
             ),
-          )
+          ),
         );
       },
     );

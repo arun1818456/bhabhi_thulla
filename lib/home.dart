@@ -4,11 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:playing_cards/playing_cards.dart';
 
-
-
-
-
-
 ///////////////////________TWO P_S_________/
 class Player2 extends StatefulWidget {
   const Player2({super.key});
@@ -23,40 +18,28 @@ class _Player2State extends State<Player2> {
       Suit.spades: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♠",
-            style: TextStyle(fontSize: 900),
-          ),
+          child: Text("♠", style: TextStyle(fontSize: 900)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
       Suit.hearts: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♥",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♥", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.diamonds: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♦",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♦", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.clubs: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♣",
-            style: TextStyle(fontSize: 500),
-          ),
+          child: Text("♣", style: TextStyle(fontSize: 500)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
@@ -76,13 +59,13 @@ class _Player2State extends State<Player2> {
     CardValue.ten,
     CardValue.jack,
     CardValue.queen,
-    CardValue.king
+    CardValue.king,
   ];
   final List<Suit> suits = [
     Suit.spades,
     Suit.hearts,
     Suit.diamonds,
-    Suit.clubs
+    Suit.clubs,
   ];
   var roundingCard;
   bool tholla = false;
@@ -136,9 +119,11 @@ class _Player2State extends State<Player2> {
     // checking Spade of ace is compulsory to add first turn
     for (var element in deck) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        deck.removeWhere((element) =>
-            element["suit"] == Suit.spades &&
-            element["value"] == CardValue.ace);
+        deck.removeWhere(
+          (element) =>
+              element["suit"] == Suit.spades &&
+              element["value"] == CardValue.ace,
+        );
         DateTime currentTime = DateTime.now();
         if (currentTime.second % 2 == 0) {
           deck.insert(0, {"suit": Suit.spades, "value": CardValue.ace});
@@ -162,8 +147,11 @@ class _Player2State extends State<Player2> {
     List toRemove = [];
     for (var element in player1) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        droppedCardsList.add(
-            {"suit": Suit.spades, "value": CardValue.ace, "player": "player1"});
+        droppedCardsList.add({
+          "suit": Suit.spades,
+          "value": CardValue.ace,
+          "player": "player1",
+        });
         toRemove.add(element); // Collect elements to remove
         turn = 2;
       }
@@ -171,8 +159,11 @@ class _Player2State extends State<Player2> {
     player1.removeWhere((e) => toRemove.contains(e));
     for (var element in player2) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        droppedCardsList.add(
-            {"suit": Suit.spades, "value": CardValue.ace, "player": "player2"});
+        droppedCardsList.add({
+          "suit": Suit.spades,
+          "value": CardValue.ace,
+          "player": "player2",
+        });
         toRemove.add(element); // Collect elements to remove
         turn = 1;
       }
@@ -187,24 +178,18 @@ class _Player2State extends State<Player2> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 14,
-          ),
+          const SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
                 children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Stack(
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(4.0),
-                        child: CircleAvatar(
-                          child: Icon(Icons.person),
-                        ),
+                        child: CircleAvatar(child: Icon(Icons.person)),
                       ),
                       Positioned(
                         top: 0,
@@ -215,7 +200,9 @@ class _Player2State extends State<Player2> {
                           child: Text(
                             "${player1.length}",
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ),
@@ -227,31 +214,28 @@ class _Player2State extends State<Player2> {
                             height: 20,
                             width: 20,
                             decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(100)),
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                             child: Center(
                               child: Text(
                                 "$counter",
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                ),
                               ),
                             ),
                           ),
                         ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   const Text("Player1"),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                 ],
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               /*MultiIWidget(
                 cardHeight: 70,
                 backShow: true,
@@ -291,9 +275,11 @@ class _Player2State extends State<Player2> {
                 decoration: turn == 1
                     ? const BoxDecoration(
                         border: Border(
-                            left: BorderSide(color: Colors.red, width: 2),
-                            right: BorderSide(color: Colors.red, width: 2),
-                            top: BorderSide(color: Colors.red, width: 2)))
+                          left: BorderSide(color: Colors.red, width: 2),
+                          right: BorderSide(color: Colors.red, width: 2),
+                          top: BorderSide(color: Colors.red, width: 2),
+                        ),
+                      )
                     : null,
                 child: SizedBox(
                   height: 75,
@@ -317,7 +303,7 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player1[index]["suit"],
                                             "value": player1[index]["value"],
-                                            "player": "player1"
+                                            "player": "player1",
                                           });
                                           roundingCard = player1[index]["suit"];
                                           myFirstCars = true;
@@ -349,26 +335,28 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player1[index]["suit"],
                                             "value": player1[index]["value"],
-                                            "player": "player1"
+                                            "player": "player1",
                                           });
                                           player1.removeAt(index);
                                         });
                                         if (droppedCardsList.length == 2) {
                                           await Future.delayed(
-                                              const Duration(seconds: 1), () {
-                                            for (var element
-                                                in droppedCardsList) {
-                                              player2.add(element);
-                                            }
-                                            setState(() {
-                                              roundingCard = null;
-                                              droppedCardsList.clear();
-                                              turn = 2;
-                                              tholla = false;
-                                              startTimer();
-                                              counter = 10;
-                                            });
-                                          });
+                                            const Duration(seconds: 1),
+                                            () {
+                                              for (var element
+                                                  in droppedCardsList) {
+                                                player2.add(element);
+                                              }
+                                              setState(() {
+                                                roundingCard = null;
+                                                droppedCardsList.clear();
+                                                turn = 2;
+                                                tholla = false;
+                                                startTimer();
+                                                counter = 10;
+                                              });
+                                            },
+                                          );
                                         }
                                       }
                                       if (roundingCard ==
@@ -381,19 +369,21 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player1[index]["suit"],
                                             "value": player1[index]["value"],
-                                            "player": "player1"
+                                            "player": "player1",
                                           });
                                           player1.removeAt(index);
                                         });
                                         await Future.delayed(
-                                            const Duration(seconds: 2), () {
-                                          checkingTurn();
-                                          setState(() {
-                                            sideDeckShow = true;
-                                            startTimer();
-                                            counter = 10;
-                                          });
-                                        });
+                                          const Duration(seconds: 2),
+                                          () {
+                                            checkingTurn();
+                                            setState(() {
+                                              sideDeckShow = true;
+                                              startTimer();
+                                              counter = 10;
+                                            });
+                                          },
+                                        );
                                       }
                                       // changing Turn
                                     } catch (e) {
@@ -405,22 +395,26 @@ class _Player2State extends State<Player2> {
                                 : () {},
                             child: PlayingCardView(
                               shape: ShapeBorder.lerp(
-                                  Border.all(
-                                      color: player1[index]["suit"] ==
-                                                  roundingCard &&
-                                              turn == 1
-                                          ? Colors.green
-                                          : Colors.black,
-                                      width: player1[index]["suit"] ==
-                                                  roundingCard &&
-                                              turn == 1
-                                          ? 1.5
-                                          : 0.5),
-                                  Border.all(),
-                                  0.0),
+                                Border.all(
+                                  color:
+                                      player1[index]["suit"] == roundingCard &&
+                                          turn == 1
+                                      ? Colors.green
+                                      : Colors.black,
+                                  width:
+                                      player1[index]["suit"] == roundingCard &&
+                                          turn == 1
+                                      ? 1.5
+                                      : 0.5,
+                                ),
+                                Border.all(),
+                                0.0,
+                              ),
                               elevation: 10,
-                              card: PlayingCard(player1[index]["suit"],
-                                  player1[index]["value"]),
+                              card: PlayingCard(
+                                player1[index]["suit"],
+                                player1[index]["value"],
+                              ),
                               style: myCardStyles,
                               showBack: false,
                             ),
@@ -452,12 +446,15 @@ class _Player2State extends State<Player2> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
                             elevation: 10,
-                            card: PlayingCard(droppedCardsList[0]["suit"],
-                                droppedCardsList[0]["value"]),
+                            card: PlayingCard(
+                              droppedCardsList[0]["suit"],
+                              droppedCardsList[0]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -470,11 +467,14 @@ class _Player2State extends State<Player2> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[1]["suit"],
-                                droppedCardsList[1]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[1]["suit"],
+                              droppedCardsList[1]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -490,7 +490,10 @@ class _Player2State extends State<Player2> {
                   height: 70,
                   child: PlayingCardView(
                     shape: ShapeBorder.lerp(
-                        Border.all(color: Colors.black), Border.all(), 0.1),
+                      Border.all(color: Colors.black),
+                      Border.all(),
+                      0.1,
+                    ),
                     elevation: 10,
                     card: PlayingCard(Suit.joker, CardValue.joker_1),
                     showBack: true,
@@ -503,16 +506,12 @@ class _Player2State extends State<Player2> {
             children: [
               Column(
                 children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Stack(
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(4.0),
-                        child: CircleAvatar(
-                          child: Icon(Icons.person),
-                        ),
+                        child: CircleAvatar(child: Icon(Icons.person)),
                       ),
                       Positioned(
                         top: 0,
@@ -523,7 +522,9 @@ class _Player2State extends State<Player2> {
                           child: Text(
                             "${player2.length}",
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ),
@@ -535,38 +536,37 @@ class _Player2State extends State<Player2> {
                             height: 20,
                             width: 20,
                             decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(100)),
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                             child: Center(
                               child: Text(
                                 "$counter",
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                ),
                               ),
                             ),
                           ),
                         ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   const Text("Player2"),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                 ],
               ),
-              const SizedBox(
-                width: 18,
-              ),
+              const SizedBox(width: 18),
               Container(
                 decoration: turn == 2
                     ? const BoxDecoration(
                         border: Border(
-                            left: BorderSide(color: Colors.red),
-                            right: BorderSide(color: Colors.red),
-                            top: BorderSide(color: Colors.red)))
+                          left: BorderSide(color: Colors.red),
+                          right: BorderSide(color: Colors.red),
+                          top: BorderSide(color: Colors.red),
+                        ),
+                      )
                     : null,
                 child: SizedBox(
                   height: 75,
@@ -590,7 +590,7 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player2[index]["suit"],
                                             "value": player2[index]["value"],
-                                            "player": "player2"
+                                            "player": "player2",
                                           });
                                           roundingCard = player2[index]["suit"];
                                           myFirstCars = true;
@@ -622,26 +622,28 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player2[index]["suit"],
                                             "value": player2[index]["value"],
-                                            "player": "player2"
+                                            "player": "player2",
                                           });
                                           player2.removeAt(index);
                                         });
                                         if (droppedCardsList.length == 2) {
                                           await Future.delayed(
-                                              const Duration(seconds: 1), () {
-                                            for (var element
-                                                in droppedCardsList) {
-                                              player1.add(element);
-                                            }
-                                            setState(() {
-                                              roundingCard = null;
-                                              droppedCardsList.clear();
-                                              turn = 1;
-                                              tholla = false;
-                                              startTimer();
-                                              counter = 10;
-                                            });
-                                          });
+                                            const Duration(seconds: 1),
+                                            () {
+                                              for (var element
+                                                  in droppedCardsList) {
+                                                player1.add(element);
+                                              }
+                                              setState(() {
+                                                roundingCard = null;
+                                                droppedCardsList.clear();
+                                                turn = 1;
+                                                tholla = false;
+                                                startTimer();
+                                                counter = 10;
+                                              });
+                                            },
+                                          );
                                         }
                                       }
                                       /////
@@ -655,19 +657,21 @@ class _Player2State extends State<Player2> {
                                           droppedCardsList.add({
                                             "suit": player2[index]["suit"],
                                             "value": player2[index]["value"],
-                                            "player": "player2"
+                                            "player": "player2",
                                           });
                                           player2.removeAt(index);
                                         });
                                         await Future.delayed(
-                                            const Duration(seconds: 2), () {
-                                          checkingTurn();
-                                          setState(() {
-                                            sideDeckShow = true;
-                                            startTimer();
-                                            counter = 10;
-                                          });
-                                        });
+                                          const Duration(seconds: 2),
+                                          () {
+                                            checkingTurn();
+                                            setState(() {
+                                              sideDeckShow = true;
+                                              startTimer();
+                                              counter = 10;
+                                            });
+                                          },
+                                        );
                                       }
                                     } catch (e) {
                                       if (kDebugMode) {
@@ -678,22 +682,26 @@ class _Player2State extends State<Player2> {
                                 : () {},
                             child: PlayingCardView(
                               shape: ShapeBorder.lerp(
-                                  Border.all(
-                                      color: player2[index]["suit"] ==
-                                                  roundingCard &&
-                                              turn == 2
-                                          ? Colors.green
-                                          : Colors.black,
-                                      width: player2[index]["suit"] ==
-                                                  roundingCard &&
-                                              turn == 2
-                                          ? 1.5
-                                          : 0.5),
-                                  Border.all(),
-                                  0.0),
+                                Border.all(
+                                  color:
+                                      player2[index]["suit"] == roundingCard &&
+                                          turn == 2
+                                      ? Colors.green
+                                      : Colors.black,
+                                  width:
+                                      player2[index]["suit"] == roundingCard &&
+                                          turn == 2
+                                      ? 1.5
+                                      : 0.5,
+                                ),
+                                Border.all(),
+                                0.0,
+                              ),
                               elevation: 10,
-                              card: PlayingCard(player2[index]["suit"],
-                                  player2[index]["value"]),
+                              card: PlayingCard(
+                                player2[index]["suit"],
+                                player2[index]["value"],
+                              ),
                               style: myCardStyles,
                               showBack: false,
                             ),
@@ -704,9 +712,7 @@ class _Player2State extends State<Player2> {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               InkWell(
                 onTap: () {
                   List dummy = [];
@@ -738,15 +744,14 @@ class _Player2State extends State<Player2> {
                   height: 45,
                   width: 45,
                   decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(100)),
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                   child: const Center(
-                      child: Text(
-                    "Set Cards",
-                    style: TextStyle(fontSize: 8),
-                  )),
+                    child: Text("Set Cards", style: TextStyle(fontSize: 8)),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -789,8 +794,9 @@ class _Player2State extends State<Player2> {
         cardValuesNumbers.add(13);
       }
     }
-    int maxIndex = cardValuesNumbers
-        .indexOf(cardValuesNumbers.reduce((a, b) => a > b ? a : b));
+    int maxIndex = cardValuesNumbers.indexOf(
+      cardValuesNumbers.reduce((a, b) => a > b ? a : b),
+    );
     for (var element in droppedCardsList) {
       if (element["value"] == cardValues[maxIndex]) {
         if (element["player"] == "player1") {
@@ -816,7 +822,7 @@ class _Player2State extends State<Player2> {
             droppedCardsList.add({
               "suit": player1[0]["suit"],
               "value": player1[0]["value"],
-              "player": "player2"
+              "player": "player2",
             });
             roundingCard = player1[0]["suit"];
             myFirstCars = true;
@@ -846,7 +852,7 @@ class _Player2State extends State<Player2> {
             droppedCardsList.add({
               "suit": player1[0]["suit"],
               "value": player1[0]["value"],
-              "player": "player2"
+              "player": "player2",
             });
           });
           player1.remove(player1[0]);
@@ -875,7 +881,7 @@ class _Player2State extends State<Player2> {
                 droppedCardsList.add({
                   "suit": player1[i]["suit"],
                   "value": player1[i]["value"],
-                  "player": "player1"
+                  "player": "player1",
                 });
               });
               // Remove the specific card from player2
@@ -901,7 +907,7 @@ class _Player2State extends State<Player2> {
             droppedCardsList.add({
               "suit": player2[0]["suit"],
               "value": player2[0]["value"],
-              "player": "player2"
+              "player": "player2",
             });
             roundingCard = player2[0]["suit"];
             myFirstCars = true;
@@ -931,7 +937,7 @@ class _Player2State extends State<Player2> {
             droppedCardsList.add({
               "suit": player2[0]["suit"],
               "value": player2[0]["value"],
-              "player": "player2"
+              "player": "player2",
             });
           });
           player2.remove(player2[0]);
@@ -961,7 +967,7 @@ class _Player2State extends State<Player2> {
                 droppedCardsList.add({
                   "suit": player2[i]["suit"],
                   "value": player2[i]["value"],
-                  "player": "player2"
+                  "player": "player2",
                 });
               });
               player2.removeAt(i);
@@ -1087,18 +1093,14 @@ class _ThreePlayersState extends State<ThreePlayers> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Stack(
                             children: [
                               const Padding(
                                 padding: EdgeInsets.all(4.0),
-                                child: CircleAvatar(
-                                  child: Icon(Icons.person),
-                                ),
+                                child: CircleAvatar(child: Icon(Icons.person)),
                               ),
                               Positioned(
                                 top: 0,
@@ -1109,7 +1111,9 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                   child: Text(
                                     "${player1.length}",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 10),
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1121,23 +1125,23 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
                                     child: Center(
                                       child: Text(
                                         "$counter",
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                             ],
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           const Column(
                             children: [
                               Text("Player1"),
@@ -1153,9 +1157,11 @@ class _ThreePlayersState extends State<ThreePlayers> {
                         decoration: turn == 1
                             ? const BoxDecoration(
                                 border: Border(
-                                    left: BorderSide(color: Colors.red),
-                                    right: BorderSide(color: Colors.red),
-                                    top: BorderSide(color: Colors.red)))
+                                  left: BorderSide(color: Colors.red),
+                                  right: BorderSide(color: Colors.red),
+                                  top: BorderSide(color: Colors.red),
+                                ),
+                              )
                             : null,
                         child: SizedBox(
                           height: 75,
@@ -1169,22 +1175,28 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                   height: 60,
                                   child: PlayingCardView(
                                     shape: ShapeBorder.lerp(
-                                        Border.all(
-                                            color: player1[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 1
-                                                ? Colors.green
-                                                : Colors.black,
-                                            width: player1[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 1
-                                                ? 1.5
-                                                : 0.5),
-                                        Border.all(),
-                                        0.0),
+                                      Border.all(
+                                        color:
+                                            player1[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 1
+                                            ? Colors.green
+                                            : Colors.black,
+                                        width:
+                                            player1[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 1
+                                            ? 1.5
+                                            : 0.5,
+                                      ),
+                                      Border.all(),
+                                      0.0,
+                                    ),
                                     elevation: 10,
-                                    card: PlayingCard(player1[index]["suit"],
-                                        player1[index]["value"]),
+                                    card: PlayingCard(
+                                      player1[index]["suit"],
+                                      player1[index]["value"],
+                                    ),
                                     style: myCardStyles,
                                     showBack: true,
                                   ),
@@ -1204,9 +1216,7 @@ class _ThreePlayersState extends State<ThreePlayers> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -1219,16 +1229,12 @@ class _ThreePlayersState extends State<ThreePlayers> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           Stack(
                             children: [
                               const Padding(
                                 padding: EdgeInsets.all(4.0),
-                                child: CircleAvatar(
-                                  child: Icon(Icons.person),
-                                ),
+                                child: CircleAvatar(child: Icon(Icons.person)),
                               ),
                               Positioned(
                                 top: 0,
@@ -1239,7 +1245,9 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                   child: Text(
                                     "${player2.length}",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 10),
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1251,14 +1259,16 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
                                     child: Center(
                                       child: Text(
                                         "$counter",
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1272,9 +1282,11 @@ class _ThreePlayersState extends State<ThreePlayers> {
                         decoration: turn == 2
                             ? const BoxDecoration(
                                 border: Border(
-                                    left: BorderSide(color: Colors.red),
-                                    right: BorderSide(color: Colors.red),
-                                    top: BorderSide(color: Colors.red)))
+                                  left: BorderSide(color: Colors.red),
+                                  right: BorderSide(color: Colors.red),
+                                  top: BorderSide(color: Colors.red),
+                                ),
+                              )
                             : null,
                         child: SizedBox(
                           height: 60,
@@ -1288,22 +1300,28 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                   height: 60,
                                   child: PlayingCardView(
                                     shape: ShapeBorder.lerp(
-                                        Border.all(
-                                            color: player2[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 2
-                                                ? Colors.green
-                                                : Colors.black,
-                                            width: player2[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 2
-                                                ? 1.5
-                                                : 0.5),
-                                        Border.all(),
-                                        0.0),
+                                      Border.all(
+                                        color:
+                                            player2[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 2
+                                            ? Colors.green
+                                            : Colors.black,
+                                        width:
+                                            player2[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 2
+                                            ? 1.5
+                                            : 0.5,
+                                      ),
+                                      Border.all(),
+                                      0.0,
+                                    ),
                                     elevation: 10,
-                                    card: PlayingCard(player2[index]["suit"],
-                                        player2[index]["value"]),
+                                    card: PlayingCard(
+                                      player2[index]["suit"],
+                                      player2[index]["value"],
+                                    ),
                                     style: myCardStyles,
                                     showBack: true,
                                   ),
@@ -1339,12 +1357,15 @@ class _ThreePlayersState extends State<ThreePlayers> {
                             height: 160,
                             child: PlayingCardView(
                               shape: ShapeBorder.lerp(
-                                  Border.all(color: Colors.black),
-                                  Border.all(),
-                                  0.1),
+                                Border.all(color: Colors.black),
+                                Border.all(),
+                                0.1,
+                              ),
                               elevation: 10,
-                              card: PlayingCard(droppedCardsList[0]["suit"],
-                                  droppedCardsList[0]["value"]),
+                              card: PlayingCard(
+                                droppedCardsList[0]["suit"],
+                                droppedCardsList[0]["value"],
+                              ),
                               showBack: false,
                             ),
                           ),
@@ -1361,11 +1382,14 @@ class _ThreePlayersState extends State<ThreePlayers> {
                             height: 160,
                             child: PlayingCardView(
                               shape: ShapeBorder.lerp(
-                                  Border.all(color: Colors.black),
-                                  Border.all(),
-                                  0.1),
-                              card: PlayingCard(droppedCardsList[1]["suit"],
-                                  droppedCardsList[1]["value"]),
+                                Border.all(color: Colors.black),
+                                Border.all(),
+                                0.1,
+                              ),
+                              card: PlayingCard(
+                                droppedCardsList[1]["suit"],
+                                droppedCardsList[1]["value"],
+                              ),
                               showBack: false,
                             ),
                           ),
@@ -1378,11 +1402,14 @@ class _ThreePlayersState extends State<ThreePlayers> {
                           height: 160,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[2]["suit"],
-                                droppedCardsList[2]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[2]["suit"],
+                              droppedCardsList[2]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -1405,9 +1432,7 @@ class _ThreePlayersState extends State<ThreePlayers> {
                             children: [
                               const Padding(
                                 padding: EdgeInsets.all(4.0),
-                                child: CircleAvatar(
-                                  child: Icon(Icons.person),
-                                ),
+                                child: CircleAvatar(child: Icon(Icons.person)),
                               ),
                               Positioned(
                                 top: 0,
@@ -1418,7 +1443,9 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                   child: Text(
                                     "${player3.length}",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 10),
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1430,23 +1457,23 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                     height: 20,
                                     width: 20,
                                     decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
                                     child: Center(
                                       child: Text(
                                         "$counter",
                                         style: const TextStyle(
-                                            color: Colors.white, fontSize: 10),
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                             ],
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           const Column(
                             children: [
                               Text("Player3"),
@@ -1463,9 +1490,11 @@ class _ThreePlayersState extends State<ThreePlayers> {
                       decoration: turn == 3
                           ? const BoxDecoration(
                               border: Border(
-                                  left: BorderSide(color: Colors.red),
-                                  right: BorderSide(color: Colors.red),
-                                  top: BorderSide(color: Colors.red)))
+                                left: BorderSide(color: Colors.red),
+                                right: BorderSide(color: Colors.red),
+                                top: BorderSide(color: Colors.red),
+                              ),
+                            )
                           : null,
                       child: SizedBox(
                         height: 85,
@@ -1577,22 +1606,28 @@ class _ThreePlayersState extends State<ThreePlayers> {
                                       : () {},*/
                                   child: PlayingCardView(
                                     shape: ShapeBorder.lerp(
-                                        Border.all(
-                                            color: player3[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 3
-                                                ? Colors.green
-                                                : Colors.black,
-                                            width: player3[index]["suit"] ==
-                                                        roundingCard &&
-                                                    turn == 2
-                                                ? 1.5
-                                                : 0.5),
-                                        Border.all(),
-                                        0.0),
+                                      Border.all(
+                                        color:
+                                            player3[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 3
+                                            ? Colors.green
+                                            : Colors.black,
+                                        width:
+                                            player3[index]["suit"] ==
+                                                    roundingCard &&
+                                                turn == 2
+                                            ? 1.5
+                                            : 0.5,
+                                      ),
+                                      Border.all(),
+                                      0.0,
+                                    ),
                                     elevation: 10,
-                                    card: PlayingCard(player3[index]["suit"],
-                                        player3[index]["value"]),
+                                    card: PlayingCard(
+                                      player3[index]["suit"],
+                                      player3[index]["value"],
+                                    ),
                                     style: myCardStyles,
                                     showBack: false,
                                   ),
@@ -1613,7 +1648,10 @@ class _ThreePlayersState extends State<ThreePlayers> {
               height: 80,
               child: PlayingCardView(
                 shape: ShapeBorder.lerp(
-                    Border.all(color: Colors.black), Border.all(), 0.1),
+                  Border.all(color: Colors.black),
+                  Border.all(),
+                  0.1,
+                ),
                 elevation: 10,
                 card: PlayingCard(Suit.joker, CardValue.joker_1),
                 showBack: true,
@@ -1630,40 +1668,28 @@ class _ThreePlayersState extends State<ThreePlayers> {
       Suit.spades: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♠",
-            style: TextStyle(fontSize: 900),
-          ),
+          child: Text("♠", style: TextStyle(fontSize: 900)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
       Suit.hearts: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♥",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♥", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.diamonds: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♦",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♦", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.clubs: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♣",
-            style: TextStyle(fontSize: 500),
-          ),
+          child: Text("♣", style: TextStyle(fontSize: 500)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
@@ -1794,9 +1820,7 @@ class _FourPlayerState extends State<FourPlayer> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(4.0),
-                          child: CircleAvatar(
-                            child: Icon(Icons.person),
-                          ),
+                          child: CircleAvatar(child: Icon(Icons.person)),
                         ),
                         Positioned(
                           top: 0,
@@ -1807,7 +1831,9 @@ class _FourPlayerState extends State<FourPlayer> {
                             child: Text(
                               "${player1.length}",
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 10),
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
                             ),
                           ),
                         ),
@@ -1819,32 +1845,28 @@ class _FourPlayerState extends State<FourPlayer> {
                               height: 20,
                               width: 20,
                               decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(100)),
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                               child: Center(
                                 child: Text(
                                   "$counter",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const Column(
                       children: [
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Text("Player1"),
-                        Text(
-                          "20000",
-                          style: TextStyle(color: Colors.orange),
-                        ),
+                        Text("20000", style: TextStyle(color: Colors.orange)),
                       ],
                     ),
                     Container(
@@ -1855,9 +1877,11 @@ class _FourPlayerState extends State<FourPlayer> {
                           ? const BoxDecoration(
                               color: Colors.red,
                               border: Border(
-                                  left: BorderSide(color: Colors.red),
-                                  right: BorderSide(color: Colors.red),
-                                  top: BorderSide(color: Colors.red)))
+                                left: BorderSide(color: Colors.red),
+                                right: BorderSide(color: Colors.red),
+                                top: BorderSide(color: Colors.red),
+                              ),
+                            )
                           : null,
                       child: Stack(
                         children: List.generate(player1.length, (index) {
@@ -1868,22 +1892,28 @@ class _FourPlayerState extends State<FourPlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player1[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 1
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player1[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 1
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 1
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 1
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player1[index]["suit"],
-                                    player1[index]["value"]),
+                                card: PlayingCard(
+                                  player1[index]["suit"],
+                                  player1[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -1907,9 +1937,7 @@ class _FourPlayerState extends State<FourPlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -1920,7 +1948,9 @@ class _FourPlayerState extends State<FourPlayer> {
                                 child: Text(
                                   "${player1.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1932,13 +1962,16 @@ class _FourPlayerState extends State<FourPlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1967,22 +2000,28 @@ class _FourPlayerState extends State<FourPlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player2[index]["suit"],
-                                    player2[index]["value"]),
+                                card: PlayingCard(
+                                  player2[index]["suit"],
+                                  player2[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -2007,22 +2046,28 @@ class _FourPlayerState extends State<FourPlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player2[index]["suit"],
-                                    player2[index]["value"]),
+                                card: PlayingCard(
+                                  player2[index]["suit"],
+                                  player2[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -2041,9 +2086,7 @@ class _FourPlayerState extends State<FourPlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -2054,7 +2097,9 @@ class _FourPlayerState extends State<FourPlayer> {
                                 child: Text(
                                   "${player1.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -2066,13 +2111,16 @@ class _FourPlayerState extends State<FourPlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -2099,9 +2147,7 @@ class _FourPlayerState extends State<FourPlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -2112,7 +2158,9 @@ class _FourPlayerState extends State<FourPlayer> {
                                 child: Text(
                                   "${player3.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -2124,22 +2172,23 @@ class _FourPlayerState extends State<FourPlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         const Column(
                           children: [
                             Text("Player3"),
@@ -2156,9 +2205,11 @@ class _FourPlayerState extends State<FourPlayer> {
                     decoration: turn == 3
                         ? const BoxDecoration(
                             border: Border(
-                                left: BorderSide(color: Colors.red),
-                                right: BorderSide(color: Colors.red),
-                                top: BorderSide(color: Colors.red)))
+                              left: BorderSide(color: Colors.red),
+                              right: BorderSide(color: Colors.red),
+                              top: BorderSide(color: Colors.red),
+                            ),
+                          )
                         : null,
                     child: SizedBox(
                       height: 85,
@@ -2270,22 +2321,28 @@ class _FourPlayerState extends State<FourPlayer> {
                                 //     : () {},
                                 child: PlayingCardView(
                                   shape: ShapeBorder.lerp(
-                                      Border.all(
-                                          color: player3[index]["suit"] ==
-                                                      roundingCard &&
-                                                  turn == 3
-                                              ? Colors.green
-                                              : Colors.black,
-                                          width: player3[index]["suit"] ==
-                                                      roundingCard &&
-                                                  turn == 2
-                                              ? 1.5
-                                              : 0.5),
-                                      Border.all(),
-                                      0.0),
+                                    Border.all(
+                                      color:
+                                          player3[index]["suit"] ==
+                                                  roundingCard &&
+                                              turn == 3
+                                          ? Colors.green
+                                          : Colors.black,
+                                      width:
+                                          player3[index]["suit"] ==
+                                                  roundingCard &&
+                                              turn == 2
+                                          ? 1.5
+                                          : 0.5,
+                                    ),
+                                    Border.all(),
+                                    0.0,
+                                  ),
                                   elevation: 10,
-                                  card: PlayingCard(player3[index]["suit"],
-                                      player3[index]["value"]),
+                                  card: PlayingCard(
+                                    player3[index]["suit"],
+                                    player3[index]["value"],
+                                  ),
                                   style: myCardStyles,
                                   showBack: false,
                                 ),
@@ -2965,12 +3022,15 @@ class _FourPlayerState extends State<FourPlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
                             elevation: 10,
-                            card: PlayingCard(droppedCardsList[0]["suit"],
-                                droppedCardsList[0]["value"]),
+                            card: PlayingCard(
+                              droppedCardsList[0]["suit"],
+                              droppedCardsList[0]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -2985,11 +3045,14 @@ class _FourPlayerState extends State<FourPlayer> {
                         height: 120,
                         child: PlayingCardView(
                           shape: ShapeBorder.lerp(
-                              Border.all(color: Colors.black),
-                              Border.all(),
-                              0.1),
-                          card: PlayingCard(droppedCardsList[1]["suit"],
-                              droppedCardsList[1]["value"]),
+                            Border.all(color: Colors.black),
+                            Border.all(),
+                            0.1,
+                          ),
+                          card: PlayingCard(
+                            droppedCardsList[1]["suit"],
+                            droppedCardsList[1]["value"],
+                          ),
                           showBack: false,
                         ),
                       ),
@@ -3005,11 +3068,14 @@ class _FourPlayerState extends State<FourPlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[2]["suit"],
-                                droppedCardsList[2]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[2]["suit"],
+                              droppedCardsList[2]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -3024,11 +3090,14 @@ class _FourPlayerState extends State<FourPlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[3]["suit"],
-                                droppedCardsList[3]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[3]["suit"],
+                              droppedCardsList[3]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -3037,7 +3106,7 @@ class _FourPlayerState extends State<FourPlayer> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -3048,40 +3117,28 @@ class _FourPlayerState extends State<FourPlayer> {
       Suit.spades: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♠",
-            style: TextStyle(fontSize: 900),
-          ),
+          child: Text("♠", style: TextStyle(fontSize: 900)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
       Suit.hearts: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♥",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♥", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.diamonds: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♦",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♦", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.clubs: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♣",
-            style: TextStyle(fontSize: 500),
-          ),
+          child: Text("♣", style: TextStyle(fontSize: 500)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
@@ -3233,9 +3290,7 @@ class _FivePlayerState extends State<FivePlayer> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(4.0),
-                          child: CircleAvatar(
-                            child: Icon(Icons.person),
-                          ),
+                          child: CircleAvatar(child: Icon(Icons.person)),
                         ),
                         Positioned(
                           top: 0,
@@ -3246,7 +3301,9 @@ class _FivePlayerState extends State<FivePlayer> {
                             child: Text(
                               "${player1.length}",
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 10),
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
                             ),
                           ),
                         ),
@@ -3258,32 +3315,28 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 20,
                               width: 20,
                               decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(100)),
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                               child: Center(
                                 child: Text(
                                   "$counter",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const Column(
                       children: [
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Text("Player1"),
-                        Text(
-                          "20000",
-                          style: TextStyle(color: Colors.orange),
-                        ),
+                        Text("20000", style: TextStyle(color: Colors.orange)),
                       ],
                     ),
                     Container(
@@ -3294,9 +3347,11 @@ class _FivePlayerState extends State<FivePlayer> {
                           ? const BoxDecoration(
                               color: Colors.red,
                               border: Border(
-                                  left: BorderSide(color: Colors.red),
-                                  right: BorderSide(color: Colors.red),
-                                  top: BorderSide(color: Colors.red)))
+                                left: BorderSide(color: Colors.red),
+                                right: BorderSide(color: Colors.red),
+                                top: BorderSide(color: Colors.red),
+                              ),
+                            )
                           : null,
                       child: Stack(
                         children: List.generate(player1.length, (index) {
@@ -3307,22 +3362,28 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player1[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 1
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player1[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 1
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 1
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 1
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player1[index]["suit"],
-                                    player1[index]["value"]),
+                                card: PlayingCard(
+                                  player1[index]["suit"],
+                                  player1[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -3338,11 +3399,13 @@ class _FivePlayerState extends State<FivePlayer> {
                       width: 5 + player1.length * 10,
                       decoration: turn == 1
                           ? const BoxDecoration(
-                          color: Colors.red,
-                          border: Border(
-                              left: BorderSide(color: Colors.red),
-                              right: BorderSide(color: Colors.red),
-                              top: BorderSide(color: Colors.red)))
+                              color: Colors.red,
+                              border: Border(
+                                left: BorderSide(color: Colors.red),
+                                right: BorderSide(color: Colors.red),
+                                top: BorderSide(color: Colors.red),
+                              ),
+                            )
                           : null,
                       child: Stack(
                         children: List.generate(player1.length, (index) {
@@ -3353,22 +3416,28 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player1[index]["suit"] ==
-                                            roundingCard &&
+                                  Border.all(
+                                    color:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
                                             turn == 1
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player1[index]["suit"] ==
-                                            roundingCard &&
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player1[index]["suit"] ==
+                                                roundingCard &&
                                             turn == 1
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player1[index]["suit"],
-                                    player1[index]["value"]),
+                                card: PlayingCard(
+                                  player1[index]["suit"],
+                                  player1[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -3381,9 +3450,7 @@ class _FivePlayerState extends State<FivePlayer> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(4.0),
-                          child: CircleAvatar(
-                            child: Icon(Icons.person),
-                          ),
+                          child: CircleAvatar(child: Icon(Icons.person)),
                         ),
                         Positioned(
                           top: 0,
@@ -3394,7 +3461,9 @@ class _FivePlayerState extends State<FivePlayer> {
                             child: Text(
                               "${player1.length}",
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 10),
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
                             ),
                           ),
                         ),
@@ -3406,37 +3475,31 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 20,
                               width: 20,
                               decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(100)),
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                               child: Center(
                                 child: Text(
                                   "$counter",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     const Column(
                       children: [
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5),
                         Text("Player1"),
-                        Text(
-                          "20000",
-                          style: TextStyle(color: Colors.orange),
-                        ),
+                        Text("20000", style: TextStyle(color: Colors.orange)),
                       ],
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                   ],
                 ),
               ),
@@ -3452,9 +3515,7 @@ class _FivePlayerState extends State<FivePlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -3465,7 +3526,9 @@ class _FivePlayerState extends State<FivePlayer> {
                                 child: Text(
                                   "${player1.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -3477,13 +3540,16 @@ class _FivePlayerState extends State<FivePlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -3512,22 +3578,28 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player2[index]["suit"],
-                                    player2[index]["value"]),
+                                card: PlayingCard(
+                                  player2[index]["suit"],
+                                  player2[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -3552,22 +3624,28 @@ class _FivePlayerState extends State<FivePlayer> {
                               height: 60,
                               child: PlayingCardView(
                                 shape: ShapeBorder.lerp(
-                                    Border.all(
-                                        color: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? Colors.green
-                                            : Colors.black,
-                                        width: player2[index]["suit"] ==
-                                                    roundingCard &&
-                                                turn == 2
-                                            ? 1.5
-                                            : 0.5),
-                                    Border.all(),
-                                    0.0),
+                                  Border.all(
+                                    color:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? Colors.green
+                                        : Colors.black,
+                                    width:
+                                        player2[index]["suit"] ==
+                                                roundingCard &&
+                                            turn == 2
+                                        ? 1.5
+                                        : 0.5,
+                                  ),
+                                  Border.all(),
+                                  0.0,
+                                ),
                                 elevation: 10,
-                                card: PlayingCard(player2[index]["suit"],
-                                    player2[index]["value"]),
+                                card: PlayingCard(
+                                  player2[index]["suit"],
+                                  player2[index]["value"],
+                                ),
                                 style: myCardStyles,
                                 showBack: true,
                               ),
@@ -3586,9 +3664,7 @@ class _FivePlayerState extends State<FivePlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -3599,7 +3675,9 @@ class _FivePlayerState extends State<FivePlayer> {
                                 child: Text(
                                   "${player1.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -3611,13 +3689,16 @@ class _FivePlayerState extends State<FivePlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -3644,9 +3725,7 @@ class _FivePlayerState extends State<FivePlayer> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
+                              child: CircleAvatar(child: Icon(Icons.person)),
                             ),
                             Positioned(
                               top: 0,
@@ -3657,7 +3736,9 @@ class _FivePlayerState extends State<FivePlayer> {
                                 child: Text(
                                   "${player3.length}",
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                 ),
                               ),
                             ),
@@ -3669,22 +3750,23 @@ class _FivePlayerState extends State<FivePlayer> {
                                   height: 20,
                                   width: 20,
                                   decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(100)),
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       "$counter",
                                       style: const TextStyle(
-                                          color: Colors.white, fontSize: 10),
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         const Column(
                           children: [
                             Text("Player3"),
@@ -3701,9 +3783,11 @@ class _FivePlayerState extends State<FivePlayer> {
                     decoration: turn == 3
                         ? const BoxDecoration(
                             border: Border(
-                                left: BorderSide(color: Colors.red),
-                                right: BorderSide(color: Colors.red),
-                                top: BorderSide(color: Colors.red)))
+                              left: BorderSide(color: Colors.red),
+                              right: BorderSide(color: Colors.red),
+                              top: BorderSide(color: Colors.red),
+                            ),
+                          )
                         : null,
                     child: SizedBox(
                       height: 85,
@@ -3815,22 +3899,28 @@ class _FivePlayerState extends State<FivePlayer> {
                                 //     : () {},
                                 child: PlayingCardView(
                                   shape: ShapeBorder.lerp(
-                                      Border.all(
-                                          color: player3[index]["suit"] ==
-                                                      roundingCard &&
-                                                  turn == 3
-                                              ? Colors.green
-                                              : Colors.black,
-                                          width: player3[index]["suit"] ==
-                                                      roundingCard &&
-                                                  turn == 2
-                                              ? 1.5
-                                              : 0.5),
-                                      Border.all(),
-                                      0.0),
+                                    Border.all(
+                                      color:
+                                          player3[index]["suit"] ==
+                                                  roundingCard &&
+                                              turn == 3
+                                          ? Colors.green
+                                          : Colors.black,
+                                      width:
+                                          player3[index]["suit"] ==
+                                                  roundingCard &&
+                                              turn == 2
+                                          ? 1.5
+                                          : 0.5,
+                                    ),
+                                    Border.all(),
+                                    0.0,
+                                  ),
                                   elevation: 10,
-                                  card: PlayingCard(player3[index]["suit"],
-                                      player3[index]["value"]),
+                                  card: PlayingCard(
+                                    player3[index]["suit"],
+                                    player3[index]["value"],
+                                  ),
                                   style: myCardStyles,
                                   showBack: false,
                                 ),
@@ -4500,7 +4590,7 @@ class _FivePlayerState extends State<FivePlayer> {
                   if (droppedCardsList.length == 1 ||
                       droppedCardsList.length == 2 ||
                       droppedCardsList.length == 3 ||
-                      droppedCardsList.length == 4||
+                      droppedCardsList.length == 4 ||
                       droppedCardsList.length == 5)
                     Positioned(
                       left: 0,
@@ -4511,12 +4601,15 @@ class _FivePlayerState extends State<FivePlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
                             elevation: 10,
-                            card: PlayingCard(droppedCardsList[0]["suit"],
-                                droppedCardsList[0]["value"]),
+                            card: PlayingCard(
+                              droppedCardsList[0]["suit"],
+                              droppedCardsList[0]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -4524,7 +4617,7 @@ class _FivePlayerState extends State<FivePlayer> {
                     ),
                   if (droppedCardsList.length == 2 ||
                       droppedCardsList.length == 3 ||
-                      droppedCardsList.length == 4||
+                      droppedCardsList.length == 4 ||
                       droppedCardsList.length == 5)
                     Positioned(
                       top: 0,
@@ -4533,17 +4626,20 @@ class _FivePlayerState extends State<FivePlayer> {
                         height: 120,
                         child: PlayingCardView(
                           shape: ShapeBorder.lerp(
-                              Border.all(color: Colors.black),
-                              Border.all(),
-                              0.1),
-                          card: PlayingCard(droppedCardsList[1]["suit"],
-                              droppedCardsList[1]["value"]),
+                            Border.all(color: Colors.black),
+                            Border.all(),
+                            0.1,
+                          ),
+                          card: PlayingCard(
+                            droppedCardsList[1]["suit"],
+                            droppedCardsList[1]["value"],
+                          ),
                           showBack: false,
                         ),
                       ),
                     ),
                   if (droppedCardsList.length == 3 ||
-                      droppedCardsList.length == 4||
+                      droppedCardsList.length == 4 ||
                       droppedCardsList.length == 5)
                     Positioned(
                       top: 20,
@@ -4554,17 +4650,20 @@ class _FivePlayerState extends State<FivePlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[2]["suit"],
-                                droppedCardsList[2]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[2]["suit"],
+                              droppedCardsList[2]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
                       ),
                     ),
-                  if (droppedCardsList.length == 4||
+                  if (droppedCardsList.length == 4 ||
                       droppedCardsList.length == 5)
                     Positioned(
                       bottom: 25,
@@ -4575,11 +4674,14 @@ class _FivePlayerState extends State<FivePlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[3]["suit"],
-                                droppedCardsList[3]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[3]["suit"],
+                              droppedCardsList[3]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -4595,11 +4697,14 @@ class _FivePlayerState extends State<FivePlayer> {
                           height: 120,
                           child: PlayingCardView(
                             shape: ShapeBorder.lerp(
-                                Border.all(color: Colors.black),
-                                Border.all(),
-                                0.1),
-                            card: PlayingCard(droppedCardsList[4]["suit"],
-                                droppedCardsList[4]["value"]),
+                              Border.all(color: Colors.black),
+                              Border.all(),
+                              0.1,
+                            ),
+                            card: PlayingCard(
+                              droppedCardsList[4]["suit"],
+                              droppedCardsList[4]["value"],
+                            ),
                             showBack: false,
                           ),
                         ),
@@ -4608,7 +4713,7 @@ class _FivePlayerState extends State<FivePlayer> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -4619,40 +4724,28 @@ class _FivePlayerState extends State<FivePlayer> {
       Suit.spades: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♠",
-            style: TextStyle(fontSize: 900),
-          ),
+          child: Text("♠", style: TextStyle(fontSize: 900)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),
       Suit.hearts: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♥",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♥", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.diamonds: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♦",
-            style: TextStyle(fontSize: 500, color: Colors.red),
-          ),
+          child: Text("♦", style: TextStyle(fontSize: 500, color: Colors.red)),
         ),
         style: const TextStyle(color: Colors.red),
       ),
       Suit.clubs: SuitStyle(
         builder: (context) => const FittedBox(
           fit: BoxFit.fitHeight,
-          child: Text(
-            "♣",
-            style: TextStyle(fontSize: 500),
-          ),
+          child: Text("♣", style: TextStyle(fontSize: 500)),
         ),
         style: TextStyle(color: Colors.grey[800]),
       ),

@@ -16,7 +16,7 @@ class MyText extends StatelessWidget {
     this.color = Colors.white,
     this.borderColor = Colors.black,
     this.fontSize = 18,
-    this.borderWidth ,
+    this.borderWidth,
     this.textAlign = TextAlign.center,
     this.fontWeight,
   });
@@ -34,7 +34,7 @@ class MyText extends StatelessWidget {
             fontWeight: fontWeight,
             foreground: Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = borderWidth?? 5
+              ..strokeWidth = borderWidth ?? 5
               ..color = borderColor,
           ),
         ),

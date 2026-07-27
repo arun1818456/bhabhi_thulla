@@ -78,10 +78,7 @@ class RankProgressWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xff6B3307),
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: const Color(0xff3D1800),
-                  width: 2,
-                ),
+                border: Border.all(color: const Color(0xff3D1800), width: 2),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
@@ -118,7 +115,7 @@ class RankProgressWidget extends StatelessWidget {
                                   Shadow(
                                     color: Color(0xff3A1476),
                                     blurRadius: 2,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -151,11 +148,7 @@ class RankProgressWidget extends StatelessWidget {
           /// Star
           Positioned(
             left: 8,
-            child: Image.asset(
-              AppImages.starCard,
-              width: 40,
-              height: 40,
-            ),
+            child: Image.asset(AppImages.starCard, width: 40, height: 40),
           ),
         ],
       ),

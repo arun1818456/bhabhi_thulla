@@ -3,18 +3,33 @@ import 'package:playing_cards/playing_cards.dart';
 
 //new
 
-List  profileDataList = [
-  {"title":"GAMES PLAYED","value":"12","image":AppImages.game,"p":false},
-  {"title":"GAMES WON","value":"12","image":AppImages.won,"p":false},
-  {"title":"WIN RATE","value":"12","image":AppImages.winTarget,"p":true},
-  {"title":"QUIT RATE","value":"12","image":AppImages.exit,"p":true},
-  {"title":"BHABHI COUNT","value":"12","image":AppImages.bhabhi,"p":false},
-  {"title":"THULLA COUNT","value":"12","image":AppImages.thulla,"p":false},
-  {"title":"WIN STREAK","value":"12","image":AppImages.winStreak,"p":false},
-  {"title":"BEST WIN","value":"12","image":AppImages.bestWin,"p":false},
+List profileDataList = [
+  {"title": "GAMES PLAYED", "value": "12", "image": AppImages.game, "p": false},
+  {"title": "GAMES WON", "value": "12", "image": AppImages.won, "p": false},
+  {"title": "WIN RATE", "value": "12", "image": AppImages.winTarget, "p": true},
+  {"title": "QUIT RATE", "value": "12", "image": AppImages.exit, "p": true},
+  {
+    "title": "BHABHI COUNT",
+    "value": "12",
+    "image": AppImages.bhabhi,
+    "p": false,
+  },
+  {
+    "title": "THULLA COUNT",
+    "value": "12",
+    "image": AppImages.thulla,
+    "p": false,
+  },
+  {
+    "title": "WIN STREAK",
+    "value": "12",
+    "image": AppImages.winStreak,
+    "p": false,
+  },
+  {"title": "BEST WIN", "value": "12", "image": AppImages.bestWin, "p": false},
 ];
 
-List profileLists=[
+List profileLists = [
   AppImages.p1,
   AppImages.p2,
   AppImages.p3,
@@ -45,7 +60,6 @@ final List<String> profileOptions = [
   AppImages.cards,
 ];
 
-
 // past
 
 final List<CardValue> ranks = [
@@ -61,11 +75,6 @@ final List<CardValue> ranks = [
   CardValue.ten,
   CardValue.jack,
   CardValue.queen,
-  CardValue.king
+  CardValue.king,
 ];
-final List<Suit> suits = [
-  Suit.spades,
-  Suit.hearts,
-  Suit.diamonds,
-  Suit.clubs
-];
+final List<Suit> suits = [Suit.spades, Suit.hearts, Suit.diamonds, Suit.clubs];

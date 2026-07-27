@@ -9,17 +9,17 @@ class UserDataModel {
   String? email;
   String? totalFriends;
 
-  UserDataModel(
-      {this.uid,
-        this.name,
-        this.userName,
-        this.email,
-        this.profileUrl,
-        this.deviceToken,
-        this.coins,
-        this.passKey,
-        this.totalFriends
-      });
+  UserDataModel({
+    this.uid,
+    this.name,
+    this.userName,
+    this.email,
+    this.profileUrl,
+    this.deviceToken,
+    this.coins,
+    this.passKey,
+    this.totalFriends,
+  });
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];

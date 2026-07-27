@@ -2,6 +2,7 @@ import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 
 import '../../constant/export_file.dart';
+import '../../widgets/animaton_effect.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,8 +13,8 @@ class HomeScreen extends StatelessWidget {
       init: HomeController(),
       builder: (controller) {
         return BackgroundWidget(
-          image: controller.spinPage?AppImages.spinBg:null,
-          opacity: controller.spinPage?1.0:null,
+          image: controller.spinPage ? AppImages.spinBg : null,
+          opacity: controller.spinPage ? 1.0 : null,
           child: Stack(
             children: [
               Column(
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Image.asset(
-                                AppImages.arrowBack,
+                                AppImages.arrowBackBox,
                                 height: 45,
                                 width: 55,
                               ),
@@ -86,30 +87,38 @@ class HomeScreen extends StatelessWidget {
                             width: 55,
                           ),
                         ),
-                      ]  else ...[
-                        GestureDetector(
+                      ] else ...[
+                        InkWell(
                           onTap: controller.onTapToProfile,
                           child: Container(
-                            width: Get.width * 0.06,
-                            height: Get.width * 0.06,
+                            width: Get.width * 0.07,
+                            height: Get.width * 0.07,
+                            padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: Colors.yellowAccent,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(width: 2, color: Colors.black),
+                              image: DecorationImage(
+                                image: AssetImage(AppImages.profileBgCard),
+                                fit: BoxFit.contain,
+                              ),
                             ),
-                            child: Image.asset(AppImages.p8),
+                            child: Image.asset(
+                              AppImages.p9,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 10),
                         Container(
-                          width: Get.width / 3 - 150,
+                          width: Get.width / 3 - 200,
                           padding: const EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              MyText(text: "Arun Kumar", fontSize: 12),
-                              SizedBox(height: 2),
+                              MyText(
+                                text: "Arun Kumar",
+                                fontSize: 17,
+                                borderWidth: 4,
+                              ),
+                              SizedBox(height: 1),
                               LinearProgressIndicator(value: .8),
                             ],
                           ),
@@ -145,72 +154,81 @@ class HomeScreen extends StatelessWidget {
                 Positioned(
                   bottom: 50,
                   left: 10,
-                  child: Column(
-                    children: [
-                      chipWithTxt(
-                        size: 70,
-                        iconImage: AppImages.spinner,
-                        text: "Daily Spin",
-                        onTap: controller.onTapToSpinPage,
-                      ),
-                      const SizedBox(height: 15),
-                      chipWithTxt(
-                        size: 50,
-                        iconImage: AppImages.settings,
-                        text: "Settings",
-                        onTap: () {},
-                      ),
-                    ],
+                  child: AnimatorWidget(
+                    effect: AnimationEffect.leftToRight,
+                    child: Column(
+                      children: [
+                        chipWithTxt(
+                          size: 70,
+                          iconImage: AppImages.spinner,
+                          text: "Daily Spin",
+                          onTap: controller.onTapToSpinPage,
+                        ),
+                        const SizedBox(height: 15),
+                        chipWithTxt(
+                          size: 50,
+                          iconImage: AppImages.settings,
+                          text: "Settings",
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
                   bottom: 1,
                   left: 0,
                   right: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      chipWithTxt(
-                        iconImage: AppImages.leaderboard,
-                        text: "Ranks",
-                        onTap: () {},
-                      ),
-                      const SizedBox(width: 25),
-                      chipWithTxt(
-                        iconImage: AppImages.tutorial,
-                        text: "Training",
-                        onTap: () {},
-                      ),
-                      const SizedBox(width: 25),
+                  child: AnimatorWidget(
+                    effect: AnimationEffect.bottomToTop,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        chipWithTxt(
+                          iconImage: AppImages.leaderboard,
+                          text: "Ranks",
+                          onTap: () {},
+                        ),
+                        const SizedBox(width: 25),
+                        chipWithTxt(
+                          iconImage: AppImages.tutorial,
+                          text: "Training",
+                          onTap: () {},
+                        ),
+                        const SizedBox(width: 25),
 
-                      chipWithTxt(
-                        iconImage: AppImages.friends,
-                        text: "Friends",
-                        onTap: () {},
-                      ),
-                    ],
+                        chipWithTxt(
+                          iconImage: AppImages.friends,
+                          text: "Friends",
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
                   bottom: 50,
                   right: 5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      chipWithTxt(
-                        size: 55,
-                        iconImage: AppImages.gift,
-                        text: "Rewards",
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 15),
-                      chipWithTxt(
-                        size: 50,
-                        iconImage: AppImages.store,
-                        text: "Shop",
-                        onTap: () {},
-                      ),
-                    ],
+                  child: AnimatorWidget(
+                    effect: AnimationEffect.rightToLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        chipWithTxt(
+                          size: 55,
+                          iconImage: AppImages.gift,
+                          text: "Rewards",
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 15),
+                        chipWithTxt(
+                          size: 50,
+                          iconImage: AppImages.store,
+                          text: "Shop",
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Center(

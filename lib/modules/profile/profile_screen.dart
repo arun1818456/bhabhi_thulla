@@ -1,5 +1,6 @@
 import 'package:bhabhi_thulla/constant/lists.dart';
 import 'package:bhabhi_thulla/modules/profile/profile_controller.dart';
+import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
 
 import '../../constant/export_file.dart';
 
@@ -11,6 +12,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ScrollController _scrollController = ScrollController();
+  double scrollOffset = 0;
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -21,78 +24,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           children: [
             const SizedBox(width: 25),
-            Column(
-              children: List.generate(
-                profileOptions.length,
-                (index) => Expanded(
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.onSelectOption(index);
-                      },
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Opacity(
-                            opacity:index!=0 && index!=1? 0.5:1,
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 50,
-                              width: 50,
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                color: controller.selectedIndex == index
-                                    ? const Color(0xffA56B3E)
-                                    : Colors.brown.shade500,
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 2),
-                                boxShadow: controller.selectedIndex == index
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.amber.withValues(
-                                            alpha: 0.8,
-                                          ),
-                                          blurRadius: 25,
-                                          spreadRadius: 6,
-                                        ),
-                                        BoxShadow(
-                                          color: Colors.orange.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                          blurRadius: 40,
-                                          spreadRadius: 12,
-                                        ),
-                                      ]
-                                    : [],
-                              ),
-                              child: Image.asset(
-                                profileOptions[index],
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-
-                          if (controller.selectedIndex == index)
-                            Positioned(
-                              left: 45,
-                              top: -1,
-                              child: Image.asset(
-                                AppImages.arrowFor,
-                                width: 50,
+            AnimatorWidget(
+              effect: AnimationEffect.bottomToTop,
+              child: Column(
+                children: List.generate(
+                  profileOptions.length,
+                  (index) => Expanded(
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.onSelectOption(index);
+                        },
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Opacity(
+                              opacity: index != 0 && index != 1 ? 0.5 : 1,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
                                 height: 50,
+                                width: 50,
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: controller.selectedIndex == index
+                                      ? const Color(0xffA56B3E)
+                                      : Colors.brown.shade500,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                  boxShadow: controller.selectedIndex == index
+                                      ? [
+                                          BoxShadow(
+                                            color: Colors.amber.withValues(
+                                              alpha: 0.8,
+                                            ),
+                                            blurRadius: 25,
+                                            spreadRadius: 6,
+                                          ),
+                                          BoxShadow(
+                                            color: Colors.orange.withValues(
+                                              alpha: 0.5,
+                                            ),
+                                            blurRadius: 40,
+                                            spreadRadius: 12,
+                                          ),
+                                        ]
+                                      : [],
+                                ),
+                                child: Image.asset(
+                                  profileOptions[index],
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
-                          if(index!=0 && index!=1)
-                          Positioned(
-                            left: 32,
-                            top: -1,
-                            child: Image.asset(
-                              AppImages.lockedGif,
-                              width: 30,
-                              height: 30,
-                            ),
-                          ),
-                        ],
+
+                            if (controller.selectedIndex == index)
+                              Positioned(
+                                left: 45,
+                                top: -1,
+                                child: AnimatorWidget(
+                                  effect: AnimationEffect.leftToRight,
+                                  delay: Duration(milliseconds: 500),
+                                  child: Image.asset(
+                                    AppImages.arrowFor,
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                              ),
+                            if (index != 0 && index != 1)
+                              Positioned(
+                                left: 32,
+                                top: -1,
+                                child: Image.asset(
+                                  AppImages.lockedGif,
+                                  width: 30,
+                                  height: 30,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -228,10 +241,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       borderColor: Colors.transparent,
                                     ),
                                     const SizedBox(height: 2),
-                                    MyText(
-                                      text:
-                                          "${profileDataList[index]["value"]} ${profileDataList[index]["p"] ? " %" : ""}",
-                                      fontSize: 18,
+                                    AnimatorWidget(
+                                      curve: Curves.easeInOutCirc,
+                                      child: MyText(
+                                        text:
+                                            "${profileDataList[index]["value"]} ${profileDataList[index]["p"] ? " %" : ""}",
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -361,78 +377,110 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  // physics: const NeverScrollableScrollPhysics(),
-                  itemCount: profileLists.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, // Row me 4 images
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 1,
-                  ),
-                  itemBuilder: (context, index) {
-                    final bool isSelected =
-                        controller.selectedImage == profileLists[index];
-
-                    return GestureDetector(
-                      onTap: () {
-                        controller.onTapToSelectIMage(profileLists[index]);
-                      },
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.brown.shade500,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: isSelected ? Colors.amber : Colors.white,
-                                width: isSelected ? 3 : 2,
-                              ),
-                              boxShadow: isSelected
-                                  ? [
-                                      BoxShadow(
-                                        color: Colors.amber.withValues(
-                                          alpha: 0.6,
-                                        ),
-                                        blurRadius: 15,
-                                        spreadRadius: 2,
-                                      ),
-                                    ]
-                                  : [],
-                            ),
-                            child: Image.asset(
-                              profileLists[index],
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-
-                          /// Tick Icon
-                          if (isSelected)
-                            Positioned(
-                              top: -2,
-                              right: -2,
-                              child: Container(
-                                height: 22,
-                                width: 22,
-                                decoration: const BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    setState(() {
+                      scrollOffset = notification.metrics.pixels;
+                    });
+                    return true;
                   },
+                  child: GridView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: profileLists.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1,
+                        ),
+                    itemBuilder: (context, index) {
+                      final bool isSelected =
+                          controller.selectedImage == profileLists[index];
+
+                      // Scroll ke according scale
+                      double scale = 1 - (scrollOffset * 0.0003);
+                      scale = scale.clamp(0.92, 1.0);
+
+                      return TweenAnimationBuilder<double>(
+                        duration: Duration(milliseconds: 350 + (index * 80)),
+                        curve: Curves.easeOutBack,
+                        tween: Tween(begin: 0.7, end: 1),
+                        builder: (context, value, child) {
+                          return Opacity(
+                            opacity: value.clamp(0.0, 1.0),
+                            child: Transform.translate(
+                              offset: Offset(0, 40 * (1 - value)),
+                              child: Transform.scale(
+                                scale: value,
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onTapToSelectIMage(profileLists[index]);
+                          },
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.brown.shade500,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? Colors.amber
+                                        : Colors.white,
+                                    width: isSelected ? 3 : 2,
+                                  ),
+                                  boxShadow: isSelected
+                                      ? [
+                                          BoxShadow(
+                                            color: Colors.amber.withValues(
+                                              alpha: 0.6,
+                                            ),
+                                            blurRadius: 15,
+                                            spreadRadius: 2,
+                                          ),
+                                        ]
+                                      : [],
+                                ),
+                                child: Image.asset(
+                                  profileLists[index],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+
+                              if (isSelected)
+                                Positioned(
+                                  top: -2,
+                                  right: -2,
+                                  child: Container(
+                                    height: 22,
+                                    width: 22,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

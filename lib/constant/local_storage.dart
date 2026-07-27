@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:bhabhi_thulla/constant/user_data.dart';
@@ -31,14 +30,14 @@ class LocalStorage {
 
     try {
       UserDataModel user = UserDataModel.fromJson(userMap);
-      UserData.name=user.name??"";
-      UserData.userName=user.userName??"";
-      UserData.coins=user.coins??"";
-      UserData.deviceToken=user.deviceToken??"";
-      UserData.email=user.email??"";
-      UserData.passKey=user.passKey??"";
-      UserData.profileUrl=user.profileUrl??"";
-      UserData.uid=user.uid??"";
+      UserData.name = user.name ?? "";
+      UserData.userName = user.userName ?? "";
+      UserData.coins = user.coins ?? "";
+      UserData.deviceToken = user.deviceToken ?? "";
+      UserData.email = user.email ?? "";
+      UserData.passKey = user.passKey ?? "";
+      UserData.profileUrl = user.profileUrl ?? "";
+      UserData.uid = user.uid ?? "";
       return user;
     } catch (e) {
       return null;

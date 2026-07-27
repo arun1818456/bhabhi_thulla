@@ -10,8 +10,9 @@ class AuthenticationController extends GetxController {
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
       ];
-      final GoogleSignInAccount? googleUser =
-          await GoogleSignIn(scopes: scopes).signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: scopes,
+      ).signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -19,13 +20,15 @@ class AuthenticationController extends GetxController {
         idToken: googleAuth?.idToken,
       );
 
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
       User? user = userCredential.user;
 
       if (user != null) {
         String uid = user.uid;
-        CollectionReference users = FirebaseFirestore.instance.collection('users');
+        CollectionReference users = FirebaseFirestore.instance.collection(
+          'users',
+        );
         DocumentSnapshot userSnapshot = await users.doc(uid).get();
         if (userSnapshot.exists) {
           // User already exists, retrieve their data
@@ -44,7 +47,7 @@ class AuthenticationController extends GetxController {
             'device_token': "",
             'pass_key': "",
             'coins': "",
-            "total_friends":"0"
+            "total_friends": "0",
           };
           print(newUserData);
           LocalStorage().saveUserData(UserDataModel.fromJson(newUserData));

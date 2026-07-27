@@ -11,7 +11,7 @@ class AddFriendController extends GetxController {
         .collection('users')
         .where('user_name', isEqualTo: "rohan_124")
         .get();
-   print(snapshot);
+    print(snapshot);
     if (snapshot.docs.isNotEmpty) {
       usersList = snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)

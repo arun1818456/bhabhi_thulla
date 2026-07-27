@@ -16,7 +16,6 @@ class AppImages {
   static const String spinner = "$gifPath/spinner.gif";
   static const String friendPlay = "$path/friend_play.png";
   static const String soloPlay = "$path/solo.png";
-  static const String arrowBack = "$path/arrow_back.png";
   static const String arrowBackBox = "$path/arrow_back_box.png";
   static const String coin = "$path/coin.png";
   static const String p1 = "$path2/p1.png";

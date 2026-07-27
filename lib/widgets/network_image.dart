@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../constant/export_file.dart';
@@ -24,24 +23,21 @@ class NetworkImageWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius),
       child: imageUrl.isNotEmpty
           ? CachedNetworkImage(
-        // cacheKey: imageUrl,
-        imageUrl: imageUrl,
-        width: width,
-        height: height,
-        imageBuilder: (context, imageProvider) => Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: boxFit,
-            ),
-          ),
-        ),
-        placeholder: (context, url) => _buildPlaceholder(),
-        errorWidget: (context, url, error) => _buildErrorWidget(),
-      )
+              // cacheKey: imageUrl,
+              imageUrl: imageUrl,
+              width: width,
+              height: height,
+              imageBuilder: (context, imageProvider) => Container(
+                width: width,
+                height: height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  image: DecorationImage(image: imageProvider, fit: boxFit),
+                ),
+              ),
+              placeholder: (context, url) => _buildPlaceholder(),
+              errorWidget: (context, url, error) => _buildErrorWidget(),
+            )
           : _buildErrorWidget(),
     );
   }
@@ -57,10 +53,11 @@ class NetworkImageWidget extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.all(17.0),
         child: Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 1.5,
-              color: Colors.yellow,
-            )),
+          child: CircularProgressIndicator(
+            strokeWidth: 1.5,
+            color: Colors.yellow,
+          ),
+        ),
       ),
     );
   }
@@ -76,14 +73,11 @@ class NetworkImageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: iconSize,
-          ),
+          Icon(Icons.error_outline, size: iconSize),
           Text(
             "no found",
             // style: w_400.copyWith(fontSize: 8, color: Colors.black),
-          )
+          ),
         ],
       ),
     );

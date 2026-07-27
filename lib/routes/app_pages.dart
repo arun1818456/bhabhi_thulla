@@ -1,4 +1,3 @@
-
 // import 'package:bhabhi_thulla/modules/auth/view/authentication_page.dart';
 // import 'package:bhabhi_thulla/modules/home/view/add_friend_screen.dart';
 // import 'package:bhabhi_thulla/modules/home/view/home_screen.dart';
@@ -13,17 +12,10 @@ class AppPages {
   static const init = AppRoutes.splashRoute;
 
   static final routes = [
-
     // Authentication Routes----------------------------------------------------
     //
-    GetPage(
-      name: AppRoutes.splashRoute,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.homeRoute,
-      page: () => const HomeScreen(),
-    ),
+    GetPage(name: AppRoutes.splashRoute, page: () => const SplashScreen()),
+    GetPage(name: AppRoutes.homeRoute, page: () => const HomeScreen()),
     // GetPage(
     //   name: AppRoutes.authenticate,
     //   page: () => const AuthenticationPage(),

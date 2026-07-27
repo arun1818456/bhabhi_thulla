@@ -1,3 +1,4 @@
+import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
 import 'package:bhabhi_thulla/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,15 +12,18 @@ class FriendRoomScreen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 30),
       height: Get.height / 2 + 80,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(child: _joinCard()),
+      child: AnimatorWidget(
+        effect: AnimationEffect.scale,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(child: _joinCard()),
 
-          const SizedBox(width: 20),
+            const SizedBox(width: 20),
 
-          Flexible(child: _createCard()),
-        ],
+            Flexible(child: _createCard()),
+          ],
+        ),
       ),
     );
   }
@@ -149,8 +153,13 @@ class FriendRoomScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          CustomButton(text: "CREATE", color: Colors.green, onPressed: () {  }, horizontalPadding: 35,
-            buttonHeight: 40,),
+          CustomButton(
+            text: "CREATE",
+            color: Colors.green,
+            onPressed: () {},
+            horizontalPadding: 35,
+            buttonHeight: 40,
+          ),
         ],
       ),
     );

@@ -28,7 +28,7 @@ class BackgroundWidget extends StatelessWidget {
           Positioned.fill(
             child: Image.asset(
               image ?? AppImages.background,
-              opacity:  AlwaysStoppedAnimation(opacity??.7),
+              opacity: AlwaysStoppedAnimation(opacity ?? .7),
               fit: BoxFit.cover,
             ),
           ),

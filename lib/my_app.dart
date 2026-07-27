@@ -6,19 +6,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          keyBoardOff();
-        },
-        child: GetMaterialApp(
-          // theme: ThemeData(
-          //   scaffoldBackgroundColor:
-          //   AppColors.whiteColor,
-          // ),
-          initialRoute: AppPages.init,
-          getPages: AppPages.routes,
-          debugShowCheckedModeBanner: false,
-        ));
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        keyBoardOff();
+      },
+      child: GetMaterialApp(
+        // theme: ThemeData(
+        //   scaffoldBackgroundColor:
+        //   AppColors.whiteColor,
+        // ),
+        initialRoute: AppPages.init,
+        getPages: AppPages.routes,
+        debugShowCheckedModeBanner: false,
+      ),
+    );
   }
 }
 
@@ -30,8 +31,5 @@ keyBoardOff() {
 }
 
 gap({double? height, double? width}) {
-  return SizedBox(
-    height: height ?? 0,
-    width: width ?? 0,
-  );
+  return SizedBox(height: height ?? 0, width: width ?? 0);
 }

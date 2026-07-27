@@ -34,82 +34,89 @@ class _AddFriendScreenState extends State<AddFriendScreen>
     return GetBuilder(
       init: AddFriendController(),
       builder: (controller) {
-      return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Add Friend"),
-            centerTitle: true,
-          ),
-          body: Column(
-            children: [
-              Container(
-                height: 60,
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  border: Border.all(width: 1.5, color: AppColors.blue),
-                ),
-                child: TabBar(
-                  controller: tabController,
-                  dividerColor: Colors.transparent,
-                  labelColor: AppColors.whiteColor,
-                  unselectedLabelColor: AppColors.blue,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9),
-                    color: AppColors.blue,
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(title: const Text("Add Friend"), centerTitle: true),
+            body: Column(
+              children: [
+                Container(
+                  height: 60,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 14,
                   ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: const [
-                    Tab(
-                      child: Text(
-                        "Search",
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                      ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    border: Border.all(width: 1.5, color: AppColors.blue),
+                  ),
+                  child: TabBar(
+                    controller: tabController,
+                    dividerColor: Colors.transparent,
+                    labelColor: AppColors.whiteColor,
+                    unselectedLabelColor: AppColors.blue,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9),
+                      color: AppColors.blue,
                     ),
-                    Tab(
-                      child: Text(
-                        "Requests",
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: const [
+                      Tab(
+                        child: Text(
+                          "Search",
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
                       ),
+                      Tab(
+                        child: Text(
+                          "Requests",
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                    labelStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
                     ),
-                  ],
-                  labelStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  unselectedLabelStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
+                    unselectedLabelStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  children:  [SearchPage(controller: controller,), RequestPage()],
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      SearchPage(controller: controller),
+                      RequestPage(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    },);
+        );
+      },
+    );
   }
 }
 
 class SearchPage extends StatefulWidget {
   AddFriendController controller;
-   SearchPage({super.key,required this.controller});
+  SearchPage({super.key, required this.controller});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  TextEditingController textEditingController=TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -120,10 +127,14 @@ class _SearchPageState extends State<SearchPage> {
           containerHeight: 50,
           hintText: "Search friend",
           horizontalPadding: 15,
-          postfix:
-              IconButton(onPressed: () {
-                widget.controller.onTapToSearchFriend(textEditingController.text.trim());
-              }, icon: const Icon(Icons.search)),
+          postfix: IconButton(
+            onPressed: () {
+              widget.controller.onTapToSearchFriend(
+                textEditingController.text.trim(),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
         ),
       ],
     );
@@ -136,7 +147,9 @@ class RequestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [Text('Friends Tab Content', style: TextStyle(fontSize: 18))],
+      children: const [
+        Text('Friends Tab Content', style: TextStyle(fontSize: 18)),
+      ],
     );
   }
 }

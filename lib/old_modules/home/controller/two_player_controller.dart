@@ -35,9 +35,11 @@ class TwoPlayerController extends GetxController {
     // checking Spade of ace is compulsory to add first turn
     for (var element in deck) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        deck.removeWhere((element) =>
-            element["suit"] == Suit.spades &&
-            element["value"] == CardValue.ace);
+        deck.removeWhere(
+          (element) =>
+              element["suit"] == Suit.spades &&
+              element["value"] == CardValue.ace,
+        );
         DateTime currentTime = DateTime.now();
         if (currentTime.second % 2 == 0) {
           deck.insert(0, {"suit": Suit.spades, "value": CardValue.ace});
@@ -61,8 +63,11 @@ class TwoPlayerController extends GetxController {
     List toRemove = [];
     for (var element in player1) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        droppedCardsList.add(
-            {"suit": Suit.spades, "value": CardValue.ace, "player": "player1"});
+        droppedCardsList.add({
+          "suit": Suit.spades,
+          "value": CardValue.ace,
+          "player": "player1",
+        });
         toRemove.add(element); // Collect elements to remove
         turn = 2;
       }
@@ -70,8 +75,11 @@ class TwoPlayerController extends GetxController {
     player1.removeWhere((e) => toRemove.contains(e));
     for (var element in player2) {
       if (element["suit"] == Suit.spades && element["value"] == CardValue.ace) {
-        droppedCardsList.add(
-            {"suit": Suit.spades, "value": CardValue.ace, "player": "player2"});
+        droppedCardsList.add({
+          "suit": Suit.spades,
+          "value": CardValue.ace,
+          "player": "player2",
+        });
         toRemove.add(element); // Collect elements to remove
         turn = 1;
       }
@@ -82,13 +90,9 @@ class TwoPlayerController extends GetxController {
         .child("two_player/${UserData.uid}/data/")
         .push()
         .set({})
-        .then(
-          (value) {},
-        )
-        .onError(
-          (error, stackTrace) {
-            // Message().toast("$error", error: true);
-          },
-        );
+        .then((value) {})
+        .onError((error, stackTrace) {
+          // Message().toast("$error", error: true);
+        });
   }
 }

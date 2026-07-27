@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
+
 import '../../constant/export_file.dart';
 
 class SoloRoom extends StatelessWidget {
@@ -22,7 +24,10 @@ class SoloRoom extends StatelessWidget {
         itemCount: rooms.length,
         itemBuilder: (context, index) {
           final room = rooms[index];
-          return FlipRoomCard(room: room);
+          return AnimatorWidget(
+            effect: AnimationEffect.scale,
+            child: FlipRoomCard(room: room),
+          );
         },
       ),
     );
@@ -205,34 +210,64 @@ class _FlipRoomCardState extends State<FlipRoomCard>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyText(text: "1st", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
-                    SizedBox(width: 5,),
-                    Image.asset(AppImages.coin,width: 20,height: 20,),
-                    SizedBox(width: 5,),
-                    MyText(text: "${widget.room.prize}", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
+                    MyText(
+                      text: "1st",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
+                    SizedBox(width: 5),
+                    Image.asset(AppImages.coin, width: 20, height: 20),
+                    SizedBox(width: 5),
+                    MyText(
+                      text: "${widget.room.prize}",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyText(text: "2nd", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
-                    SizedBox(width: 5,),
-                    Image.asset(AppImages.coin,width: 20,height: 20,),
-                    SizedBox(width: 5,),
-                    MyText(text: "${widget.room.prize}", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
+                    MyText(
+                      text: "2nd",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
+                    SizedBox(width: 5),
+                    Image.asset(AppImages.coin, width: 20, height: 20),
+                    SizedBox(width: 5),
+                    MyText(
+                      text: "${widget.room.prize}",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MyText(text: "3rd", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
-                    SizedBox(width: 5,),
-                    Image.asset(AppImages.coin,width: 20,height: 20,),
-                    SizedBox(width: 5,),
-                    MyText(text: "${widget.room.prize}", fontSize: 18,borderColor: Colors.orangeAccent,borderWidth: 1.5,),
+                    MyText(
+                      text: "3rd",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
+                    SizedBox(width: 5),
+                    Image.asset(AppImages.coin, width: 20, height: 20),
+                    SizedBox(width: 5),
+                    MyText(
+                      text: "${widget.room.prize}",
+                      fontSize: 18,
+                      borderColor: Colors.orangeAccent,
+                      borderWidth: 1.5,
+                    ),
                   ],
                 ),
-               ],
+              ],
             ),
           ),
         ],

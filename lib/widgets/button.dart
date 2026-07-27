@@ -1,4 +1,3 @@
-
 import '../constant/colors.dart';
 import '../constant/export_file.dart';
 
@@ -51,25 +50,20 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Rounded corners
             side: border == true
-                ? const BorderSide(
-              color: AppColors.blackColor,
-              width: 1,
-            )
+                ? const BorderSide(color: AppColors.blackColor, width: 1)
                 : BorderSide.none, // No border by default
           ),
           elevation: 5, // Shadow effect
         ),
         child: loading == true
-            ? const CircularProgressIndicator(
-          color: AppColors.whiteColor,
-        )
+            ? const CircularProgressIndicator(color: AppColors.whiteColor)
             : buttonCenter ??
-            Text(
-              text,
-              style: TextStyle(
-                color: textColor ?? AppColors.whiteColor, // Text color
-              ),
-            ),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: textColor ?? AppColors.whiteColor, // Text color
+                    ),
+                  ),
       ),
     );
   }

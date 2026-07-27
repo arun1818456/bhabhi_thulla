@@ -4,9 +4,7 @@ import '../../../constant/export_file.dart';
 import '../controller/authentication_controller.dart';
 
 class AuthenticationPage extends StatefulWidget {
-  const AuthenticationPage({
-    super.key,
-  });
+  const AuthenticationPage({super.key});
   @override
   State<AuthenticationPage> createState() => _AuthenticationPageState();
 }
@@ -20,10 +18,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         return Scaffold(
           body: Center(
             child: ElevatedButton(
-                onPressed: () {
-                  controller.onTapGoogleSignUp();
-                },
-                child: const Text("Google")),
+              onPressed: () {
+                controller.onTapGoogleSignUp();
+              },
+              child: const Text("Google"),
+            ),
           ),
         );
       },

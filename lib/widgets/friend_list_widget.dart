@@ -11,14 +11,15 @@ class FriendListWidget extends StatefulWidget {
   String userId = "";
   String deviceToken = "";
   bool isUserOnline = false;
-  FriendListWidget(
-      {super.key,
-      required this.profileUrl,
-      required this.isUserOnline,
-      required this.name,
-      required this.userName,
-      required this.deviceToken,
-      required this.userId});
+  FriendListWidget({
+    super.key,
+    required this.profileUrl,
+    required this.isUserOnline,
+    required this.name,
+    required this.userName,
+    required this.deviceToken,
+    required this.userId,
+  });
 
   @override
   State<FriendListWidget> createState() => _FriendListWidgetState();
@@ -33,8 +34,9 @@ class _FriendListWidgetState extends State<FriendListWidget> {
       padding: const EdgeInsets.all(10),
       height: 80,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: .5),
-          borderRadius: BorderRadius.circular(10)),
+        border: Border.all(color: Colors.grey, width: .5),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Row(
         children: [
           ClipRRect(
@@ -43,11 +45,10 @@ class _FriendListWidgetState extends State<FriendListWidget> {
               height: 62,
               width: 62,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Colors.lightBlueAccent)),
-              child: NetworkImageWidget(
-                imageUrl: widget.profileUrl,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: Colors.lightBlueAccent),
               ),
+              child: NetworkImageWidget(imageUrl: widget.profileUrl),
             ),
           ),
           gap(width: 10),
@@ -56,8 +57,10 @@ class _FriendListWidgetState extends State<FriendListWidget> {
             children: [
               Text(
                 widget.name,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
               Text(
                 widget.userName,
@@ -70,11 +73,7 @@ class _FriendListWidgetState extends State<FriendListWidget> {
           ),
           const Spacer(),
           searchLoading
-              ? Image.asset(
-                  AppImages.loadingGif,
-                  width: 50,
-                  height: 50,
-                )
+              ? Image.asset(AppImages.loadingGif, width: 50, height: 50)
               : GestureDetector(
                   onTap: () {
                     setState(() {
@@ -87,15 +86,16 @@ class _FriendListWidgetState extends State<FriendListWidget> {
                     });
                   },
                   child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border:
-                              Border.all(color: Colors.black.withOpacity(.5)),
-                          color: Colors.lightBlueAccent.withOpacity(.5)),
-                      child: Center(child: Icon(Icons.add))),
-                )
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(color: Colors.black.withOpacity(.5)),
+                      color: Colors.lightBlueAccent.withOpacity(.5),
+                    ),
+                    child: Center(child: Icon(Icons.add)),
+                  ),
+                ),
         ],
       ),
     );

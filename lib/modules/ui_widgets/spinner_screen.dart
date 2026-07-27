@@ -69,14 +69,18 @@ class _SpinnerScreenState extends State<SpinnerScreen>
       WheelSegment("Empty", 0, color: Colors.red, probability: 0.20),
       WheelSegment("Empty", 0, color: Colors.blue, probability: 0.20),
     ];
-    _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
-    _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 10));
-    _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 10));
-    _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerCenter = ConfettiController(
+      duration: const Duration(seconds: 20),
+    );
+    _controllerCenterRight = ConfettiController(
+      duration: const Duration(seconds: 5),
+    );
+    _controllerCenterLeft = ConfettiController(
+      duration: const Duration(seconds: 5),
+    );
+    _controllerBottomCenter = ConfettiController(
+      duration: const Duration(seconds: 5),
+    );
   }
 
   @override
@@ -160,14 +164,13 @@ class _SpinnerScreenState extends State<SpinnerScreen>
               confettiController: _controllerCenter,
               blastDirectionality: BlastDirectionality
                   .explosive, // don't specify a direction, blast randomly
-              shouldLoop:
-              false,
+              shouldLoop: false,
               colors: const [
                 Colors.green,
                 Colors.blue,
                 Colors.pink,
                 Colors.orange,
-                Colors.purple
+                Colors.purple,
               ], // manually specify the colors to be used
               createParticlePath: drawStar, // define a custom shape/path.
             ),
@@ -185,7 +188,7 @@ class _SpinnerScreenState extends State<SpinnerScreen>
               colors: const [
                 Colors.green,
                 Colors.blue,
-                Colors.pink
+                Colors.pink,
               ], // manually specify the colors to be used
               strokeWidth: 1,
               strokeColor: Colors.white,
@@ -247,15 +250,18 @@ class _SpinnerScreenState extends State<SpinnerScreen>
     path.moveTo(size.width, halfWidth);
 
     for (double step = 0; step < fullAngle; step += degreesPerStep) {
-      path.lineTo(halfWidth + externalRadius * cos(step),
-          halfWidth + externalRadius * sin(step));
-      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
-          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+      path.lineTo(
+        halfWidth + externalRadius * cos(step),
+        halfWidth + externalRadius * sin(step),
+      );
+      path.lineTo(
+        halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+        halfWidth + internalRadius * sin(step + halfDegreesPerStep),
+      );
     }
     path.close();
     return path;
   }
-
 
   void loadUiImage(String assetPath) async {
     final ByteData data = await rootBundle.load(assetPath);

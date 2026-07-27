@@ -68,14 +68,16 @@ class _MyTextFieldFormState extends State<MyTextFieldForm> {
       // padding: const EdgeInsets.only(top: 15),
       height: widget.containerHeight ?? 55,
       decoration: BoxDecoration(
-          color: widget.filled ? widget.filledColor : AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(width: 1, color: AppColors.fadeGreyColor)),
+        color: widget.filled ? widget.filledColor : AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(width: 1, color: AppColors.fadeGreyColor),
+      ),
       margin: EdgeInsets.only(
-          top: widget.topPadding ?? 0,
-          bottom: widget.bottomPadding ?? 0,
-          left: widget.horizontalPadding ?? 0,
-          right: widget.horizontalPadding ?? 0),
+        top: widget.topPadding ?? 0,
+        bottom: widget.bottomPadding ?? 0,
+        left: widget.horizontalPadding ?? 0,
+        right: widget.horizontalPadding ?? 0,
+      ),
       // padding: EdgeInsets.only(left: 0,),
       child: TextFormField(
         focusNode: widget.focusNode,
@@ -113,9 +115,7 @@ class _MyTextFieldFormState extends State<MyTextFieldForm> {
             widget.onFieldSubmitted!(string);
           }
         },
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
