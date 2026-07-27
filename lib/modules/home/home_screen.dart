@@ -107,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: Get.width / 3 - 200,
+                          width: Get.width / 3-100,
                           padding: const EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +119,10 @@ class HomeScreen extends StatelessWidget {
                                 borderWidth: 4,
                               ),
                               SizedBox(height: 1),
-                              LinearProgressIndicator(value: .8),
+                              Padding(
+                                padding: EdgeInsets.only(right: 80),
+                                child: LinearProgressIndicator(value: .8),
+                              ),
                             ],
                           ),
                         ),
