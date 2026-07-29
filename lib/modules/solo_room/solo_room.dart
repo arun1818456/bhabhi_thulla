@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:bhabhi_thulla/models/game_room_model.dart';
+import 'package:bhabhi_thulla/modules/solo_room/solo_controller.dart';
 import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
 
 import '../../constant/export_file.dart';
@@ -9,36 +11,31 @@ class SoloRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<GameRoom> rooms = [
-      GameRoom(prize: 160, entryFee: 120),
-      GameRoom(prize: 380, entryFee: 300),
-      GameRoom(prize: 760, entryFee: 600),
-      GameRoom(prize: 1500, entryFee: 1200),
-      GameRoom(prize: 3200, entryFee: 2500),
-      GameRoom(prize: 6500, entryFee: 5200),
-    ];
-    return SizedBox(
-      height: Get.height / 2 + 30,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: rooms.length,
-        itemBuilder: (context, index) {
-          final room = rooms[index];
-          return AnimatorWidget(
-            effect: AnimationEffect.scale,
-            child: FlipRoomCard(room: room),
-          );
-        },
-      ),
+    return GetBuilder(
+      init: SoloRoomController(),
+      builder: (controller) => controller.prizeSelected != null
+          ? MatchCenterRow()
+          : SizedBox(
+              height: Get.height / 2 + 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.rooms.length,
+                itemBuilder: (context, index) {
+                  final room = controller.rooms[index];
+                  return AnimatorWidget(
+                    effect: AnimationEffect.scale,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.onTapToSelectPrize(room.entryFee);
+                      },
+                      child: FlipRoomCard(room: room),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
-}
-
-class GameRoom {
-  final int prize;
-  final int entryFee;
-
-  GameRoom({required this.prize, required this.entryFee});
 }
 
 class FlipRoomCard extends StatefulWidget {
@@ -285,6 +282,216 @@ class _FlipRoomCardState extends State<FlipRoomCard>
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
       ),
       child: child,
+    );
+  }
+}
+
+class MatchCenterRow extends StatelessWidget {
+  const MatchCenterRow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          /// PLAYER
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [PlayerCard(playerName: "ARUN", isMe: true)],
+          ),
+
+          SizedBox(width: size.width * .03),
+
+          /// VS
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                colors: [Color(0xff3E4BFF), Color(0xff8E2EFF)],
+              ),
+              boxShadow: [
+                BoxShadow(color: Colors.blue.withOpacity(.4), blurRadius: 25),
+              ],
+            ),
+            child: const Center(
+              child: Text(
+                "VS",
+                style: TextStyle(
+                  fontSize: 42,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(width: size.width * .03),
+
+          /// OPPONENTS
+          Row(
+            children: List.generate(
+              3,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: const EmptyPlayerCard(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+///------------------------------------------------------------
+/// PLAYER CARD
+///------------------------------------------------------------
+
+class PlayerCard extends StatelessWidget {
+  final String playerName;
+  final bool isMe;
+
+  const PlayerCard({super.key, required this.playerName, this.isMe = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xff39C5FF), width: 3),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xff3949AB), Color(0xff171D4E)],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(AppImages.p6, fit: BoxFit.cover),
+                ),
+              ),
+            ),
+
+            // Positioned(
+            //   left: -5,
+            //   top: 10,
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(6),
+            //     child: Image.asset("assets/india_flag.png", width: 38),
+            //   ),
+            // ),
+            Positioned(
+              bottom: -14,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xff19244A),
+                  border: Border.all(color: const Color(0xff43D8FF), width: 3),
+                ),
+                child: const Icon(Icons.star, color: Colors.cyanAccent),
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 28),
+
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          height: 41,
+          decoration: BoxDecoration(
+            color: const Color(0xff1A214B),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
+          child: MyText(
+            text: playerName,
+            borderColor: Colors.transparent,
+            borderWidth: 1,
+            fontSize: 22,
+            fontWeight: FontWeight.w100,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+///------------------------------------------------------------
+/// EMPTY CARD
+///------------------------------------------------------------
+
+class EmptyPlayerCard extends StatelessWidget {
+  const EmptyPlayerCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 130,
+          height: 130,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xff46C9FF), width: 3),
+            gradient: const LinearGradient(
+              colors: [Color(0xff222D74), Color(0xff11193F)],
+            ),
+          ),
+          child: Center(
+            child: Container(
+              width: 65,
+              height: 65,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white10,
+                border: Border.all(color: Colors.white24),
+              ),
+              child: const Icon(
+                Icons.person_outline,
+                color: Colors.white70,
+                size: 34,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 28),
+
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          height: 41,
+          decoration: BoxDecoration(
+            color: const Color(0xff1A214B),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
+          child: MyText(
+            text: "Search...",
+            borderColor: Colors.transparent,
+            borderWidth: 1,
+            fontSize: 22,
+            fontWeight: FontWeight.w100,
+          ),
+        ),
+      ],
     );
   }
 }

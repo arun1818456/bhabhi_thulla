@@ -3,6 +3,7 @@ import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 
 import '../../constant/export_file.dart';
 import '../../widgets/animaton_effect.dart';
+import '../ui_widgets/setting_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -172,7 +173,32 @@ class HomeScreen extends StatelessWidget {
                           size: 50,
                           iconImage: AppImages.settings,
                           text: "Settings",
-                          onTap: () {},
+                          onTap: () {
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              barrierLabel: "",
+                              barrierColor: Colors.black54,
+                              transitionDuration: const Duration(milliseconds: 300),
+                              pageBuilder: (_, __, ___) {
+                                return const Center(
+                                  child: SettingsDialog(),
+                                );
+                              },
+                              transitionBuilder: (context, animation, secondary, child) {
+                                return ScaleTransition(
+                                  scale: CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.elasticOut,
+                                  ),
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ],
                     ),

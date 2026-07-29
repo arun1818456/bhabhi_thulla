@@ -16,7 +16,7 @@ export 'package:bhabhi_thulla/widgets/my_text.dart';
 export 'package:bhabhi_thulla/modules/home/home_controller.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/commons.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/friends_room.dart';
-export 'package:bhabhi_thulla/modules/ui_widgets/solo_room.dart';
+export 'package:bhabhi_thulla/modules/solo_room/solo_room.dart';
 
 // Comman
 
