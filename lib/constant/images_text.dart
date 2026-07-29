@@ -1,9 +1,6 @@
 class AppImages {
   static const String path = "assets/images";
   static const String path2 = "assets/profiles";
-  static const String gifPath = "assets/gifs";
-  static const loadingGif = "$gifPath/loading.gif";
-  static const spinGif = "$gifPath/spinning-wheel.gif";
   static const String background = "$path/background.png";
   static const String diamond = "$path/diamond.png";
   static const String moneyBag = "$path/money_bag.png";
@@ -13,7 +10,6 @@ class AppImages {
   static const String leaderboard = "$path/leaderboard.png";
   static const String store = "$path/store.png";
   static const String gift = "$path/gift.png";
-  static const String spinner = "$gifPath/spinner.gif";
   static const String friendPlay = "$path/friend_play.png";
   static const String soloPlay = "$path/solo.png";
   static const String arrowBackBox = "$path/arrow_back_box.png";
@@ -56,5 +52,12 @@ class AppImages {
   static const String winStreak = "$path/win_streak.png";
   static const String bestWin = "$path/best_win.png";
   static const String spinBg = "$path/spin_bg.png";
+  static const String gameBg = "$path/game_bg.png";
+
+  //Game Gif Files
   static const String lockedGif = "$gifPath/locked.gif";
+  static const String gifPath = "assets/gifs";
+  static const loadingGif = "$gifPath/loading.gif";
+  static const String spinner = "$gifPath/spinner.gif";
+  static const spinGif = "$gifPath/spinning-wheel.gif";
 }

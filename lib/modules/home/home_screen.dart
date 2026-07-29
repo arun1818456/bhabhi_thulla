@@ -2,7 +2,7 @@ import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 
 import '../../constant/export_file.dart';
-import '../../widgets/animaton_effect.dart';
+import '../../widgets/animation_effect.dart';
 import '../ui_widgets/setting_dialog.dart';
 
 class HomeScreen extends StatelessWidget {

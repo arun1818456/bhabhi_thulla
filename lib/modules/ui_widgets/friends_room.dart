@@ -1,4 +1,4 @@
-import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
+import 'package:bhabhi_thulla/widgets/animation_effect.dart';
 import 'package:bhabhi_thulla/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';

@@ -86,7 +86,7 @@ class _Player2State extends State<Player2> {
   }
 
   bool once = false;
-  startTimer() {
+  void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (counter == 0) {
@@ -1073,7 +1073,6 @@ class _ThreePlayersState extends State<ThreePlayers> {
   List deck = [];
   int turn = 0;
   int counter = 10;
-  late Timer _timer;
   bool sideDeckShow = false;
   @override
   Widget build(BuildContext context) {
@@ -1800,7 +1799,6 @@ class _FourPlayerState extends State<FourPlayer> {
   List deck = [];
   int turn = 0;
   int counter = 10;
-  late Timer _timer;
   bool sideDeckShow = false;
   @override
   Widget build(BuildContext context) {
@@ -3271,7 +3269,6 @@ class _FivePlayerState extends State<FivePlayer> {
   List deck = [];
   int turn = 0;
   int counter = 10;
-  late Timer _timer;
   bool sideDeckShow = false;
   @override
   Widget build(BuildContext context) {

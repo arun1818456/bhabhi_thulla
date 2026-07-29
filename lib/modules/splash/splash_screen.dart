@@ -1,5 +1,5 @@
-import '../../../constant/export_file.dart';
-import '../controller/splash_controller.dart';
+import '../../constant/export_file.dart';
+import 'splash_controller.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

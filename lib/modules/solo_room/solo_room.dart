@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:bhabhi_thulla/models/game_room_model.dart';
 import 'package:bhabhi_thulla/modules/solo_room/solo_controller.dart';
-import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
-
+import 'package:bhabhi_thulla/widgets/animation_effect.dart';
 import '../../constant/export_file.dart';
+import '../game/game_screen.dart';
 
 class SoloRoom extends StatelessWidget {
   const SoloRoom({super.key});
@@ -82,7 +82,7 @@ class _FlipRoomCardState extends State<FlipRoomCard>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, a) {
         final angle = _controller.value * math.pi;
 
         return Transform(
@@ -294,51 +294,104 @@ class MatchCenterRow extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          /// PLAYER
-          Column(
+          const SizedBox(height: 50),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [PlayerCard(playerName: "ARUN", isMe: true)],
-          ),
-
-          SizedBox(width: size.width * .03),
-
-          /// VS
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                colors: [Color(0xff3E4BFF), Color(0xff8E2EFF)],
+            children: [
+              /// PLAYER
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [PlayerCard(playerName: "ARUN", isMe: true)],
               ),
-              boxShadow: [
-                BoxShadow(color: Colors.blue.withOpacity(.4), blurRadius: 25),
-              ],
-            ),
-            child: const Center(
-              child: Text(
-                "VS",
-                style: TextStyle(
-                  fontSize: 42,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
+
+              SizedBox(width: size.width * .03),
+
+              /// VS
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: const LinearGradient(
+                    colors: [Color(0xff3E4BFF), Color(0xff8E2EFF)],
+                  ),
+                  boxShadow: [
+                    BoxShadow(color: Colors.blue.withValues(alpha: .4), blurRadius: 25),
+                  ],
+                ),
+                child: const Center(
+                  child: Text(
+                    "VS",
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-            ),
+
+              SizedBox(width: size.width * .03),
+
+              /// OPPONENTS
+              Row(
+                children: List.generate(
+                  3,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: const EmptyPlayerCard(),
+                  ),
+                ),
+              ),
+            ],
           ),
-
-          SizedBox(width: size.width * .03),
-
-          /// OPPONENTS
-          Row(
-            children: List.generate(
-              3,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: const EmptyPlayerCard(),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 50,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFFFF176),
+                    Color(0xFFFFC107),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.black, width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.amber.withValues(
+                      alpha: 0.5,
+                    ),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.to(GameScreen());
+                  // CloudTransition.navigate(
+                  //   context,
+                  //   const ,
+                  // );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: const MyText(
+                  text: "Start Match",
+                  fontSize: 16,
+                  borderWidth: 3,
+                ),
               ),
             ),
           ),

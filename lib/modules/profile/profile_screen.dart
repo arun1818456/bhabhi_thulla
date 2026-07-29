@@ -1,6 +1,6 @@
 import 'package:bhabhi_thulla/constant/lists.dart';
 import 'package:bhabhi_thulla/modules/profile/profile_controller.dart';
-import 'package:bhabhi_thulla/widgets/animaton_effect.dart';
+import 'package:bhabhi_thulla/widgets/animation_effect.dart';
 
 import '../../constant/export_file.dart';
 
