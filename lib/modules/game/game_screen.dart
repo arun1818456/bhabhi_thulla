@@ -1,4 +1,5 @@
 import 'package:bhabhi_thulla/modules/game/game_controller.dart';
+import 'package:bhabhi_thulla/widgets/player_turn_timer.dart';
 
 import '../../constant/export_file.dart';
 
@@ -20,19 +21,14 @@ class GameScreen extends StatelessWidget {
 
             return Stack(
               children: [
-                // --- TOP BAR ICONS ---
+
                 Positioned(
                   top: 10,
                   left: 10,
                   child: _buildTopIcon(Icons.wifi_off, Colors.red),
                 ),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: _buildTopIcon(Icons.menu, Colors.black),
-                ),
 
-                // Top Player
+
                 Align(
                   alignment: const Alignment(0, -0.9),
                   child: PlayerWidget(
@@ -78,31 +74,28 @@ class GameScreen extends StatelessWidget {
 
                 // --- TABLE CARDS (Deck) ---
                 Positioned(
-                  top: h * 0.28,
-                  left: w * 0.3,
+                  top: h * 0.25,
+                  left: w * 0.2,
                   child: _buildDeckOnTable(),
                 ),
 
-                // --- BUTTONS ---
-                Positioned(
-                  bottom: h * 0.22,
-                  right: w * 0.04,
-                  child: Row(
-                    children: [
-                      _buildGameButton("Sort", const Color(0xff29b6f6)),
-                      const SizedBox(width: 10),
-                      _buildChatButton(),
-                    ],
-                  ),
-                ),
+                // // --- BUTTONS ---
+                // Positioned(
+                //   bottom: h * 0.22,
+                //   right: w * 0.04,
+                //   child: Row(
+                //     children: [
+                //       _buildGameButton("Sort", const Color(0xff29b6f6)),
+                //       const SizedBox(width: 10),
+                //       _buildChatButton(),
+                //     ],
+                //   ),
+                // ),
 
                 // --- CARDS HAND ---
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: h * 0.01),
-                    child: CardHand(),
-                  ),
+                  child: CardHand(),
                 ),
               ],
             );
@@ -125,8 +118,8 @@ class GameScreen extends StatelessWidget {
 
   Widget _buildDeckOnTable() {
     return Container(
-      width: 55,
-      height: 75,
+      width: 40,
+      height: 60,
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(8),
@@ -149,7 +142,7 @@ class GameScreen extends StatelessWidget {
           ),
           child: const Center(
             child: Text(
-              "TM",
+              "AIS",
               style: TextStyle(
                 color: Colors.orange,
                 fontSize: 10,
@@ -232,7 +225,7 @@ class PlayingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 65,
+      width: 100,
       height: 110,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -240,9 +233,9 @@ class PlayingCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade400, width: 0.8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: .3),
+            color: Colors.black.withValues(alpha: .6),
             blurRadius: 4,
-            offset: const Offset(1, 1),
+            offset: const Offset(-2, 1),
           ),
         ],
       ),
@@ -265,7 +258,7 @@ class PlayingCard extends StatelessWidget {
                 ),
                 Text(
                   suit,
-                  style: TextStyle(fontSize: 22, color: color, height: 1),
+                  style: TextStyle(fontSize: 18, color: color, height: 1),
                 ),
               ],
             ),
@@ -274,7 +267,7 @@ class PlayingCard extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(suit, style: TextStyle(fontSize: 55, color: color)),
+              child: Text(suit, style: TextStyle(fontSize: 42, color: color)),
             ),
           ),
         ],
@@ -304,11 +297,11 @@ class CardHand extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final w = MediaQuery.of(context).size.width;
-        const cardWidth = 65.0;
+        const cardWidth = 68.0;
 
         // Dynamic distance between cards based on available width
         final maxHandWidth = w * 0.7;
-        double distance = 30.0;
+        double distance = 45.0;
         if (cardWidth + (cards.length - 1) * distance > maxHandWidth) {
           distance = (maxHandWidth - cardWidth) / (cards.length - 1);
         }
@@ -325,12 +318,12 @@ class CardHand extends StatelessWidget {
               final relativeIndex = index - middleIndex;
 
               // Fan effect
-              final rotation = relativeIndex * 0.04;
-              final verticalOffset = (relativeIndex.abs() * 2.5);
+              final rotation = relativeIndex * 0.02;
+              final verticalOffset = (relativeIndex.abs() * 2.6);
 
               return Positioned(
                 left: index * distance,
-                bottom: -verticalOffset,
+                bottom: -verticalOffset-15,
                 child: Transform.rotate(
                   angle: rotation,
                   child: PlayingCard(
@@ -370,175 +363,135 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (cardsIcon && name == "Aa") _buildSideCards(isLeft: true),
-        const SizedBox(width: 8),
-        Column(
-          mainAxisSize: MainAxisSize.min,
+        Stack(
+          clipBehavior: Clip.none,
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                // Avatar Frame
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isUser ? Colors.yellow : const Color(0xff29b6f6),
-                      width: 2.5,
-                    ),
-                    boxShadow: [
-                      if (isUser)
-                        BoxShadow(
-                          color: Colors.yellow.withValues(alpha: 0.6),
-                          blurRadius: 12,
-                          spreadRadius: 2,
-                        ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      avatar,
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // Card Count Badge
-                if (cardCount > 0)
-                  Positioned(
-                    top: -2,
-                    right: -6,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 1,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.yellow.shade700,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.black, width: 1),
-                      ),
-                      child: Text(
-                        cardCount.toString(),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                // Winner Badge
-                if (isWinner)
-                  Positioned(
-                    top: -22,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: Colors.black, width: 1),
-                          ),
-                          child: const Text(
-                            "1st Winner",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 9,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.star, color: Colors.amber, size: 16),
-                      ],
-                    ),
-                  ),
-                // Status Icons (Mute/Eye)
-                if (statusIcons != null)
-                  Positioned(
-                    left: -22,
-                    top: 0,
-                    child: Column(
-                      children: statusIcons!
-                          .map(
-                            (icon) => Padding(
-                              padding: const EdgeInsets.only(bottom: 2),
-                              child: Icon(icon, color: Colors.white, size: 16),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 5),
-            // Player Name Label
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.75),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black, width: 1),
-              ),
-              child: Text(
-                name,
-                style: const TextStyle(
+            TurnTimer(
+              duration: const Duration(seconds:30),
+              isRunning: true,
+              borderRadius: 12,
+              onCompleted: (){
+                debugPrint("TIME OVER");
+              },
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
                   color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color:  Color(0xff29b6f6),
+                    width: 2,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    avatar,
+                    width: 50,
+                    height: 55,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
+            // // Card Count Badge
+            // if (cardCount > 0)
+            //   Positioned(
+            //     top: -2,
+            //     right: -6,
+            //     child: Container(
+            //       padding: const EdgeInsets.symmetric(
+            //         horizontal: 4,
+            //         vertical: 1,
+            //       ),
+            //       decoration: BoxDecoration(
+            //         color: Colors.yellow.shade700,
+            //         borderRadius: BorderRadius.circular(4),
+            //         border: Border.all(color: Colors.black, width: 1),
+            //       ),
+            //       child: Text(
+            //         cardCount.toString(),
+            //         style: const TextStyle(
+            //           fontSize: 10,
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // // Winner Badge
+            // if (isWinner)
+            //   Positioned(
+            //     top: -22,
+            //     left: 0,
+            //     right: 0,
+            //     child: Column(
+            //       children: [
+            //         Container(
+            //           padding: const EdgeInsets.symmetric(horizontal: 5),
+            //           decoration: BoxDecoration(
+            //             color: Colors.orange,
+            //             borderRadius: BorderRadius.circular(4),
+            //             border: Border.all(color: Colors.black, width: 1),
+            //           ),
+            //           child: const Text(
+            //             "1st Winner",
+            //             style: TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 9,
+            //               fontWeight: FontWeight.bold,
+            //             ),
+            //           ),
+            //         ),
+            //         const Icon(Icons.star, color: Colors.amber, size: 16),
+            //       ],
+            //     ),
+            //   ),
+            // // Status Icons (Mute/Eye)
+            // if (statusIcons != null)
+            //   Positioned(
+            //     left: -22,
+            //     top: 0,
+            //     child: Column(
+            //       children: statusIcons!
+            //           .map(
+            //             (icon) => Padding(
+            //           padding: const EdgeInsets.only(bottom: 2),
+            //           child: Icon(icon, color: Colors.white, size: 16),
+            //         ),
+            //       )
+            //           .toList(),
+            //     ),
+            //   ),
           ],
         ),
-        const SizedBox(width: 8),
-        if (cardsIcon && name == "A964") _buildSideCards(isLeft: false),
-      ],
-    );
-  }
-
-  Widget _buildSideCards({required bool isLeft}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(
-        3,
-        (index) => Transform.translate(
-          offset: Offset(isLeft ? (index * -12.0) : (index * 8.0), 0),
-          child: Container(
-            width: 28,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: Colors.white, width: 1.2),
-              boxShadow: const [
-                BoxShadow(color: Colors.black26, blurRadius: 2),
-              ],
+        const SizedBox(height: 3),
+        Container(
+          constraints: const BoxConstraints(
+            minWidth: 60,
+            maxWidth: 120,
+          ),
+          // width: 120,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Text(
+            name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w900,
             ),
-            child: const Center(
-              child: Text(
-                "TM",
-                style: TextStyle(
-                  color: Colors.orange,
-                  fontSize: 7,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            maxLines: 2,
+            textAlign: TextAlign.center,
           ),
         ),
-      ).toList(),
+      ],
     );
   }
 }
