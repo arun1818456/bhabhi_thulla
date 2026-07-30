@@ -1,10 +1,6 @@
 import 'dart:math' as math;
-
-import 'package:bhabhi_thulla/models/game_room_model.dart';
-import 'package:bhabhi_thulla/modules/solo_room/solo_controller.dart';
-import 'package:bhabhi_thulla/widgets/animation_effect.dart';
 import '../../constant/export_file.dart';
-import '../game/game_screen.dart';
+
 
 class SoloRoom extends StatelessWidget {
   const SoloRoom({super.key});
@@ -374,11 +370,11 @@ class MatchCenterRow extends StatelessWidget {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(GameScreen());
-                  // CloudTransition.navigate(
-                  //   context,
-                  //   const ,
-                  // );
+                  // Get.to(GameScreen());
+                  CloudTransition.push(
+                    context,
+                    const GameScreen(),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,

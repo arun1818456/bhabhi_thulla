@@ -1,4 +1,4 @@
-import 'package:bhabhi_thulla/constant/images_text.dart';
+import 'package:bhabhi_thulla/constant/app_images.dart';
 
 import '../constant/export_file.dart';
 import '../my_app.dart';

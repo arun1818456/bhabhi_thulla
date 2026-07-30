@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:bhabhi_thulla/constant/images_text.dart';
+import 'package:bhabhi_thulla/constant/app_images.dart';
 import 'package:flutter/material.dart';
 
 class BackgroundWidget extends StatelessWidget {
