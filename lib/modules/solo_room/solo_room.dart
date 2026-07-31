@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import '../../constant/export_file.dart';
 
-
 class SoloRoom extends StatelessWidget {
   const SoloRoom({super.key});
 
@@ -294,15 +293,12 @@ class MatchCenterRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 70),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               /// PLAYER
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [PlayerCard(playerName: "ARUN", isMe: true)],
-              ),
+              PlayerCard(playerName: "ARUN", isMe: true),
 
               SizedBox(width: size.width * .03),
 
@@ -316,7 +312,10 @@ class MatchCenterRow extends StatelessWidget {
                     colors: [Color(0xff3E4BFF), Color(0xff8E2EFF)],
                   ),
                   boxShadow: [
-                    BoxShadow(color: Colors.blue.withValues(alpha: .4), blurRadius: 25),
+                    BoxShadow(
+                      color: Colors.blue.withValues(alpha: .4),
+                      blurRadius: 25,
+                    ),
                   ],
                 ),
                 child: const Center(
@@ -339,7 +338,7 @@ class MatchCenterRow extends StatelessWidget {
                   3,
                   (index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: const EmptyPlayerCard(),
+                    child: PlayerCard(playerName: "Search...", isMe: false),
                   ),
                 ),
               ),
@@ -351,18 +350,13 @@ class MatchCenterRow extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFFFF176),
-                    Color(0xFFFFC107),
-                  ],
+                  colors: [Color(0xFFFFF176), Color(0xFFFFC107)],
                 ),
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: Colors.black, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.amber.withValues(
-                      alpha: 0.5,
-                    ),
+                    color: Colors.amber.withValues(alpha: 0.5),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -371,10 +365,7 @@ class MatchCenterRow extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // Get.to(GameScreen());
-                  CloudTransition.push(
-                    context,
-                    const GameScreen(),
-                  );
+                  CloudTransition.push(context, const GameScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
@@ -415,7 +406,8 @@ class PlayerCard extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Container(
-              width: 100,
+              width: 110,
+              height: 110,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: const Color(0xff39C5FF), width: 3),
@@ -425,43 +417,61 @@ class PlayerCard extends StatelessWidget {
                   colors: [Color(0xff3949AB), Color(0xff171D4E)],
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Image.asset(AppImages.p6, fit: BoxFit.cover),
-                ),
-              ),
+              child: isMe
+                  ? Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.asset(AppImages.p6, fit: BoxFit.cover),
+                      ),
+                    )
+                  : Center(
+                      child: Container(
+                        width: 65,
+                        height: 65,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white10,
+                          border: Border.all(color: Colors.white24),
+                        ),
+                        child: const Icon(
+                          Icons.person_outline,
+                          color: Colors.white70,
+                          size: 34,
+                        ),
+                      ),
+                    ),
             ),
-
-            // Positioned(
-            //   left: -5,
-            //   top: 10,
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(6),
-            //     child: Image.asset("assets/india_flag.png", width: 38),
-            //   ),
-            // ),
             Positioned(
-              bottom: -14,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xff19244A),
-                  border: Border.all(color: const Color(0xff43D8FF), width: 3),
-                ),
-                child: const Icon(Icons.star, color: Colors.cyanAccent),
+              left: 5,
+              top: 4,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Text("🇮🇳", style: TextStyle(fontSize: 25)),
               ),
             ),
+            if (isMe)
+              Positioned(
+                bottom: -14,
+                left: 0,
+                right: 0,
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xff19244A),
+                    border: Border.all(
+                      color: const Color(0xff43D8FF),
+                      width: 3,
+                    ),
+                  ),
+                  child: const Icon(Icons.star, color: Colors.cyanAccent),
+                ),
+              ),
           ],
         ),
-
         const SizedBox(height: 28),
-
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10),
           height: 41,
