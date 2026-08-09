@@ -54,6 +54,7 @@ class AppImages {
   static const String bestWin = "$path/best_win.png";
   static const String spinBg = "$path/spin_bg.png";
   static const String gameBg = "$path/game_bg.png";
+  static const String gameBg2 = "$path/game_bg2.png";
 
   //Game Gif Files
   static const String lockedGif = "$gifPath/locked.gif";

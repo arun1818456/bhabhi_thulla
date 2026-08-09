@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:bhabhi_thulla/constant/export_file.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/services.dart';
+import 'package:bhabhi_thulla/modules/splash/splash_controller.dart';
 import 'package:spinning_wheel/controller/spin_controller.dart';
 import 'package:spinning_wheel/models/wheel_label_style.dart';
 import 'package:spinning_wheel/models/wheel_segment.dart';
@@ -53,7 +54,10 @@ class _SpinnerScreenState extends State<SpinnerScreen>
         }
       }
     });
-    loadUiImage(AppImages.coin);
+    
+    // Use the pre-cached image from SplashController
+    coinImage = SplashController.coinUiImage;
+
     segments = [
       WheelSegment(
         "Jackpot!",

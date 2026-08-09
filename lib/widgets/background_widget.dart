@@ -30,6 +30,7 @@ class BackgroundWidget extends StatelessWidget {
               image ?? AppImages.background,
               opacity: AlwaysStoppedAnimation(opacity ?? .7),
               fit: BoxFit.cover,
+              gaplessPlayback: true,
             ),
           ),
           BackdropFilter(

@@ -190,6 +190,7 @@ class CloudAnimation extends StatelessWidget {
                   AppImages.cloud,
                   width: cloudWidth,
                   fit: BoxFit.contain,
+                  gaplessPlayback: true,
                   color: Colors.white.withValues(alpha: cloud.opacity),
                   colorBlendMode: BlendMode.modulate,
                 ),

@@ -11,7 +11,7 @@ class GameScreen extends StatelessWidget {
       init: GameController(),
       builder: (controller) => BackgroundWidget(
         opacity: 1,
-        image: AppImages.gameBg,
+        image: AppImages.gameBg2,
         padding: EdgeInsets.zero,
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -70,16 +70,19 @@ class GameScreen extends StatelessWidget {
                     isUser: true,
                   ),
                 ),
-                // --- TABLE CARDS (Deck) ---
+                // --- TABLE DECK ---
                 Positioned(
                   top: h * 0.25,
                   left: w * 0.2,
                   child: _buildDeckOnTable(),
                 ),
+
+                // --- CARDS ON TABLE ---
+                ..._buildCardsOnTable( controller.onTableThrowCards),
                 // --- CARDS HAND ---
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: HandCard(),
+                  child: HandCard(controller: controller,),
                 ),
               ],
             );
@@ -139,29 +142,62 @@ class GameScreen extends StatelessWidget {
     );
   }
 
+  List<Widget> _buildCardsOnTable( List cards) {
+    final positions = [
+      const Alignment(-0.01, -0.4), // Top
+      const Alignment(-0.30, 0.07), // Left
+      const Alignment(0.30, 0.05), // Right
+      const Alignment(-0.01, 0.3), // Bottom
+    ];
+
+    return List.generate(cards.length, (index) {
+      final card = cards[index];
+      return Align(
+        alignment: positions[index % positions.length],
+        child: PlayingCard(
+          value: card[0],
+          suit: card[1],
+          color: card[2],
+          width: 85,
+          height: 95,
+          isTransform: true,
+        ),
+      );
+    });
+  }
+
 }
 
 class PlayingCard extends StatelessWidget {
   final String value;
   final String suit;
   final Color color;
+  final double width;
+  final double height;
+  final bool isTransform;
 
   const PlayingCard({
     super.key,
     required this.value,
     required this.suit,
     required this.color,
+    this.width = 100,
+    this.height = 110,
+    this.isTransform = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 110,
+    Widget card = Container(
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade400, width: 0.8),
+        border: Border.all(
+          color: Colors.grey.shade400,
+          width: 0.8,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: .6),
@@ -181,16 +217,20 @@ class PlayingCard extends StatelessWidget {
                 Text(
                   value,
                   style: TextStyle(
-                    fontSize: 26,
+                    fontSize: width * 0.3,
                     fontWeight: FontWeight.w900,
                     color: color,
                     height: 1,
                   ),
                 ),
-                SizedBox(height: 3,),
+                const SizedBox(height: 3),
                 Text(
                   suit,
-                  style: TextStyle(fontSize: 18, color: color, height: 1),
+                  style: TextStyle(
+                    fontSize: width * 0.2,
+                    color: color,
+                    height: 1,
+                  ),
                 ),
               ],
             ),
@@ -198,38 +238,43 @@ class PlayingCard extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(suit, style: TextStyle(fontSize: 42, color: color)),
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Text(
+                suit,
+                style: TextStyle(
+                  fontSize: width * 0.42,
+                  color: color,
+                ),
+              ),
             ),
           ),
         ],
       ),
     );
+
+    // Transform sirf true hone par
+    if (isTransform) {
+      return Transform(
+        alignment: Alignment.bottomCenter,
+        transform: Matrix4.identity()
+          ..setEntry(3, 2, 0.0025)
+          ..rotateX(-0.50),
+        child: card,
+      );
+    }
+
+    // Normal card
+    return card;
   }
 }
 
 class HandCard extends StatelessWidget {
-  HandCard({super.key});
-
-  final List<List<dynamic>> cards = [
-    ["5", "♦", Colors.red],
-    ["J", "♣", Colors.black],
-    ["K", "♣", Colors.black],
-    ["3", "♥", Colors.red],
-    ["4", "♥", Colors.red],
-    ["4", "♠", Colors.black],
-    ["5", "♠", Colors.black],
-    ["6", "♠", Colors.black],
-    ["7", "♠", Colors.black],
-    ["8", "♠", Colors.red],
-    ["8", "♠", Colors.black],
-    ["8", "♠", Colors.black],
-    ["8", "♠", Colors.black],
-    ["8", "♠", Colors.black],
-  ];
+  const HandCard({super.key, required this.controller});
+  final GameController controller;
 
   @override
   Widget build(BuildContext context) {
+    final cards = controller.handCards;
     return LayoutBuilder(
       builder: (context, constraints) {
         final w = MediaQuery.of(context).size.width;
@@ -259,15 +304,15 @@ class HandCard extends StatelessWidget {
 
               return Positioned(
                 left: index * distance,
-                bottom: -verticalOffset-15,
+                bottom: -verticalOffset-25,
                 child: Transform.rotate(
                   angle: rotation,
                   child: GestureDetector(
                     onTap: (){
                       debugPrint("CARD TAPPED");
-                      cards.removeAt(index);
-                      GameController controller = Get.find();
+                      print(index);
                       controller.onTableThrowCards.add(cards[index]);
+                      cards.removeAt(index);
                       controller.update();
                     },
                     child: PlayingCard(
@@ -335,8 +380,8 @@ class PlayerWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
                     avatar,
-                    width: 50,
-                    height: 55,
+                    width: 38,
+                    height: 40,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -360,7 +405,7 @@ class PlayerWidget extends StatelessWidget {
             name,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 11,
+              fontSize: 10,
               fontWeight: FontWeight.w900,
             ),
             maxLines: 2,
