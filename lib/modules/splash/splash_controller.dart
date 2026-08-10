@@ -11,7 +11,7 @@ class SplashController extends GetxController {
 
     final List<String> allImages = [
       AppImages.background,
-      AppImages.diamond,
+      AppImages.diamonds,
       AppImages.moneyBag,
       AppImages.settings,
       AppImages.tutorial,

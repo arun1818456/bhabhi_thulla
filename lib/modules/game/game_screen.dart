@@ -84,16 +84,22 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           builder: (context, constraints) {
             final h = constraints.maxHeight;
             final w = constraints.maxWidth;
-            const cardWidth = 68.0; // hand card aur flying card ki width
-            const cardHeight = 100.0; // hand card aur flying card ki height
+            const cardWidth = 82.0; // hand card aur flying card ki width
+            const cardHeight = 80.0; // hand card aur flying card ki height
 
             // End destination: table ke beech ke bottom area mein card land kare.
             // Ye upar center pe nahi jaayega, balki neeche ki taraf hi rahega.
-            final endOffset = Offset(
-              w * 0.5 - cardWidth / 2,
-              h * 0.7 - cardHeight / 2,
+            final tableAlignment = const Alignment(-0.01, 0.3);
+
+            final tableCenter = Offset(
+              w / 2 + (w / 2) * tableAlignment.x,
+              h / 2 + (h / 2) * tableAlignment.y,
             );
 
+            final endOffset = Offset(
+              tableCenter.dx - cardWidth / 2,
+              tableCenter.dy - cardHeight / 2-5,
+            );
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -190,16 +196,16 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
           // Arc thoda downward hai taaki card zyada upar na jaye.
           // 6 pixel ka arc hai, isse card center ke upar nahi jaata.
-          final arc = sin(pi * t) * -6;
+          final arc = sin(pi * t) * -2;
           final rotatedPosition = position.translate(0, arc);
 
           // Card thoda rotate karegi jo realistic throw effect degi.
           // Shuruat mein -0.08 se lekar end pe +0.14 radians tak rotate hoti hai.
-          final rotation = lerpDouble(-0.08, 0.14, t)!;
+          final rotation = lerpDouble(-0.08, 0.00, t)!;
 
           // Scale animation thoda sa pulse deta hai.
           // Card flight mein 4% tak badi ho sakti hai mid-point pe.
-          final scale = 1 + 0.04 * sin(pi * t);
+          final scale = 1 + 0.3 * sin(pi * t); /// jaha se full screen per show karna hai jab thulla aayega
 
           return Positioned(
             left: rotatedPosition.dx,
@@ -209,9 +215,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               child: Transform.scale(
                 scale: scale,
                 child: PlayingCard(
-                  value: animCard.card[0] as String,
-                  suit: animCard.card[1] as String,
-                  color: animCard.card[2] as Color,
+                  value: animCard.card[0],
+                  suit: animCard.card[1],
                   width: cardWidth,
                   height: cardHeight,
                 ),
@@ -275,9 +280,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   List<Widget> _buildCardsOnTable(List cards) {
     final positions = [
-      const Alignment(-0.01, -0.4), // Top
-      const Alignment(-0.30, 0.07), // Left
-      const Alignment(0.30, 0.05), // Right
+      // const Alignment(-0.01, -0.4), // Top
+      // const Alignment(-0.30, 0.07), // Left
+      // const Alignment(0.30, 0.05), // Right
       const Alignment(-0.01, 0.3), // Bottom
     ];
 
@@ -288,7 +293,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         child: PlayingCard(
           value: card[0],
           suit: card[1],
-          color: card[2],
           width: 85,
           height: 95,
           isTransform: true,

@@ -62,4 +62,10 @@ class AppImages {
   static const loadingGif = "$gifPath/loading.gif";
   static const String spinner = "$gifPath/spinner.gif";
   static const spinGif = "$gifPath/spinning-wheel.gif";
+
+  /// Cards Suit
+  static const String spades = "$path/spades.png";
+  static const String hearts = "$path/hearts.png";
+  static const String diamonds = "$path/diamonds.png";
+  static const String clubs = "$path/clubs.png";
 }

@@ -1,3 +1,5 @@
+import 'package:bhabhi_thulla/constant/enums.dart';
+
 import '../../constant/export_file.dart';
 
 class MyHandCard extends StatelessWidget {
@@ -56,9 +58,8 @@ class MyHandCard extends StatelessWidget {
                     },
                     onTap: () {},
                     child: PlayingCard(
-                      value: cards[index][0] as String,
-                      suit: cards[index][1] as String,
-                      color: cards[index][2] as Color,
+                      value: cards[index][0] as int,
+                      suit: cards[index][1],
                     ),
                   ),
                 ),

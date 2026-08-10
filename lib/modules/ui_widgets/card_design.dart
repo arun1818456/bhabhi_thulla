@@ -1,9 +1,9 @@
+import '../../constant/enums.dart';
 import '../../constant/export_file.dart';
 
 class PlayingCard extends StatelessWidget {
-  final String value;
-  final String suit;
-  final Color color;
+  final int value;
+  final Suit suit;
   final double width;
   final double height;
   final bool isTransform;
@@ -12,7 +12,6 @@ class PlayingCard extends StatelessWidget {
     super.key,
     required this.value,
     required this.suit,
-    required this.color,
     this.width = 100,
     this.height = 110,
     this.isTransform = false,
@@ -39,41 +38,55 @@ class PlayingCard extends StatelessWidget {
         children: [
           Positioned(
             top: 4,
-            left: 4,
+            left: 9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  value,
+                  "$value",
                   style: TextStyle(
-                    fontSize: width * 0.3,
+                    fontSize: 30,
                     fontWeight: FontWeight.w900,
-                    color: color,
+                    color: suit == Suit.spades || suit == Suit.clubs
+                        ? Colors.black
+                        : Color(0xFF8C0505),
                     height: 1,
                   ),
                 ),
                 const SizedBox(height: 3),
-                Text(
-                  suit,
-                  style: TextStyle(
-                    fontSize: width * 0.2,
-                    color: color,
-                    height: 1,
-                  ),
+                Image.asset(
+                  suit == Suit.spades
+                      ? AppImages.spades
+                      : suit == Suit.hearts
+                      ? AppImages.hearts
+                      : suit == Suit.diamonds
+                      ? AppImages.diamonds
+                      : AppImages.clubs,
+                  width: 20,
+                  height: 20,
                 ),
+                const SizedBox(height: 3),
+                // Text(
+                //   "suit",
+                //   style: TextStyle(
+                //     fontSize: width * 0.2,
+                //     color: Colors.black,
+                //     height: 1,
+                //   ),
+                // ),
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: Text(
-                suit,
-                style: TextStyle(fontSize: width * 0.42, color: color),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(bottom: 5),
+          //     child: Text(
+          //       "$suit",
+          //       style: TextStyle(fontSize: width * 0.42, color: Colors.black),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
