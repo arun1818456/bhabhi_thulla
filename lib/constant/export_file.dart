@@ -22,6 +22,12 @@ export 'package:bhabhi_thulla/modules/game/game_screen.dart';
 export 'package:bhabhi_thulla/modules/solo_room/solo_controller.dart';
 export 'package:bhabhi_thulla/routes/cloud_navigation.dart';
 export 'package:bhabhi_thulla/widgets/animation_effect.dart';
-// Comman
+export 'package:bhabhi_thulla/modules/ui_widgets/player_profile_widget.dart';
+export 'package:bhabhi_thulla/modules/ui_widgets/card_design.dart';
+export 'package:bhabhi_thulla/modules/ui_widgets/my_hand_card.dart';
 
+// Comman
+export 'package:bhabhi_thulla/models/animated_card_model.dart';
+export 'package:bhabhi_thulla/modules/game/game_controller.dart';
+export 'package:bhabhi_thulla/widgets/player_turn_timer.dart';
 export 'package:get/get.dart';

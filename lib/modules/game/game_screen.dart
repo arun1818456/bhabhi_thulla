@@ -1,9 +1,76 @@
-import 'package:bhabhi_thulla/modules/game/game_controller.dart';
-import 'package:bhabhi_thulla/widgets/player_turn_timer.dart';
+import 'dart:math';
+import 'dart:ui';
 import '../../constant/export_file.dart';
 
-class GameScreen extends StatelessWidget {
+class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
+
+  @override
+  State<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
+  // Ye list currently flying card animations ko rakhti hai.
+  // Sirf ek animation ek time pe chalti hai, isliye agar ye khali nahi hai
+  // toh naya tap ignore ho jayega.
+  final List<AnimatingCardModel> _animatingCards = [];
+
+  @override
+  void dispose() {
+    for (final animCard in _animatingCards) {
+      animCard.controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _onHandCardTap(
+    GameController controller,
+    int index,
+    Offset startOffset,
+  ) {
+    // Agar ek card already throw ho rahi hai toh dusre tap ko ignore karo.
+    if (_animatingCards.isNotEmpty) return;
+    if (index < 0 || index >= controller.handCards.length) return;
+
+    final card = controller.handCards[index];
+    controller.handCards.removeAt(index);
+    controller.update();
+
+    // Animation duration 900ms hai. Ye card ko startOffset se endOffset tak
+    // curve ke saath move karega.
+    final animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    final animation = CurvedAnimation(
+      parent: animController,
+      curve: Curves.easeInOutCubic,
+    );
+
+    final animCard = AnimatingCardModel(
+      key: UniqueKey(),
+      card: card,
+      startOffset: startOffset,
+      controller: animController,
+      animation: animation,
+    );
+
+    animController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.onTableThrowCards.add(card);
+        controller.update();
+        setState(() {
+          _animatingCards.removeWhere((item) => item.key == animCard.key);
+        });
+        animCard.controller.dispose();
+      }
+    });
+
+    setState(() {
+      _animatingCards.add(animCard);
+    });
+    animController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +84,27 @@ class GameScreen extends StatelessWidget {
           builder: (context, constraints) {
             final h = constraints.maxHeight;
             final w = constraints.maxWidth;
+            const cardWidth = 68.0; // hand card aur flying card ki width
+            const cardHeight = 100.0; // hand card aur flying card ki height
+
+            // End destination: table ke beech ke bottom area mein card land kare.
+            // Ye upar center pe nahi jaayega, balki neeche ki taraf hi rahega.
+            final endOffset = Offset(
+              w * 0.5 - cardWidth / 2,
+              h * 0.7 - cardHeight / 2,
+            );
 
             return Stack(
+              clipBehavior: Clip.none,
               children: [
-
                 Positioned(
                   top: 10,
                   left: 10,
                   child: _buildTopIcon(Icons.wifi_off, Colors.red),
                 ),
-
-
                 Align(
                   alignment: const Alignment(0, -0.9),
-                  child: PlayerWidget(
+                  child: PlayerProfileWidget(
                     name: "Honey hr02",
                     avatar: AppImages.p1,
                     cardCount: 0,
@@ -38,10 +112,9 @@ class GameScreen extends StatelessWidget {
                     statusIcons: [Icons.speaker_notes_off, Icons.visibility],
                   ),
                 ),
-                // Left Player
                 Align(
                   alignment: const Alignment(-0.88, -0.15),
-                  child: PlayerWidget(
+                  child: PlayerProfileWidget(
                     name: "Aa",
                     avatar: AppImages.p2,
                     cardCount: 13,
@@ -49,10 +122,9 @@ class GameScreen extends StatelessWidget {
                     cardsIcon: true,
                   ),
                 ),
-                // Right Player
                 Align(
                   alignment: const Alignment(0.88, -0.15),
-                  child: PlayerWidget(
+                  child: PlayerProfileWidget(
                     name: "A964",
                     avatar: AppImages.p3,
                     cardCount: 11,
@@ -60,29 +132,35 @@ class GameScreen extends StatelessWidget {
                     cardsIcon: true,
                   ),
                 ),
-                // Bottom Left (User arun)
                 Align(
                   alignment: const Alignment(-0.88, 0.7),
-                  child: PlayerWidget(
+                  child: PlayerProfileWidget(
                     name: "arun",
                     avatar: AppImages.p8,
                     cardCount: 10,
                     isUser: true,
                   ),
                 ),
-                // --- TABLE DECK ---
                 Positioned(
                   top: h * 0.25,
                   left: w * 0.2,
                   child: _buildDeckOnTable(),
                 ),
-
-                // --- CARDS ON TABLE ---
-                ..._buildCardsOnTable( controller.onTableThrowCards),
-                // --- CARDS HAND ---
+                ..._buildCardsOnTable(controller.onTableThrowCards),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: HandCard(controller: controller,),
+                  child: MyHandCard(
+                    controller: controller,
+                    onCardTap: (index, startOffset) =>
+                        _onHandCardTap(controller, index, startOffset),
+                  ),
+                ),
+                ..._buildFlyingCards(
+                  w: w,
+                  h: h,
+                  cardWidth: cardWidth,
+                  cardHeight: cardHeight,
+                  endOffset: endOffset,
                 ),
               ],
             );
@@ -90,6 +168,59 @@ class GameScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFlyingCards({
+    required double w,
+    required double h,
+    required double cardWidth,
+    required double cardHeight,
+    required Offset endOffset,
+  }) {
+    return _animatingCards.map((animCard) {
+      return AnimatedBuilder(
+        animation: animCard.animation,
+        builder: (context, child) {
+          final t = animCard.animation.value;
+          final curve = Curves.easeInOut.transform(t);
+
+          // Start se end tak position interpolate ho rahi hai.
+          // startOffset tapped hand card ke global screen coordinates hai.
+          final position = Offset.lerp(animCard.startOffset, endOffset, curve)!;
+
+          // Arc thoda downward hai taaki card zyada upar na jaye.
+          // 6 pixel ka arc hai, isse card center ke upar nahi jaata.
+          final arc = sin(pi * t) * -6;
+          final rotatedPosition = position.translate(0, arc);
+
+          // Card thoda rotate karegi jo realistic throw effect degi.
+          // Shuruat mein -0.08 se lekar end pe +0.14 radians tak rotate hoti hai.
+          final rotation = lerpDouble(-0.08, 0.14, t)!;
+
+          // Scale animation thoda sa pulse deta hai.
+          // Card flight mein 4% tak badi ho sakti hai mid-point pe.
+          final scale = 1 + 0.04 * sin(pi * t);
+
+          return Positioned(
+            left: rotatedPosition.dx,
+            top: rotatedPosition.dy,
+            child: Transform.rotate(
+              angle: rotation,
+              child: Transform.scale(
+                scale: scale,
+                child: PlayingCard(
+                  value: animCard.card[0] as String,
+                  suit: animCard.card[1] as String,
+                  color: animCard.card[2] as Color,
+                  width: cardWidth,
+                  height: cardHeight,
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }).toList();
   }
 
   Widget _buildTopIcon(IconData icon, Color color) {
@@ -142,7 +273,7 @@ class GameScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildCardsOnTable( List cards) {
+  List<Widget> _buildCardsOnTable(List cards) {
     final positions = [
       const Alignment(-0.01, -0.4), // Top
       const Alignment(-0.30, 0.07), // Left
@@ -165,259 +296,7 @@ class GameScreen extends StatelessWidget {
       );
     });
   }
-
 }
-
-class PlayingCard extends StatelessWidget {
-  final String value;
-  final String suit;
-  final Color color;
-  final double width;
-  final double height;
-  final bool isTransform;
-
-  const PlayingCard({
-    super.key,
-    required this.value,
-    required this.suit,
-    required this.color,
-    this.width = 100,
-    this.height = 110,
-    this.isTransform = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Widget card = Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Colors.grey.shade400,
-          width: 0.8,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: .6),
-            blurRadius: 4,
-            offset: const Offset(-2, 1),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: 4,
-            left: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: width * 0.3,
-                    fontWeight: FontWeight.w900,
-                    color: color,
-                    height: 1,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  suit,
-                  style: TextStyle(
-                    fontSize: width * 0.2,
-                    color: color,
-                    height: 1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 5),
-              child: Text(
-                suit,
-                style: TextStyle(
-                  fontSize: width * 0.42,
-                  color: color,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    // Transform sirf true hone par
-    if (isTransform) {
-      return Transform(
-        alignment: Alignment.bottomCenter,
-        transform: Matrix4.identity()
-          ..setEntry(3, 2, 0.0025)
-          ..rotateX(-0.50),
-        child: card,
-      );
-    }
-
-    // Normal card
-    return card;
-  }
-}
-
-class HandCard extends StatelessWidget {
-  const HandCard({super.key, required this.controller});
-  final GameController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    final cards = controller.handCards;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final w = MediaQuery.of(context).size.width;
-        const cardWidth = 68.0;
-
-        // Dynamic distance between cards based on available width
-        final maxHandWidth = w * 0.7;
-        double distance = 45.0;
-        if (cardWidth + (cards.length - 1) * distance > maxHandWidth) {
-          distance = (maxHandWidth - cardWidth) / (cards.length - 1);
-        }
-
-        final totalWidth = cardWidth + (cards.length - 1) * distance;
-
-        return SizedBox(
-          height: 125,
-          width: totalWidth,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: List.generate(cards.length, (index) {
-              final middleIndex = (cards.length - 1) / 2;
-              final relativeIndex = index - middleIndex;
-
-              // Fan effect
-              final rotation = relativeIndex * 0.018;
-              final verticalOffset = (relativeIndex.abs() * 2.6);
-
-              return Positioned(
-                left: index * distance,
-                bottom: -verticalOffset-25,
-                child: Transform.rotate(
-                  angle: rotation,
-                  child: GestureDetector(
-                    onTap: (){
-                      debugPrint("CARD TAPPED");
-                      print(index);
-                      controller.onTableThrowCards.add(cards[index]);
-                      cards.removeAt(index);
-                      controller.update();
-                    },
-                    child: PlayingCard(
-                      value: cards[index][0] as String,
-                      suit: cards[index][1] as String,
-                      color: cards[index][2] as Color,
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class PlayerWidget extends StatelessWidget {
-  final String name;
-  final String avatar;
-  final int cardCount;
-  final bool isUser;
-  final bool isWinner;
-  final List<IconData>? statusIcons;
-  final bool cardsIcon;
-
-  const PlayerWidget({
-    super.key,
-    required this.name,
-    required this.avatar,
-    required this.cardCount,
-    this.isUser = false,
-    this.isWinner = false,
-    this.statusIcons,
-    this.cardsIcon = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            TurnTimer(
-              duration: const Duration(seconds:30),
-              isRunning: true,
-              borderRadius: 12,
-              onCompleted: (){
-                debugPrint("TIME OVER");
-              },
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color:  Color(0xff29b6f6),
-                    width: 2,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    avatar,
-                    width: 38,
-                    height: 40,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-            ),
-
-          ],
-        ),
-        const SizedBox(height: 3),
-        Container(
-          constraints: const BoxConstraints(
-            minWidth: 60,
-            maxWidth: 120,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Text(
-            name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: FontWeight.w900,
-            ),
-            maxLines: 2,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
 
 // // --- BUTTONS ---
 // Positioned(
