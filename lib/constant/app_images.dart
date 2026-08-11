@@ -1,6 +1,8 @@
 class AppImages {
   static const String path = "assets/images";
   static const String path2 = "assets/profiles";
+  static const String path3 = "assets/cards_img";
+
   static const String background = "$path/background.png";
   static const String diamond = "$path/diamond.png";
   static const String moneyBag = "$path/money_bag.png";
@@ -68,4 +70,18 @@ class AppImages {
   static const String hearts = "$path/hearts.png";
   static const String diamonds = "$path/diamonds.png";
   static const String clubs = "$path/clubs.png";
+  // cards ui
+  static const String jClubs = "$path3/j_clubs.png";
+  static const String jDiamonds = "$path3/j_diamonds.png";
+  static const String jHearts = "$path3/j_hearts.png";
+  static const String jSpades = "$path3/j_spades.png";
+  static const String qClubs = "$path3/q_clubs.png";
+  static const String qDiamonds = "$path3/q_diamonds.png";
+  static const String qHearts = "$path3/q_hearts.png";
+  static const String qSpades = "$path3/q_spades.png";
+  static const String kClubs = "$path3/k_clubs.png";
+  static const String kDiamonds = "$path3/k_diamonds.png";
+  static const String kHearts = "$path3/k_hearts.png";
+  static const String kSpades = "$path3/k_spades.png";
+
 }

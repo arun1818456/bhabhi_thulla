@@ -1,20 +1,22 @@
 
+import 'package:bhabhi_thulla/constant/enums.dart';
 import 'package:bhabhi_thulla/constant/export_file.dart';
 
 class GameController extends GetxController{
   int players =2;
   List onTableThrowCards=[];
   final List<List<dynamic>> handCards = [
-    ["5", "♦", Colors.red],
-    ["J", "♣", Colors.black],
-    ["K", "♣", Colors.black],
-    ["3", "♥", Colors.red],
-    ["4", "♥", Colors.red],
-    ["4", "♠", Colors.black],
-    ["5", "♠", Colors.black],
-    ["6", "♠", Colors.black],
-    ["7", "♠", Colors.black],
-    ["8", "♠", Colors.black],
+    [5, Suit.diamonds],
+    [11, Suit.hearts],
+    [12, Suit.hearts],
+    [13, Suit.clubs],
+    [3, Suit.spades],
+    [4,  Suit.hearts],
+    [4, Suit.clubs],
+    [5,  Suit.spades],
+    [6,  Suit.spades],
+    [7,  Suit.hearts],
+    [12, Suit.hearts],
   ];
 
   @override
