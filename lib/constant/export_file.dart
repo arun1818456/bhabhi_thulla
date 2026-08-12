@@ -24,6 +24,8 @@ export 'package:bhabhi_thulla/routes/cloud_navigation.dart';
 export 'package:bhabhi_thulla/widgets/animation_effect.dart';
 export 'package:bhabhi_thulla/modules/friends/friends_screen.dart';
 export 'package:bhabhi_thulla/modules/friends/friends_controller.dart';
+export 'package:bhabhi_thulla/modules/ranks/ranks_screen.dart';
+export 'package:bhabhi_thulla/modules/ranks/ranks_controller.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/player_profile_widget.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/card_design.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/my_hand_card.dart';

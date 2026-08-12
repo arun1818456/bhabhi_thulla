@@ -1,5 +1,6 @@
 import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
+import 'package:bhabhi_thulla/modules/ranks/ranks_screen.dart';
 
 import '../../constant/export_file.dart';
 import '../../widgets/animation_effect.dart';
@@ -22,12 +23,13 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode) ...[
+                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode || controller.isRanksMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isSoloMode = false;
                             controller.isFriendPlayMode = false;
                             controller.isFriendsMode = false;
+                            controller.isRanksMode = false;
                             controller.update();
                           },
                           splashColor: Colors.transparent,
@@ -46,7 +48,9 @@ class HomeScreen extends StatelessWidget {
                                     ? "Custom Room"
                                     : controller.isSoloMode 
                                         ? "Solo Mode"
-                                        : "Friends",
+                                        : controller.isFriendsMode
+                                            ? "Friends"
+                                            : "Global Ranks",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -54,7 +58,8 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ] else if (controller.isProfileMode) ...[
+                      ]
+else if (controller.isProfileMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isProfileMode = false;
@@ -157,6 +162,8 @@ class HomeScreen extends StatelessWidget {
                 Center(child: FriendRoomScreen()),
               ] else if (controller.isFriendsMode) ...[
                 Center(child: FriendsScreen()),
+              ] else if (controller.isRanksMode) ...[
+                Center(child: RanksScreen()),
               ] else if (controller.spinPage) ...[
                 Center(child: SpinnerScreen()),
               ] else ...[
@@ -221,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                         chipWithTxt(
                           iconImage: AppImages.leaderboard,
                           text: "Ranks",
-                          onTap: () {},
+                          onTap: controller.onTapToRanks,
                         ),
                         const SizedBox(width: 25),
                         chipWithTxt(

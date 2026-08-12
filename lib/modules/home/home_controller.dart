@@ -5,7 +5,9 @@ class HomeController extends GetxController {
   bool isFriendPlayMode = false;
   bool isProfileMode = false;
   bool isFriendsMode = false;
+  bool isRanksMode = false;
   bool spinPage = false;
+
   void onTapSoloPlay() {
     isSoloMode = true;
     update();
@@ -23,6 +25,11 @@ class HomeController extends GetxController {
 
   void onTapToFriends() {
     isFriendsMode = true;
+    update();
+  }
+
+  void onTapToRanks() {
+    isRanksMode = true;
     update();
   }
 
