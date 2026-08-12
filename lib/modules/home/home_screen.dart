@@ -1,6 +1,7 @@
 import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 import 'package:bhabhi_thulla/modules/ranks/ranks_screen.dart';
+import 'package:bhabhi_thulla/modules/rewards/rewards_screen.dart';
 
 import '../../constant/export_file.dart';
 import '../../widgets/animation_effect.dart';
@@ -23,13 +24,14 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode || controller.isRanksMode) ...[
+                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode || controller.isRanksMode || controller.isRewardsMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isSoloMode = false;
                             controller.isFriendPlayMode = false;
                             controller.isFriendsMode = false;
                             controller.isRanksMode = false;
+                            controller.isRewardsMode = false;
                             controller.update();
                           },
                           splashColor: Colors.transparent,
@@ -50,7 +52,9 @@ class HomeScreen extends StatelessWidget {
                                         ? "Solo Mode"
                                         : controller.isFriendsMode
                                             ? "Friends"
-                                            : "Global Ranks",
+                                            : controller.isRanksMode
+                                                ? "Global Ranks"
+                                                : "Daily Rewards",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -164,6 +168,8 @@ else if (controller.isProfileMode) ...[
                 Center(child: FriendsScreen()),
               ] else if (controller.isRanksMode) ...[
                 Center(child: RanksScreen()),
+              ] else if (controller.isRewardsMode) ...[
+                Center(child: RewardsScreen()),
               ] else if (controller.spinPage) ...[
                 Center(child: SpinnerScreen()),
               ] else ...[
@@ -259,7 +265,7 @@ else if (controller.isProfileMode) ...[
                           size: 55,
                           iconImage: AppImages.gift,
                           text: "Rewards",
-                          onTap: () {},
+                          onTap: controller.onTapToRewards,
                         ),
                         const SizedBox(height: 15),
                         chipWithTxt(

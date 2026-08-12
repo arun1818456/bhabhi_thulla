@@ -6,6 +6,7 @@ class HomeController extends GetxController {
   bool isProfileMode = false;
   bool isFriendsMode = false;
   bool isRanksMode = false;
+  bool isRewardsMode = false;
   bool spinPage = false;
 
   void onTapSoloPlay() {
@@ -30,6 +31,11 @@ class HomeController extends GetxController {
 
   void onTapToRanks() {
     isRanksMode = true;
+    update();
+  }
+
+  void onTapToRewards() {
+    isRewardsMode = true;
     update();
   }
 
