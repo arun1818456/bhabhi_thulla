@@ -22,11 +22,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (controller.isSoloMode || controller.isFriendMode) ...[
+                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isSoloMode = false;
-                            controller.isFriendMode = false;
+                            controller.isFriendPlayMode = false;
+                            controller.isFriendsMode = false;
                             controller.update();
                           },
                           splashColor: Colors.transparent,
@@ -41,9 +42,11 @@ class HomeScreen extends StatelessWidget {
                                 width: 55,
                               ),
                               MyText(
-                                text: controller.isFriendMode
+                                text: controller.isFriendPlayMode
                                     ? "Custom Room"
-                                    : "Solo Mode",
+                                    : controller.isSoloMode 
+                                        ? "Solo Mode"
+                                        : "Friends",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -150,8 +153,10 @@ class HomeScreen extends StatelessWidget {
                 Center(child: SoloRoom()),
               ] else if (controller.isProfileMode) ...[
                 Center(child: ProfileScreen()),
-              ] else if (controller.isFriendMode) ...[
+              ] else if (controller.isFriendPlayMode) ...[
                 Center(child: FriendRoomScreen()),
+              ] else if (controller.isFriendsMode) ...[
+                Center(child: FriendsScreen()),
               ] else if (controller.spinPage) ...[
                 Center(child: SpinnerScreen()),
               ] else ...[
@@ -229,7 +234,7 @@ class HomeScreen extends StatelessWidget {
                         chipWithTxt(
                           iconImage: AppImages.friends,
                           text: "Friends",
-                          onTap: () {},
+                          onTap: controller.onTapToFriends,
                         ),
                       ],
                     ),

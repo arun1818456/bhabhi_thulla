@@ -280,9 +280,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   List<Widget> _buildCardsOnTable(List cards) {
     final positions = [
-      const Alignment(-0.01, -0.4), // Top
-      const Alignment(-0.30, 0.07), // Left
-      const Alignment(0.30, 0.05), // Right
+      // const Alignment(-0.01, -0.4), // Top
+      // const Alignment(-0.30, 0.07), // Left
+      // const Alignment(0.30, 0.05), // Right
       const Alignment(-0.01, 0.3), // Bottom
     ];
 

@@ -2,8 +2,9 @@ import 'package:bhabhi_thulla/constant/export_file.dart';
 
 class HomeController extends GetxController {
   bool isSoloMode = false;
-  bool isFriendMode = false;
+  bool isFriendPlayMode = false;
   bool isProfileMode = false;
+  bool isFriendsMode = false;
   bool spinPage = false;
   void onTapSoloPlay() {
     isSoloMode = true;
@@ -11,12 +12,17 @@ class HomeController extends GetxController {
   }
 
   void onTapFriendPlay() {
-    isFriendMode = true;
+    isFriendPlayMode = true;
     update();
   }
 
   void onTapToProfile() {
     isProfileMode = true;
+    update();
+  }
+
+  void onTapToFriends() {
+    isFriendsMode = true;
     update();
   }
 
