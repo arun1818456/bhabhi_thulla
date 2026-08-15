@@ -10,9 +10,6 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
-  // Ye list currently flying card animations ko rakhti hai.
-  // Sirf ek animation ek time pe chalti hai, isliye agar ye khali nahi hai
-  // toh naya tap ignore ho jayega.
   final List<AnimatingCardModel> _animatingCards = [];
 
   @override
@@ -23,12 +20,20 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  static const List<Alignment> tablePositions = [
+    Alignment(-0.01, -0.4), // Top
+    Alignment(-0.30, 0.07), // Left
+    Alignment(0.30, 0.05), // Right
+    Alignment(-0.01, 0.3), // Bottom
+  ];
+
   void _onHandCardTap(
     GameController controller,
     int index,
     Offset startOffset,
+    double w,
+    double h,
   ) {
-    // Agar ek card already throw ho rahi hai toh dusre tap ko ignore karo.
     if (_animatingCards.isNotEmpty) return;
     if (index < 0 || index >= controller.handCards.length) return;
 
@@ -36,8 +41,16 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     controller.handCards.removeAt(index);
     controller.update();
 
-    // Animation duration 900ms hai. Ye card ko startOffset se endOffset tak
-    // curve ke saath move karega.
+    final targetAlignment =
+        tablePositions[controller.onTableThrowCards.length % tablePositions.length];
+    const targetWidth = 85.0;
+    const targetHeight = 95.0;
+
+    final endOffset = Offset(
+      (w / 2 + targetAlignment.x * w / 2) - targetWidth / 2,
+      (h / 2 + targetAlignment.y * h / 2) - targetHeight / 2,
+    );
+
     final animController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -51,6 +64,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       key: UniqueKey(),
       card: card,
       startOffset: startOffset,
+      endOffset: endOffset,
       controller: animController,
       animation: animation,
     );
@@ -84,22 +98,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           builder: (context, constraints) {
             final h = constraints.maxHeight;
             final w = constraints.maxWidth;
-            const cardWidth = 82.0; // hand card aur flying card ki width
-            const cardHeight = 80.0; // hand card aur flying card ki height
 
-            // End destination: table ke beech ke bottom area mein card land kare.
-            // Ye upar center pe nahi jaayega, balki neeche ki taraf hi rahega.
-            final tableAlignment = const Alignment(-0.01, 0.3);
-
-            final tableCenter = Offset(
-              w / 2 + (w / 2) * tableAlignment.x,
-              h / 2 + (h / 2) * tableAlignment.y,
-            );
-
-            final endOffset = Offset(
-              tableCenter.dx - cardWidth / 2,
-              tableCenter.dy - cardHeight / 2-5,
-            );
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -143,7 +142,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   child: PlayerProfileWidget(
                     name: "arun",
                     avatar: AppImages.p8,
-                    cardCount: 10,
+                    cardCount: controller.handCards.length,
                     isUser: true,
                   ),
                 ),
@@ -158,15 +157,15 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   child: MyHandCard(
                     controller: controller,
                     onCardTap: (index, startOffset) =>
-                        _onHandCardTap(controller, index, startOffset),
+                        _onHandCardTap(controller, index, startOffset, w, h),
                   ),
                 ),
                 ..._buildFlyingCards(
+                  controller: controller,
                   w: w,
                   h: h,
-                  cardWidth: cardWidth,
-                  cardHeight: cardHeight,
-                  endOffset: endOffset,
+                  cardWidth: 85,
+                  cardHeight: 95,
                 ),
               ],
             );
@@ -177,11 +176,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildFlyingCards({
+    required GameController controller,
     required double w,
     required double h,
     required double cardWidth,
     required double cardHeight,
-    required Offset endOffset,
   }) {
     return _animatingCards.map((animCard) {
       return AnimatedBuilder(
@@ -190,36 +189,28 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           final t = animCard.animation.value;
           final curve = Curves.easeInOut.transform(t);
 
-          // Start se end tak position interpolate ho rahi hai.
-          // startOffset tapped hand card ke global screen coordinates hai.
-          final position = Offset.lerp(animCard.startOffset, endOffset, curve)!;
+          final position =
+              Offset.lerp(animCard.startOffset, animCard.endOffset, curve)!;
 
-          // Arc thoda downward hai taaki card zyada upar na jaye.
-          // 6 pixel ka arc hai, isse card center ke upar nahi jaata.
           final arc = sin(pi * t) * -2;
           final rotatedPosition = position.translate(0, arc);
 
-          // Card thoda rotate karegi jo realistic throw effect degi.
-          // Shuruat mein -0.08 se lekar end pe +0.14 radians tak rotate hoti hai.
-          final rotation = lerpDouble(-0.08, 0.00, t)!;
-
-          // Scale animation thoda sa pulse deta hai.
-          // Card flight mein 4% tak badi ho sakti hai mid-point pe.
-          final scale = 1 + 0.3 * sin(pi * t); /// jaha se full screen per show karna hai jab thulla aayega
+          final List<double> tableRotations = [0.05, -0.08, 0.03, -0.04];
+          final targetRotation =
+              tableRotations[controller.onTableThrowCards.length % tableRotations.length];
+          final rotation = lerpDouble(-0.02, targetRotation, t)!;
 
           return Positioned(
             left: rotatedPosition.dx,
             top: rotatedPosition.dy,
             child: Transform.rotate(
               angle: rotation,
-              child: Transform.scale(
-                scale: scale,
-                child: PlayingCard(
-                  value: animCard.card[0],
-                  suit: animCard.card[1],
-                  width: cardWidth,
-                  height: cardHeight,
-                ),
+              child: PlayingCard(
+                value: animCard.card[0],
+                suit: animCard.card[1],
+                width: cardWidth,
+                height: cardHeight,
+                isTransform: true,
               ),
             ),
           );
@@ -279,160 +270,24 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   List<Widget> _buildCardsOnTable(List cards) {
-    final positions = [
-      // const Alignment(-0.01, -0.4), // Top
-      // const Alignment(-0.30, 0.07), // Left
-      // const Alignment(0.30, 0.05), // Right
-      const Alignment(-0.01, 0.3), // Bottom
-    ];
-
     return List.generate(cards.length, (index) {
       final card = cards[index];
+      final List<double> tableRotations = [0.05, -0.08, 0.03, -0.04];
+      final double rotation = tableRotations[index % tableRotations.length];
+
       return Align(
-        alignment: positions[index % positions.length],
-        child: PlayingCard(
-          value: card[0],
-          suit: card[1],
-          width: 85,
-          height: 95,
-          isTransform: true,
+        alignment: tablePositions[index % tablePositions.length],
+        child: Transform.rotate(
+          angle: rotation,
+          child: PlayingCard(
+            value: card[0],
+            suit: card[1],
+            width: 85,
+            height: 95,
+            isTransform: true,
+          ),
         ),
       );
     });
   }
 }
-
-// // --- BUTTONS ---
-// Positioned(
-//   bottom: h * 0.22,
-//   right: w * 0.04,
-//   child: Row(
-//     children: [
-//       _buildGameButton("Sort", const Color(0xff29b6f6)),
-//       const SizedBox(width: 10),
-//       _buildChatButton(),
-//     ],
-//   ),
-// ),
-// // Card Count Badge
-// if (cardCount > 0)
-//   Positioned(
-//     top: -2,
-//     right: -6,
-//     child: Container(
-//       padding: const EdgeInsets.symmetric(
-//         horizontal: 4,
-//         vertical: 1,
-//       ),
-//       decoration: BoxDecoration(
-//         color: Colors.yellow.shade700,
-//         borderRadius: BorderRadius.circular(4),
-//         border: Border.all(color: Colors.black, width: 1),
-//       ),
-//       child: Text(
-//         cardCount.toString(),
-//         style: const TextStyle(
-//           fontSize: 10,
-//           fontWeight: FontWeight.bold,
-//           color: Colors.black,
-//         ),
-//       ),
-//     ),
-//   ),
-// // Winner Badge
-// if (isWinner)
-//   Positioned(
-//     top: -22,
-//     left: 0,
-//     right: 0,
-//     child: Column(
-//       children: [
-//         Container(
-//           padding: const EdgeInsets.symmetric(horizontal: 5),
-//           decoration: BoxDecoration(
-//             color: Colors.orange,
-//             borderRadius: BorderRadius.circular(4),
-//             border: Border.all(color: Colors.black, width: 1),
-//           ),
-//           child: const Text(
-//             "1st Winner",
-//             style: TextStyle(
-//               color: Colors.white,
-//               fontSize: 9,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ),
-//         const Icon(Icons.star, color: Colors.amber, size: 16),
-//       ],
-//     ),
-//   ),
-// // Status Icons (Mute/Eye)
-// if (statusIcons != null)
-//   Positioned(
-//     left: -22,
-//     top: 0,
-//     child: Column(
-//       children: statusIcons!
-//           .map(
-//             (icon) => Padding(
-//           padding: const EdgeInsets.only(bottom: 2),
-//           child: Icon(icon, color: Colors.white, size: 16),
-//         ),
-//       )
-//           .toList(),
-//     ),
-//   ),
-// Widget _buildGameButton(String text, Color color) {
-//   return Container(
-//     width: 100,
-//     height: 45,
-//     decoration: BoxDecoration(
-//       gradient: LinearGradient(
-//         begin: Alignment.topCenter,
-//         end: Alignment.bottomCenter,
-//         colors: [color.withValues(alpha: 0.7), color],
-//       ),
-//       borderRadius: BorderRadius.circular(12),
-//       border: Border.all(color: Colors.white, width: 2.5),
-//       boxShadow: [
-//         BoxShadow(
-//           color: Colors.black.withValues(alpha: 0.3),
-//           blurRadius: 4,
-//           offset: const Offset(0, 3),
-//         ),
-//       ],
-//     ),
-//     child: Center(
-//       child: Text(
-//         text,
-//         style: const TextStyle(
-//           color: Colors.white,
-//           fontWeight: FontWeight.w900,
-//           fontSize: 22,
-//           shadows: [Shadow(blurRadius: 2, offset: Offset(1, 1))],
-//         ),
-//       ),
-//     ),
-//   );
-// }
-//
-// Widget _buildChatButton() {
-//   return Container(
-//     width: 45,
-//     height: 45,
-//     decoration: BoxDecoration(
-//       color: Colors.amber,
-//       borderRadius: BorderRadius.circular(12),
-//       border: Border.all(color: Colors.white, width: 2.5),
-//       boxShadow: [
-//         BoxShadow(
-//           color: Colors.black.withValues(alpha: 0.3),
-//           blurRadius: 4,
-//           offset: const Offset(0, 3),
-//         ),
-//       ],
-//     ),
-//     child: const Icon(Icons.chat_bubble, color: Colors.white, size: 26),
-//   );
-// }

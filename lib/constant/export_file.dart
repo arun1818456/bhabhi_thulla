@@ -37,3 +37,4 @@ export 'package:bhabhi_thulla/models/animated_card_model.dart';
 export 'package:bhabhi_thulla/modules/game/game_controller.dart';
 export 'package:bhabhi_thulla/widgets/player_turn_timer.dart';
 export 'package:get/get.dart';
+export 'package:bhabhi_thulla/mixin/base_class.dart';

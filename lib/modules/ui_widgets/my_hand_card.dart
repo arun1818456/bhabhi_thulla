@@ -60,6 +60,8 @@ class MyHandCard extends StatelessWidget {
                     child: PlayingCard(
                       value: cards[index][0] as int,
                       suit: cards[index][1],
+                      width: cardWidth,
+                      height: 105,
                     ),
                   ),
                 ),

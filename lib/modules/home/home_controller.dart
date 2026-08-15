@@ -1,4 +1,5 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
+import 'package:bhabhi_thulla/controllers/socket_controller.dart';
 
 class HomeController extends GetxController {
   bool isSoloMode = false;
@@ -8,6 +9,17 @@ class HomeController extends GetxController {
   bool isRanksMode = false;
   bool isRewardsMode = false;
   bool spinPage = false;
+
+  @override
+  void onInit() {
+    onInitData();
+    super.onInit();
+  }
+
+  void onInitData(){
+    MySocketController controller =MySocketController();
+    controller.initializeSocket();
+  }
 
   void onTapSoloPlay() {
     isSoloMode = true;

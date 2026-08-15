@@ -52,7 +52,6 @@ class SplashController extends GetxController {
       AppImages.lockedGif,
       AppImages.loadingGif,
       AppImages.spinner,
-      AppImages.spinGif,
     ];
 
     // 1. Precache standard images

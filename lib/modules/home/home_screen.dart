@@ -1,10 +1,6 @@
 import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
-import 'package:bhabhi_thulla/modules/ranks/ranks_screen.dart';
-import 'package:bhabhi_thulla/modules/rewards/rewards_screen.dart';
-
 import '../../constant/export_file.dart';
-import '../../widgets/animation_effect.dart';
 import '../ui_widgets/setting_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,7 +20,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (controller.isSoloMode || controller.isFriendPlayMode || controller.isFriendsMode || controller.isRanksMode || controller.isRewardsMode) ...[
+                      if (controller.isSoloMode ||
+                          controller.isFriendPlayMode ||
+                          controller.isFriendsMode ||
+                          controller.isRanksMode ||
+                          controller.isRewardsMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isSoloMode = false;
@@ -48,13 +48,13 @@ class HomeScreen extends StatelessWidget {
                               MyText(
                                 text: controller.isFriendPlayMode
                                     ? "Custom Room"
-                                    : controller.isSoloMode 
-                                        ? "Solo Mode"
-                                        : controller.isFriendsMode
-                                            ? "Friends"
-                                            : controller.isRanksMode
-                                                ? "Global Ranks"
-                                                : "Daily Rewards",
+                                    : controller.isSoloMode
+                                    ? "Solo Mode"
+                                    : controller.isFriendsMode
+                                    ? "Friends"
+                                    : controller.isRanksMode
+                                    ? "Global Ranks"
+                                    : "Daily Rewards",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
@@ -62,8 +62,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ]
-else if (controller.isProfileMode) ...[
+                      ] else if (controller.isProfileMode) ...[
                         InkWell(
                           onTap: () {
                             controller.isProfileMode = false;
@@ -120,7 +119,7 @@ else if (controller.isProfileMode) ...[
                           ),
                         ),
                         Container(
-                          width: Get.width / 3-100,
+                          width: Get.width / 3 - 100,
                           padding: const EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,24 +196,25 @@ else if (controller.isProfileMode) ...[
                               barrierDismissible: true,
                               barrierLabel: "",
                               barrierColor: Colors.black54,
-                              transitionDuration: const Duration(milliseconds: 300),
+                              transitionDuration: const Duration(
+                                milliseconds: 300,
+                              ),
                               pageBuilder: (_, __, ___) {
-                                return const Center(
-                                  child: SettingsDialog(),
-                                );
+                                return const Center(child: SettingsDialog());
                               },
-                              transitionBuilder: (context, animation, secondary, child) {
-                                return ScaleTransition(
-                                  scale: CurvedAnimation(
-                                    parent: animation,
-                                    curve: Curves.elasticOut,
-                                  ),
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
-                                );
-                              },
+                              transitionBuilder:
+                                  (context, animation, secondary, child) {
+                                    return ScaleTransition(
+                                      scale: CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.elasticOut,
+                                      ),
+                                      child: FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      ),
+                                    );
+                                  },
                             );
                           },
                         ),

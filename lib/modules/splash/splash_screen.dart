@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Image.asset(AppImages.spinBg),
                       Image.asset(AppImages.gameBg),
                       Image.asset(AppImages.spinner),
-                      Image.asset(AppImages.spinGif),
+                      // Image.asset(AppImages.spinGif),
                     ],
                   ),
                 ),
