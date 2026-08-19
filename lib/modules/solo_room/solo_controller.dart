@@ -1,5 +1,4 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/models/game_room_model.dart';
 
 class SoloRoomController extends GetxController {
   int? prizeSelected;

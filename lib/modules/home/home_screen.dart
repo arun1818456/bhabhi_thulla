@@ -199,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                               transitionDuration: const Duration(
                                 milliseconds: 300,
                               ),
-                              pageBuilder: (_, __, ___) {
+                              pageBuilder: (_, a, aa) {
                                 return const Center(child: SettingsDialog());
                               },
                               transitionBuilder:

@@ -68,7 +68,7 @@ class _Player2State extends State<Player2> {
     Suit.clubs,
   ];
   var roundingCard;
-  bool tholla = false;
+  bool thulla = false;
   List droppedCardsList = [];
   List deck = [];
   List<Map> player1 = [];
@@ -105,7 +105,7 @@ class _Player2State extends State<Player2> {
     super.dispose();
   }
 
-  shufflingDeck() {
+  void shufflingDeck() {
     if (kDebugMode) {
       print("shufflingDeck");
     }
@@ -319,7 +319,7 @@ class _Player2State extends State<Player2> {
                                           }
                                         }
                                         if (cardHai == false) {
-                                          tholla = true;
+                                          thulla = true;
                                         }
                                         setState(() {
                                           turn = 2;
@@ -328,7 +328,7 @@ class _Player2State extends State<Player2> {
                                         });
                                       }
                                       //  ////tholla card Thrown
-                                      if (tholla == true &&
+                                      if (thulla == true &&
                                           myFirstCars == false) {
                                         setState(() {
                                           _timer.cancel();
@@ -351,7 +351,7 @@ class _Player2State extends State<Player2> {
                                                 roundingCard = null;
                                                 droppedCardsList.clear();
                                                 turn = 2;
-                                                tholla = false;
+                                                thulla = false;
                                                 startTimer();
                                                 counter = 10;
                                               });
@@ -363,7 +363,7 @@ class _Player2State extends State<Player2> {
                                               player1[index]["suit"] &&
                                           roundingCard != null &&
                                           myFirstCars == false &&
-                                          tholla == false) {
+                                          thulla == false) {
                                         setState(() {
                                           _timer.cancel();
                                           droppedCardsList.add({
@@ -606,7 +606,7 @@ class _Player2State extends State<Player2> {
                                           }
                                         }
                                         if (cardHai == false) {
-                                          tholla = true;
+                                          thulla = true;
                                         }
                                         setState(() {
                                           turn = 1;
@@ -615,7 +615,7 @@ class _Player2State extends State<Player2> {
                                         });
                                       }
                                       //  ////tholla card Thrown
-                                      if (tholla == true &&
+                                      if (thulla == true &&
                                           myFirstCars == false) {
                                         setState(() {
                                           _timer.cancel();
@@ -638,7 +638,7 @@ class _Player2State extends State<Player2> {
                                                 roundingCard = null;
                                                 droppedCardsList.clear();
                                                 turn = 1;
-                                                tholla = false;
+                                                thulla = false;
                                                 startTimer();
                                                 counter = 10;
                                               });
@@ -651,7 +651,7 @@ class _Player2State extends State<Player2> {
                                               player2[index]["suit"] &&
                                           roundingCard != null &&
                                           myFirstCars == false &&
-                                          tholla == false) {
+                                          thulla == false) {
                                         setState(() {
                                           _timer.cancel();
                                           droppedCardsList.add({
@@ -812,7 +812,7 @@ class _Player2State extends State<Player2> {
     });
   }
 
-  automaticCardThrown() async {
+  Future<void> automaticCardThrown() async {
     try {
       if (turn == 1) {
         bool myFirstCars = false;
@@ -838,7 +838,7 @@ class _Player2State extends State<Player2> {
             }
           }
           if (cardHai == false) {
-            tholla = true;
+            thulla = true;
           }
           setState(() {
             turn = 2;
@@ -847,7 +847,7 @@ class _Player2State extends State<Player2> {
           });
         }
         //  ////tholla card Thrown
-        if (tholla == true && myFirstCars == false) {
+        if (thulla == true && myFirstCars == false) {
           setState(() {
             droppedCardsList.add({
               "suit": player1[0]["suit"],
@@ -865,7 +865,7 @@ class _Player2State extends State<Player2> {
                 roundingCard = null;
                 droppedCardsList.clear();
                 turn = 2;
-                tholla = false;
+                thulla = false;
                 startTimer();
                 counter = 10;
               });
@@ -874,7 +874,7 @@ class _Player2State extends State<Player2> {
         }
 
         // if dropped card and turn is mine   not tholla
-        if (roundingCard != null && myFirstCars == false && tholla == false) {
+        if (roundingCard != null && myFirstCars == false && thulla == false) {
           for (var i = 0; i < player1.length; i++) {
             if (player1[i]["suit"] == roundingCard) {
               setState(() {
@@ -902,7 +902,7 @@ class _Player2State extends State<Player2> {
         bool myFirstCars = false;
 
         // //if dropped card is empty
-        if (roundingCard == null && myFirstCars == false && tholla == false) {
+        if (roundingCard == null && myFirstCars == false && thulla == false) {
           setState(() {
             droppedCardsList.add({
               "suit": player2[0]["suit"],
@@ -923,7 +923,7 @@ class _Player2State extends State<Player2> {
             }
           }
           if (cardHai == false) {
-            tholla = true;
+            thulla = true;
           }
           setState(() {
             turn = 1;
@@ -932,7 +932,7 @@ class _Player2State extends State<Player2> {
           });
         }
         //  ////tholla card Thrown
-        if (tholla == true && myFirstCars == false) {
+        if (thulla == true && myFirstCars == false) {
           setState(() {
             droppedCardsList.add({
               "suit": player2[0]["suit"],
@@ -951,7 +951,7 @@ class _Player2State extends State<Player2> {
                 roundingCard = null;
                 droppedCardsList.clear();
                 turn = 1;
-                tholla = false;
+                thulla = false;
                 startTimer();
                 counter = 10;
               });
@@ -960,7 +960,7 @@ class _Player2State extends State<Player2> {
         }
 
         // // if dropped card and turn is mine   not tholla
-        if (roundingCard != null && myFirstCars == false && tholla == false) {
+        if (roundingCard != null && myFirstCars == false && thulla == false) {
           for (var i = 0; i < player2.length; i++) {
             if (player2[i]["suit"] == roundingCard) {
               setState(() {
@@ -1069,7 +1069,7 @@ class _ThreePlayersState extends State<ThreePlayers> {
 
   //////play Turn
   var roundingCard;
-  bool tholla = false;
+  bool thulla = false;
   List deck = [];
   int turn = 0;
   int counter = 10;
@@ -1795,7 +1795,7 @@ class _FourPlayerState extends State<FourPlayer> {
 
   //////play Turn
   var roundingCard;
-  bool tholla = false;
+  bool thulla = false;
   List deck = [];
   int turn = 0;
   int counter = 10;
@@ -3265,7 +3265,7 @@ class _FivePlayerState extends State<FivePlayer> {
 
   //////play Turn
   var roundingCard;
-  bool tholla = false;
+  bool thulla = false;
   List deck = [];
   int turn = 0;
   int counter = 10;

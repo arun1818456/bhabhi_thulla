@@ -78,8 +78,7 @@ class AuthScreen extends StatelessWidget {
                                 icon: Icons.person_outline,
                                 color: Colors.orange,
                                 textColor: Colors.white,
-                                onTap: () =>
-                                    Get.offAllNamed(AppRoutes.homeRoute),
+                                onTap: () => controller.getGuestDeviceInfo(),
                               ),
                             ],
                           ),

@@ -1,7 +1,5 @@
-import 'package:bhabhi_thulla/modules/rewards/rewards_controller.dart';
 import '../../constant/export_file.dart';
 import '../../models/reward_model.dart';
-import '../../widgets/animation_effect.dart';
 
 class RewardsScreen extends StatelessWidget {
   const RewardsScreen({super.key});

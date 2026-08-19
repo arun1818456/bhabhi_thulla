@@ -12,11 +12,11 @@ class MySocketController extends GetxController with BaseClass {
   void initializeSocket() {
     if (socket.value != null) {
       if (!socket.value!.connected) {
-        print("-----------Socket Reconnected-----------");
+        debugPrint("-----------Socket Reconnected-----------");
         socket.value!.connect();
       }
     } else {
-      print("-----------Socket Init-----------");
+      debugPrint("-----------Socket Init-----------");
       socket.value = io(baseUrl, {
         'autoConnect': false,
         'transports': ['websocket'],
@@ -24,7 +24,7 @@ class MySocketController extends GetxController with BaseClass {
       });
 
       socket.value!.onConnect((_) {
-        print("-----------Socket Connected-----------");
+        debugPrint("-----------Socket Connected-----------");
         Map<String, dynamic> data = {
           "userId": "getUserData().id",
           "name": "Phone BY",
@@ -49,7 +49,7 @@ class MySocketController extends GetxController with BaseClass {
       });
 
       socket.value!.onDisconnect((_) {
-        print("-----------Socket Disconnected-----------");
+        debugPrint("-----------Socket Disconnected-----------");
         if (storage.hasData(LocalKeys.userData) &&
             getUserData().token != null &&
             getUserData().token.toString().isNotEmpty) {
@@ -60,7 +60,7 @@ class MySocketController extends GetxController with BaseClass {
       });
 
       socket.value!.onConnectError((e) {
-        print("-----------Socket Connection Error == $e-----------");
+        debugPrint("-----------Socket Connection Error == $e-----------");
         // if (storage.hasData(LocalKeys.userData) &&
         //     getUserData().token != null &&
         //     getUserData().token.toString().isNotEmpty) {
@@ -74,7 +74,7 @@ class MySocketController extends GetxController with BaseClass {
   }
 
   /// to reconnect the socket
-  startTimer() {
+  void startTimer() {
     timeCount.value = 10;
     if (timer.value != null) {
       timer.value!.cancel();

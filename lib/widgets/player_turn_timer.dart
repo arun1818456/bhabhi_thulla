@@ -108,7 +108,7 @@ class _TurnTimerState extends State<TurnTimer>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (_, __) {
+      builder: (_, a) {
         final pulse = remaining <= 5
             ? 1 + (sin(controller.value * 40) * .06)
             : 1.0;
