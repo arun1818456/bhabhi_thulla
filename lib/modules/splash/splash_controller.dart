@@ -86,6 +86,6 @@ class SplashController extends GetxController {
   }
 
   void _navigateToNextScreen() {
-    Get.offAllNamed(AppRoutes.homeRoute);
+    Get.offAllNamed(AppRoutes.homeScreen);
   }
 }

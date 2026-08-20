@@ -7,7 +7,7 @@ class AppPages {
 
   static final routes = [
     GetPage(name: AppRoutes.splashRoute, page: () => const SplashScreen()),
-    GetPage(name: AppRoutes.homeRoute, page: () => const HomeScreen()),
+    GetPage(name: AppRoutes.homeScreen, page: () => const HomeScreen()),
     GetPage(name: AppRoutes.authScreen, page: () => const AuthScreen()),
   ];
 }

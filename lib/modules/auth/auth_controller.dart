@@ -1,17 +1,24 @@
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:bhabhi_thulla/constant/api_constant.dart';
 import 'package:bhabhi_thulla/constant/export_file.dart';
+import 'package:bhabhi_thulla/services/api_handler.dart';
 
-class AuthController extends GetxController {
-  final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
+import '../../constant/local_keys.dart';
 
-  Future<void> getGuestDeviceInfo() async {
-    try {
-      final deviceInfo = await _deviceInfoPlugin.deviceInfo;
-      final allInfo = deviceInfo.data;
-      debugPrint(">>>> Device Info: $allInfo");
-      // Add your guest login logic here
-    } catch (e) {
-      debugPrint("Error fetching device info: $e");
+class AuthController extends GetxController with BaseClass {
+  Future<void> onTapGuestLogin() async {
+    var deviceInfo = await getDeviceInfo();
+    if (deviceInfo != null) {
+      try{
+       var response=await httpRequest(REQUEST.post, guestLoginApiEP, {
+          "deviceId": deviceInfo["id"]
+        });
+       if(response["success"]){
+         storage.write(LocalKeys.userData, response["data"]);
+         Get.offAllNamed(AppRoutes.homeScreen);
+       }
+      }catch(e){
+        debugPrint("Error:- $e");
+      }
     }
   }
 }

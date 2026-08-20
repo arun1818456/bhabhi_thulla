@@ -1,7 +1,9 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
 import 'package:bhabhi_thulla/controllers/socket_controller.dart';
+import 'package:bhabhi_thulla/models/user_model.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with BaseClass{
+  UserDataModel userData = UserDataModel();
   bool isSoloMode = false;
   bool isFriendPlayMode = false;
   bool isProfileMode = false;
@@ -17,8 +19,10 @@ class HomeController extends GetxController {
   }
 
   void onInitData(){
+    userData=getUserData();
     MySocketController controller =MySocketController();
     controller.initializeSocket();
+    update();
   }
 
   void onTapSoloPlay() {

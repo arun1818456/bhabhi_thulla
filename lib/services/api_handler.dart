@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import '../../exports.dart';
+
+import '../constant/api_constant.dart';
+import '../constant/export_file.dart';
+import 'app_exception.dart';
 
 enum REQUEST { get, post, put, patch, delete }
 
@@ -150,15 +156,15 @@ Future<dynamic> httpRequest(
       responseJson = returnResponse(value);
     }
   } on SocketException catch (_) {
-    CommonDialogs().showCustomDialog(
-      Get.context!,
-      title: "Server Error",
-      description: "Please update the app \nor try after some time",
-      yesButtonText: "OK",
-      noButtonText: "",
-      onTapYes: () {},
-    );
-    throw FetchDataException("No Internet Connection");
+    // CommonDialogs().showCustomDialog(
+    //   Get.context!,
+    //   title: "Server Error",
+    //   description: "Please update the app \nor try after some time",
+    //   yesButtonText: "OK",
+    //   noButtonText: "",
+    //   onTapYes: () {},
+    // );
+    // throw FetchDataException("No Internet Connection");
   }
   return responseJson;
 }
@@ -202,9 +208,9 @@ void showAuthDialog({required String title, required String description}) {
       actions: [
         TextButton(
           onPressed: () async {
-            await GetStorage().erase();
-            Get.back();
-            Get.toNamed(AppRoutes.loginScreen);
+            // await GetStorage().erase();
+            // Get.back();
+            // Get.toNamed(AppRoutes.loginScreen);
           },
           child: const Text("OK"),
         ),
@@ -229,14 +235,14 @@ String getMessage(http.Response response) {
 void _showNoInternetDialog() {
   if (Get.isDialogOpen == true) return;
 
-  CommonDialogs().showCustomDialog(
-    Get.context!,
-    title: "No Internet Connection",
-    description: "Please check your internet connection.",
-    yesButtonText: "OK",
-    noButtonText: "",
-    onTapYes: () {},
-  );
+  // CommonDialogs().showCustomDialog(
+  //   Get.context!,
+  //   title: "No Internet Connection",
+  //   description: "Please check your internet connection.",
+  //   yesButtonText: "OK",
+  //   noButtonText: "",
+  //   onTapYes: () {},
+  // );
 }
 // Future<dynamic> uploadRequest(file, {type, ext}) async {
 //   var fle = File(file);

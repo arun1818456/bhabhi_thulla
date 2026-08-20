@@ -5,7 +5,10 @@ class UserDataModel {
   String? token;
   String? deviceToken;
   String? profileUrl;
-  int? balance;
+  String? avatar;
+  String? createdAt;
+  int? coins;
+  int? diamonds;
    UserDataModel({
     this.id,
     this.name,
@@ -13,7 +16,10 @@ class UserDataModel {
     this.token,
     this.deviceToken,
     this.profileUrl,
-    this.balance,
+    this.coins,
+    this.diamonds,
+    this.avatar,
+    this.createdAt,
   });
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +29,10 @@ class UserDataModel {
     token = json['token'];
     deviceToken = json['deviceToken'].toString();
     profileUrl = json['profileUrl'];
-    balance = json['balance'];
+    coins = json['coins'];
+    diamonds = json['diamonds'];
+    avatar = json['avatar'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,7 +43,10 @@ class UserDataModel {
     data['token'] = token;
     data['deviceToken'] = deviceToken;
     data['profileUrl'] = profileUrl;
-    data['balance'] = balance;
+    data['coins'] = coins;
+    data['diamonds'] = diamonds;
+    data['avatar'] = avatar;
+    data['createdAt'] = createdAt;
     return data;
   }
 }

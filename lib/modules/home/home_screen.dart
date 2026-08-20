@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
+;    return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
         return BackgroundWidget(
@@ -113,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Image.asset(
-                              AppImages.p9,
+                              AppImages.imageMap[controller.userData.profileUrl]?? AppImages.p1,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -124,9 +124,9 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children:  [
                               MyText(
-                                text: "Arun Kumar",
+                                text: controller.userData.name ?? "--------",
                                 fontSize: 17,
                                 borderWidth: 4,
                               ),
@@ -143,11 +143,11 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          headerChip(AppImages.moneyBag, "990", Colors.orange),
+                          headerChip(AppImages.moneyBag, controller.userData.coins.toString(), Colors.orange),
                           const SizedBox(width: 12),
                           headerChip(
                             AppImages.diamond,
-                            "17",
+                            controller.userData.diamonds.toString(),
                             Colors.lightBlueAccent,
                           ),
                         ],
