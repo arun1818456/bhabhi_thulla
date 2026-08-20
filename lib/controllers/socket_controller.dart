@@ -25,18 +25,13 @@ class MySocketController extends GetxController with BaseClass {
 
       socket.value!.onConnect((_) {
         debugPrint("-----------Socket Connected-----------");
-        Map<String, dynamic> data = {
-          "userId": "getUserData().id",
-          "name": "Phone BY",
-        };
-        socket.value!.emit("join_game", data);
         /// ✅ Emit only if user is logged in
         if (storage.hasData(LocalKeys.userData) &&
             getUserData().id != null &&
             getUserData().id.toString().isNotEmpty) {
           Map<String, dynamic> data = {
-            "userId": "getUserData().id",
-            "name": "Phone BY",
+            "userId": getUserData().id,
+            "name": getUserData().name,
           };
           socket.value!.emit("join_game", data);
         }
@@ -61,11 +56,11 @@ class MySocketController extends GetxController with BaseClass {
 
       socket.value!.onConnectError((e) {
         debugPrint("-----------Socket Connection Error == $e-----------");
-        // if (storage.hasData(LocalKeys.userData) &&
-        //     getUserData().token != null &&
-        //     getUserData().token.toString().isNotEmpty) {
-        //   startTimer();
-        // }
+        if (storage.hasData(LocalKeys.userData) &&
+            getUserData().token != null &&
+            getUserData().token.toString().isNotEmpty) {
+          startTimer();
+        }
         isSocketConnected.value = false;
         update();
       });

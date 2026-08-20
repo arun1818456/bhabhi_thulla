@@ -9,19 +9,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final controller = Get.put(SplashController());
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.precacheAllAssets(context);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
+      init: SplashController(),
       builder: (controller) {
         return Scaffold(
           backgroundColor: const Color(0xff1c4db7),

@@ -2,11 +2,18 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import '../../constant/export_file.dart';
 
-class SplashController extends GetxController {
+class SplashController extends GetxController with BaseClass{
   bool isAssetsLoaded = false;
   static ui.Image? coinUiImage;
 
-  Future<void> precacheAllAssets(BuildContext context) async {
+  @override
+  void onInit() {
+    precacheAllAssets();
+    super.onInit();
+
+  }
+
+  Future<void> precacheAllAssets() async {
     final startTime = DateTime.now();
 
     final List<String> allImages = [
@@ -57,7 +64,7 @@ class SplashController extends GetxController {
     // 1. Precache standard images
     await Future.wait(
       allImages.map((imagePath) {
-        return precacheImage(AssetImage(imagePath), context).catchError((e) {
+        return precacheImage(AssetImage(imagePath), Get.context!).catchError((e) {
           debugPrint("Failed to precache: $imagePath -> $e");
         });
       }),
@@ -85,7 +92,13 @@ class SplashController extends GetxController {
     _navigateToNextScreen();
   }
 
-  void _navigateToNextScreen() {
-    Get.offAllNamed(AppRoutes.homeScreen);
+  void _navigateToNextScreen() async {
+    final userData = getUserData();
+    bool loggedIn = userData.id != null;
+    Timer(const Duration(seconds: 3), () {
+      Get.offAllNamed(
+        loggedIn ? AppRoutes.homeScreen : AppRoutes.authScreen,
+      );
+    });
   }
 }
