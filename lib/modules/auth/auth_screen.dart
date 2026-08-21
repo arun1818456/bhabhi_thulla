@@ -1,4 +1,3 @@
-import 'package:bhabhi_thulla/modules/auth/auth_controller.dart';
 import '../../constant/export_file.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -45,13 +44,15 @@ class AuthScreen extends StatelessWidget {
                             color: const Color(0xffa16b47),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                                color: const Color(0xff7a4d2e), width: 6),
+                              color: const Color(0xff7a4d2e),
+                              width: 6,
+                            ),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.4),
                                 blurRadius: 15,
                                 offset: const Offset(0, 8),
-                              )
+                              ),
                             ],
                           ),
                           child: Column(
@@ -116,7 +117,7 @@ class AuthScreen extends StatelessWidget {
               color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 4,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
         ),
         child: Row(

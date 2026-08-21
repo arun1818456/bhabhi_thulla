@@ -1,14 +1,11 @@
-import 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
 import '../../constant/export_file.dart';
-import '../ui_widgets/setting_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-;    return GetBuilder<HomeController>(
+    return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
         return BackgroundWidget(
@@ -26,14 +23,7 @@ class HomeScreen extends StatelessWidget {
                           controller.isRanksMode ||
                           controller.isRewardsMode) ...[
                         InkWell(
-                          onTap: () {
-                            controller.isSoloMode = false;
-                            controller.isFriendPlayMode = false;
-                            controller.isFriendsMode = false;
-                            controller.isRanksMode = false;
-                            controller.isRewardsMode = false;
-                            controller.update();
-                          },
+                          onTap: controller.onTapArrowBack,
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           hoverColor: Colors.transparent,
@@ -113,7 +103,10 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Image.asset(
-                              AppImages.imageMap[controller.userData.profileUrl]?? AppImages.p1,
+                              AppImages.imageMap[controller
+                                      .userData
+                                      .profileUrl] ??
+                                  AppImages.p1,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -124,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children:  [
+                            children: [
                               MyText(
                                 text: controller.userData.name ?? "--------",
                                 fontSize: 17,
@@ -143,7 +136,11 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          headerChip(AppImages.moneyBag, controller.userData.coins.toString(), Colors.orange),
+                          headerChip(
+                            AppImages.moneyBag,
+                            controller.userData.coins.toString(),
+                            Colors.orange,
+                          ),
                           const SizedBox(width: 12),
                           headerChip(
                             AppImages.diamond,
@@ -156,7 +153,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
               if (controller.isSoloMode) ...[
                 Center(child: SoloRoom()),
               ] else if (controller.isProfileMode) ...[
@@ -172,175 +168,19 @@ class HomeScreen extends StatelessWidget {
               ] else if (controller.spinPage) ...[
                 Center(child: SpinnerScreen()),
               ] else ...[
-                Positioned(
-                  bottom: 50,
-                  left: 10,
-                  child: AnimatorWidget(
-                    effect: AnimationEffect.leftToRight,
-                    child: Column(
-                      children: [
-                        chipWithTxt(
-                          size: 70,
-                          iconImage: AppImages.spinner,
-                          text: "Daily Spin",
-                          onTap: controller.onTapToSpinPage,
-                        ),
-                        const SizedBox(height: 15),
-                        chipWithTxt(
-                          size: 50,
-                          iconImage: AppImages.settings,
-                          text: "Settings",
-                          onTap: () {
-                            showGeneralDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              barrierLabel: "",
-                              barrierColor: Colors.black54,
-                              transitionDuration: const Duration(
-                                milliseconds: 300,
-                              ),
-                              pageBuilder: (_, a, aa) {
-                                return const Center(child: SettingsDialog());
-                              },
-                              transitionBuilder:
-                                  (context, animation, secondary, child) {
-                                    return ScaleTransition(
-                                      scale: CurvedAnimation(
-                                        parent: animation,
-                                        curve: Curves.elasticOut,
-                                      ),
-                                      child: FadeTransition(
-                                        opacity: animation,
-                                        child: child,
-                                      ),
-                                    );
-                                  },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 1,
-                  left: 0,
-                  right: 0,
-                  child: AnimatorWidget(
-                    effect: AnimationEffect.bottomToTop,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        chipWithTxt(
-                          iconImage: AppImages.leaderboard,
-                          text: "Ranks",
-                          onTap: controller.onTapToRanks,
-                        ),
-                        const SizedBox(width: 25),
-                        chipWithTxt(
-                          iconImage: AppImages.tutorial,
-                          text: "Training",
-                          onTap: () {},
-                        ),
-                        const SizedBox(width: 25),
-
-                        chipWithTxt(
-                          iconImage: AppImages.friends,
-                          text: "Friends",
-                          onTap: controller.onTapToFriends,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 50,
-                  right: 5,
-                  child: AnimatorWidget(
-                    effect: AnimationEffect.rightToLeft,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        chipWithTxt(
-                          size: 55,
-                          iconImage: AppImages.gift,
-                          text: "Rewards",
-                          onTap: controller.onTapToRewards,
-                        ),
-                        const SizedBox(height: 15),
-                        chipWithTxt(
-                          size: 50,
-                          iconImage: AppImages.store,
-                          text: "Shop",
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 25),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        gameCards(
-                          image: AppImages.soloPlay,
-                          onTap: controller.onTapSoloPlay,
-                        ),
-                        SizedBox(width: 20),
-                        gameCards(
-                          image: AppImages.friendPlay,
-                          onTap: controller.onTapFriendPlay,
-                        ),
-                      ],
-                    ),
-                  ),
+                Stack(
+                  children: [
+                    LeftMenuWidget(controller: controller),
+                    RightMenuWidget(controller: controller),
+                    BottomMenuWidget(controller: controller),
+                    CenterGameCards(controller: controller),
+                  ],
                 ),
               ],
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget chipWithTxt({
-    required String iconImage,
-    required String text,
-    required GestureTapCallback onTap,
-    double? size,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      child: Container(
-        color: Colors.transparent,
-        child: Column(
-          children: [
-            Image.asset(iconImage, width: size ?? 45, height: size ?? 45),
-            MyText(text: text, fontSize: 15),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget gameCards({required String image, required GestureTapCallback onTap}) {
-    return TweenAnimationBuilder(
-      tween: Tween(begin: -5.0, end: 5.0),
-      duration: const Duration(seconds: 2),
-      curve: Curves.easeInOut,
-      builder: (context, value, child) {
-        return Transform.translate(offset: Offset(0, value), child: child);
-      },
-      child: InkWell(
-        onTap: onTap,
-        child: Image.asset(image, height: Get.height / 2),
-      ),
     );
   }
 }

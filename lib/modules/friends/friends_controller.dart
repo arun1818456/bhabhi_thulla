@@ -1,5 +1,4 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import '../../models/friend_model.dart';
 
 class FriendsController extends GetxController {
   final TextEditingController searchController = TextEditingController();

@@ -1,3 +1,4 @@
+import 'package:bhabhi_thulla/controllers/initial_binding.dart';
 import 'constant/export_file.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         initialRoute: AppPages.init,
         getPages: AppPages.routes,
+        initialBinding: InitialBinding(),
         debugShowCheckedModeBanner: false,
       ),
     );

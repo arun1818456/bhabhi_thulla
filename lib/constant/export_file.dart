@@ -31,8 +31,19 @@ export 'package:bhabhi_thulla/modules/rewards/rewards_controller.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/player_profile_widget.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/card_design.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/my_hand_card.dart';
+export 'package:bhabhi_thulla/modules/profile/profile_screen.dart';
+export 'package:bhabhi_thulla/modules/ui_widgets/home_body.dart';
+export 'package:bhabhi_thulla/modules/ui_widgets/spinner_screen.dart';
+export 'package:bhabhi_thulla/controllers/socket_controller.dart';
+export 'package:bhabhi_thulla/models/user_model.dart';
+export 'package:bhabhi_thulla/modules/auth/auth_controller.dart';
+export 'package:bhabhi_thulla/constant/api_constant.dart';
+export 'package:bhabhi_thulla/constant/local_keys.dart';
+export 'package:bhabhi_thulla/services/api_handler.dart';
+export 'package:bhabhi_thulla/models/friend_model.dart';
+export 'package:bhabhi_thulla/constant/lists.dart';
+export 'package:bhabhi_thulla/modules/profile/profile_controller.dart';// Comman
 
-// Comman
 export 'package:bhabhi_thulla/models/animated_card_model.dart';
 export 'package:bhabhi_thulla/modules/game/game_controller.dart';
 export 'package:bhabhi_thulla/widgets/player_turn_timer.dart';

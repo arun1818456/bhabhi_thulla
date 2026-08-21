@@ -1,8 +1,5 @@
-import 'package:bhabhi_thulla/constant/api_constant.dart';
-import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/services/api_handler.dart';
 
-import '../../constant/local_keys.dart';
+import 'package:bhabhi_thulla/constant/export_file.dart';
 
 class AuthController extends GetxController with BaseClass {
   Future<void> onTapGuestLogin() async {

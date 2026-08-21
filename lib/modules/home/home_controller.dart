@@ -1,8 +1,8 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/controllers/socket_controller.dart';
-import 'package:bhabhi_thulla/models/user_model.dart';
+
 
 class HomeController extends GetxController with BaseClass{
+  MySocketController socketController = Get.find<MySocketController>();
   UserDataModel userData = UserDataModel();
   bool isSoloMode = false;
   bool isFriendPlayMode = false;
@@ -20,8 +20,7 @@ class HomeController extends GetxController with BaseClass{
 
   void onInitData(){
     userData=getUserData();
-    MySocketController controller =MySocketController();
-    controller.initializeSocket();
+    socketController.initializeSocket();
     update();
   }
 
@@ -57,6 +56,22 @@ class HomeController extends GetxController with BaseClass{
 
   void onTapToSpinPage() {
     spinPage = true;
+    update();
+  }
+
+  void onTapArrowBack() {
+    isSoloMode = false;
+    isFriendPlayMode = false;
+    isFriendsMode = false;
+    isRanksMode = false;
+    isRewardsMode = false;
+    isProfileMode = false;
+    spinPage = false;
+    SoloRoomController controller =SoloRoomController();
+    controller.prizeSelected=null;
+    controller.isMatchFounding=false;
+    controller.stopSearchingAnimation();
+    controller.update();
     update();
   }
 }

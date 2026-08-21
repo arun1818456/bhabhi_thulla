@@ -14,6 +14,8 @@ class MySocketController extends GetxController with BaseClass {
       if (!socket.value!.connected) {
         debugPrint("-----------Socket Reconnected-----------");
         socket.value!.connect();
+      } else {
+        joinGame();
       }
     } else {
       debugPrint("-----------Socket Init-----------");
@@ -25,16 +27,7 @@ class MySocketController extends GetxController with BaseClass {
 
       socket.value!.onConnect((_) {
         debugPrint("-----------Socket Connected-----------");
-        /// ✅ Emit only if user is logged in
-        if (storage.hasData(LocalKeys.userData) &&
-            getUserData().id != null &&
-            getUserData().id.toString().isNotEmpty) {
-          Map<String, dynamic> data = {
-            "userId": getUserData().id,
-            "name": getUserData().name,
-          };
-          socket.value!.emit("join_game", data);
-        }
+        joinGame();
 
         if (timer.value != null) {
           timer.value!.cancel();
@@ -89,5 +82,31 @@ class MySocketController extends GetxController with BaseClass {
       }
       update();
     });
+  }
+
+  void joinGame() {
+    if (storage.hasData(LocalKeys.userData) &&
+        getUserData().id != null &&
+        getUserData().id.toString().isNotEmpty) {
+      Map<String, dynamic> data = {
+        "userId": getUserData().id,
+        "name": getUserData().name,
+      };
+      debugPrint("-----------Socket Joining Game: $data-----------");
+      socket.value?.emit("join_game", data);
+    }
+  }
+
+  void findMatch({required int playerCount, required int entryFee}){
+    if(socket.value == null || !socket.value!.connected){
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {
+      "playersCount": playerCount,
+      "entryFee": entryFee,
+    };
+    debugPrint(">>>> find_match: ${data}");
+    socket.value!.emit("find_match",data);
   }
 }

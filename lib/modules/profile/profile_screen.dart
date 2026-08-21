@@ -1,5 +1,4 @@
-import 'package:bhabhi_thulla/constant/lists.dart';
-import 'package:bhabhi_thulla/modules/profile/profile_controller.dart';
+
 import '../../constant/export_file.dart';
 
 class ProfileScreen extends StatefulWidget {
