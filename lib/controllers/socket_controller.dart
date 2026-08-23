@@ -105,7 +105,35 @@ class MySocketController extends GetxController with BaseClass {
     Map<String, dynamic> data = {
       "entryFee": entryFee,
     };
-    debugPrint(">>>> find_match: ${data}");
+    debugPrint(">>>> find_match: $data");
     socket.value!.emit("find_match",data);
   }
+
+  void onCreateLobby(int entryFee) {
+    if (socket.value == null || !socket.value!.connected) {
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {
+      "entryFee": entryFee,
+    };
+    debugPrint(">>>> create_lobby: $data ");
+    socket.value!.emit("create_lobby",data);
+  }
+
+  void sendFriendRequest({required String friendId, required String friendName}) {
+    if (socket.value == null || !socket.value!.connected) {
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {
+      "userId": getUserData().id,
+      "userName": getUserData().name,
+      "friendId": friendId,
+      "friendName": friendName,
+    };
+    debugPrint(">>>> send_friend_request: $data");
+    socket.value!.emit("send_friend_request", data);
+  }
+
 }

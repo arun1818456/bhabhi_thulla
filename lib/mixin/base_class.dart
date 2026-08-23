@@ -7,6 +7,7 @@ import '../constant/export_file.dart';
 
 mixin BaseClass {
   final storage = GetStorage();
+
   UserDataModel getUserData() {
     if (storage.hasData(LocalKeys.userData)) {
       return UserDataModel.fromJson(storage.read(LocalKeys.userData));
@@ -25,6 +26,32 @@ mixin BaseClass {
       debugPrint("Error fetching device info: $e");
     }
   }
+
+  void showMySnackBar(
+    String message, {
+    bool error = false,
+    int? second = 2,
+    bool success = false,
+    bool alert = false,
+  }) {
+    Get.showSnackbar(
+      GetSnackBar(
+        message: message,
+
+        // backgroundColor: color ?? Colors.green,
+        backgroundColor: success
+            ? Colors.green.shade800
+            : alert
+            ? Colors.orange.shade100
+            : Colors.red,
+        duration: Duration(seconds: second ?? 3),
+        margin: const EdgeInsets.all(12),
+        borderRadius: 8,
+        snackPosition: SnackPosition.TOP,
+      ),
+    );
+  }
+
   // Future getDeviceToken() async {
   //   NotificationSettings settings = await FirebaseMessaging.instance
   //       .requestPermission();

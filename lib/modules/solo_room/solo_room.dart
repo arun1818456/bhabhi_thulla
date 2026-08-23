@@ -1,4 +1,3 @@
-import 'package:bhabhi_thulla/constant/lists.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/flip_room_cards.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/searching_player_card.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/vs.dart';
@@ -35,7 +34,6 @@ class SoloRoom extends StatelessWidget {
     );
   }
 }
-
 
 Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
   final size = MediaQuery.of(context).size;
@@ -76,7 +74,7 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
                     controller.isMatchFounding,
                     controller,
                     controller.searchCount,
-                    index: index
+                    index: index,
                   ),
                 ),
               ),
@@ -123,7 +121,7 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
             ),
           )
         else
-           MyText(
+          MyText(
             text: "Searching for players ...",
             fontSize: 20,
             color: Colors.white,
@@ -139,16 +137,14 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
 /// PLAYER CARD
 ///------------------------------------------------------------
 
-
-
 Widget playerCard(
   String playerName,
   bool isMe,
   bool isSearching,
   SoloRoomController controller,
-  int searchCount,
-{index = 0,}
-) {
+  int searchCount, {
+  index = 0,
+}) {
   return Column(
     children: [
       Stack(
@@ -168,41 +164,46 @@ Widget playerCard(
             ),
             child: isMe
                 ? ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
-                  child: Image.asset(
-                    AppImages.imageMap[controller.userData.avatar] ??
-                        AppImages.p1,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )
+                    borderRadius: BorderRadius.circular(18),
+                    child: Image.asset(
+                      AppImages.imageMap[controller.userData.avatar] ??
+                          AppImages.p1,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )
                 : isSearching
-                ?  SearchingAvatar(startIndex: index * 2 ,)
+                ? SearchingAvatar(startIndex: index * 2)
                 : Center(
-                    child: Container(
-                      width: 65,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white10,
-                        border: Border.all(color: Colors.white24),
-                      ),
-                      child: const Icon(
-                        Icons.person_outline,
-                        color: Colors.white70,
-                        size: 34,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.onTapToJoinFriend();
+                      },
+                      child: Container(
+                        width: 65,
+                        height: 65,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white10,
+                          border: Border.all(color: Colors.white24),
+                        ),
+                        child: const Icon(
+                          Icons.person_add_alt,
+                          color: Colors.white70,
+                          size: 34,
+                        ),
                       ),
                     ),
                   ),
           ),
-          if(isMe)
-          Positioned(
-            left: 5,
-            top: 4,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Text(flags["IN"]!, style: TextStyle(fontSize: 25)),
+          if (isMe)
+            Positioned(
+              left: 5,
+              top: 4,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Text(flags["IN"]!, style: TextStyle(fontSize: 25)),
+              ),
             ),
-          ),
           if (isMe)
             Positioned(
               bottom: -14,
