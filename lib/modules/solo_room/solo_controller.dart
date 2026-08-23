@@ -1,6 +1,4 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/controllers/socket_controller.dart';
-import 'package:bhabhi_thulla/models/user_model.dart';
 
 class SoloRoomController extends GetxController with BaseClass {
   MySocketController socketController = Get.find<MySocketController>();
@@ -34,6 +32,7 @@ class SoloRoomController extends GetxController with BaseClass {
   @override
   void onInit() {
     userData = getUserData();
+    socketController.socket.value!.on('match_status', onMatchStatus);
     super.onInit();
   }
 
@@ -43,7 +42,6 @@ class SoloRoomController extends GetxController with BaseClass {
     super.onClose();
   }
 
-
   void onTapToSelectPrize(int entryFee) {
     prizeSelected = entryFee;
     update();
@@ -52,8 +50,13 @@ class SoloRoomController extends GetxController with BaseClass {
   void onTapStartMatch() {
     startSearchingAnimation();
     isMatchFounding = true;
-    socketController.findMatch(playerCount: 4, entryFee: prizeSelected ?? 160);
+    socketController.findMatch( entryFee: prizeSelected ?? 160);
     update();
     // CloudTransition.push(context, const GameScreen());
+  }
+
+  //// Socket Listeners
+  void onMatchStatus(dynamic data) {
+    print(">>onMatch Status >>> ${data}");
   }
 }

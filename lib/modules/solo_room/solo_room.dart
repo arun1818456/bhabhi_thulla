@@ -167,17 +167,14 @@ Widget playerCard(
               ),
             ),
             child: isMe
-                ? Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18),
-                      child: Image.asset(
-                        AppImages.imageMap[controller.userData.avatar] ??
-                            AppImages.p1,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    AppImages.imageMap[controller.userData.avatar] ??
+                        AppImages.p1,
+                    fit: BoxFit.fitHeight,
+                  ),
+                )
                 : isSearching
                 ?  SearchingAvatar(startIndex: index * 2 ,)
                 : Center(

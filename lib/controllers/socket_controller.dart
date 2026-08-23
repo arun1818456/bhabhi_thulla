@@ -97,13 +97,12 @@ class MySocketController extends GetxController with BaseClass {
     }
   }
 
-  void findMatch({required int playerCount, required int entryFee}){
+  void findMatch({ required int entryFee}){
     if(socket.value == null || !socket.value!.connected){
       initializeSocket();
       return;
     }
     Map<String, dynamic> data = {
-      "playersCount": playerCount,
       "entryFee": entryFee,
     };
     debugPrint(">>>> find_match: ${data}");

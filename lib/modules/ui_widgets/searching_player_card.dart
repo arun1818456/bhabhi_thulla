@@ -45,38 +45,21 @@ class _SearchingAvatarState extends State<SearchingAvatar>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 90,
-          height: 90,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.cyanAccent.withValues(alpha: 0.5),
-              width: 2,
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 100),
+          child: Image.asset(
+            _avatars[_currentIndex],
+            key: ValueKey(_currentIndex),
+            fit: BoxFit.fitHeight,
+            width: double.infinity,
+            height: double.infinity,
           ),
         ),
-
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(18),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 100),
-              child: Image.asset(
-                _avatars[_currentIndex],
-                key: ValueKey(_currentIndex),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
