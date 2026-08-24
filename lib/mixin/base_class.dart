@@ -34,20 +34,107 @@ mixin BaseClass {
     bool success = false,
     bool alert = false,
   }) {
+    Get.closeAllSnackbars();
+
+    final borderColor = success
+        ? const Color(0xffFFD54F)
+        : alert
+        ? Colors.orangeAccent
+        : Colors.redAccent;
+
+    final icon = success
+        ? Icons.emoji_events_rounded
+        : alert
+        ? Icons.warning_amber_rounded
+        : Icons.cancel_rounded;
+
     Get.showSnackbar(
       GetSnackBar(
-        message: message,
-
-        // backgroundColor: color ?? Colors.green,
-        backgroundColor: success
-            ? Colors.green.shade800
-            : alert
-            ? Colors.orange.shade100
-            : Colors.red,
-        duration: Duration(seconds: second ?? 3),
-        margin: const EdgeInsets.all(12),
-        borderRadius: 8,
+        maxWidth: Get.width * 0.5,
         snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.transparent,
+        margin: const EdgeInsets.only(top: 18, left: 16, right: 16),
+        padding: EdgeInsets.zero,
+        duration: Duration(seconds: 3),
+        animationDuration: const Duration(milliseconds: 450),
+        borderRadius: 18,
+
+        messageText: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xff2B1B0F),
+                Color(0xff5A3720),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: borderColor, width: 2),
+            boxShadow: [
+              BoxShadow(
+                color: borderColor.withOpacity(0.45),
+                blurRadius: 18,
+                spreadRadius: 2,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.35),
+                blurRadius: 10,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xffFFD54F),
+                      Color(0xffFFB300),
+                    ],
+                  ),
+                ),
+                child: Icon(icon, color: Colors.white, size: 26),
+              ),
+
+              const SizedBox(width: 14),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      success
+                          ? "VICTORY!"
+                          : alert
+                          ? "WARNING!"
+                          : "FAILED!",
+                      style: const TextStyle(
+                        color: Color(0xffFFE082),
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -7,10 +7,7 @@ import '../../constant/export_file.dart';
 class LeftMenuWidget extends StatelessWidget {
   final HomeController controller;
 
-  const LeftMenuWidget({
-    super.key,
-    required this.controller,
-  });
+  const LeftMenuWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +37,14 @@ class LeftMenuWidget extends StatelessWidget {
                   barrierColor: Colors.black54,
                   transitionDuration: const Duration(milliseconds: 300),
                   pageBuilder: (_, aa, a) =>
-                  const Center(child: SettingsDialog()),
-                  transitionBuilder:
-                      (context, animation, secondary, child) {
+                      const Center(child: SettingsDialog()),
+                  transitionBuilder: (context, animation, secondary, child) {
                     return ScaleTransition(
                       scale: CurvedAnimation(
                         parent: animation,
                         curve: Curves.elasticOut,
                       ),
-                      child: FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
+                      child: FadeTransition(opacity: animation, child: child),
                     );
                   },
                 );
@@ -67,10 +60,7 @@ class LeftMenuWidget extends StatelessWidget {
 class BottomMenuWidget extends StatelessWidget {
   final HomeController controller;
 
-  const BottomMenuWidget({
-    super.key,
-    required this.controller,
-  });
+  const BottomMenuWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +85,33 @@ class BottomMenuWidget extends StatelessWidget {
               onTap: () {},
             ),
             const SizedBox(width: 25),
-            ChipWithText(
-              iconImage: AppImages.friends,
-              text: "Friends",
-              onTap: controller.onTapToFriends,
+            GetBuilder<FriendsController>(
+              builder: (friendsController) {
+                return Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ChipWithText(
+                      iconImage: AppImages.friends,
+                      text: "Friends",
+                      onTap: controller.onTapToFriends,
+                    ),
+                    if (friendsController.pendingRequests.isNotEmpty)
+                      Positioned(
+                        top: -3,
+                        right: -3,
+                        child: Container(
+                          width: 11,
+                          height: 11,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 1),
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
           ],
         ),
@@ -110,10 +123,7 @@ class BottomMenuWidget extends StatelessWidget {
 class RightMenuWidget extends StatelessWidget {
   final HomeController controller;
 
-  const RightMenuWidget({
-    super.key,
-    required this.controller,
-  });
+  const RightMenuWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -147,10 +157,7 @@ class RightMenuWidget extends StatelessWidget {
 class CenterGameCards extends StatelessWidget {
   final HomeController controller;
 
-  const CenterGameCards({
-    super.key,
-    required this.controller,
-  });
+  const CenterGameCards({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

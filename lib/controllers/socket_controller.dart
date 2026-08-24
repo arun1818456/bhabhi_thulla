@@ -1,5 +1,3 @@
-import 'package:bhabhi_thulla/constant/api_constant.dart';
-import 'package:bhabhi_thulla/constant/local_keys.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import '../constant/export_file.dart';
 
@@ -8,6 +6,12 @@ class MySocketController extends GetxController with BaseClass {
   RxInt timeCount = 10.obs;
   Rx<Timer?> timer = Rx<Timer?>(null);
   RxBool isSocketConnected = false.obs;
+
+  @override
+  void onInit() {
+    initializeSocket();
+    super.onInit();
+  }
 
   void initializeSocket() {
     if (socket.value != null) {
@@ -133,7 +137,6 @@ class MySocketController extends GetxController with BaseClass {
       "friendName": friendName,
     };
     debugPrint(">>>> send_friend_request: $data");
-    socket.value!.emit("send_friend_request", data);
+    socket.value!.emit("send_play_request", data);
   }
-
 }
