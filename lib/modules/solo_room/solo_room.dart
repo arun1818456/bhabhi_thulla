@@ -201,7 +201,7 @@ Widget playerCard(
               top: 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
-                child: Text(flags["IN"]!, style: TextStyle(fontSize: 25)),
+                child: Text(flags["AU"]!, style: TextStyle(fontSize: 25)),
               ),
             ),
           if (isMe)

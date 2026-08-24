@@ -1,16 +1,21 @@
 class UserDataModel {
   String? id;
+  int? pid;
   String? name;
   String? email;
   String? token;
   String? deviceToken;
   String? profileUrl;
   String? avatar;
+  String? flag;
   String? createdAt;
   int? coins;
   int? diamonds;
-   UserDataModel({
+
+  UserDataModel({
     this.id,
+    this.pid,
+    this.flag,
     this.name,
     this.email,
     this.token,
@@ -24,6 +29,8 @@ class UserDataModel {
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'] ?? json['id'];
+    pid = json['pid'];
+    flag = json['flag'];
     name = json['name'];
     email = json['email'];
     token = json['token'];
@@ -38,6 +45,8 @@ class UserDataModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = id;
+    data['pid'] = pid;
+    data['flag'] = flag;
     data['name'] = name;
     data['email'] = email;
     data['token'] = token;

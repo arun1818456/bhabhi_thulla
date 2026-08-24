@@ -1,3 +1,4 @@
+import 'package:bhabhi_thulla/controllers/data_controller.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/chip_text_card.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/image_card.dart';
 import 'package:bhabhi_thulla/modules/ui_widgets/setting_dialog.dart';
@@ -85,7 +86,7 @@ class BottomMenuWidget extends StatelessWidget {
               onTap: () {},
             ),
             const SizedBox(width: 25),
-            GetBuilder<FriendsController>(
+            GetBuilder<DataController>(
               builder: (friendsController) {
                 return Stack(
                   clipBehavior: Clip.none,

@@ -212,7 +212,7 @@ void showAuthDialog({required String title, required String description}) {
           onPressed: () async {
             await GetStorage().erase();
             Get.back();
-            Get.toNamed(AppRoutes.authScreen);
+            Get.offAllNamed(AppRoutes.authScreen);
           },
           child: const Text("OK"),
         ),
@@ -233,7 +233,6 @@ String getMessage(http.Response response) {
   }
 }
 
-
 void _showNoInternetDialog() {
   if (Get.isDialogOpen == true) return;
 
@@ -246,6 +245,7 @@ void _showNoInternetDialog() {
     onTapYes: () {},
   );
 }
+
 // Future<dynamic> uploadRequest(file, {type, ext}) async {
 //   var fle = File(file);
 //   // var img = Image(image: FileImage(File(file))); //file(new File(file);

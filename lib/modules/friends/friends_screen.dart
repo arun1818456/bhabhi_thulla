@@ -1,3 +1,5 @@
+import 'package:bhabhi_thulla/models/pending_req_model.dart';
+
 import '../../constant/export_file.dart';
 
 class FriendsScreen extends StatelessWidget {
@@ -6,10 +8,11 @@ class FriendsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<FriendsController>(
+      init: FriendsController(),
       builder: (controller) {
         return Container(
           margin: const EdgeInsets.only(top: 30),
-          height: Get.height * 0.75,
+          // height: Get.height * 0.8,
           width: Get.width * 0.95,
           child: Row(
             children: [
@@ -26,186 +29,201 @@ class FriendsScreen extends StatelessWidget {
   Widget leftSideWidget(FriendsController controller) {
     return Expanded(
       flex: 5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (controller.pendingRequests.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
-              child: Row(
-                children: [
-                  const MyText(text: "Friend Requests", fontSize: 21),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 9,
-                      vertical: 3,
+      child: Container(
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (controller.pendingRequests.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+                child: Row(
+                  children: [
+                    const MyText(text: "Friend Requests", fontSize: 16),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 9,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: MyText(
+                        text: controller.pendingRequests.length.toString(),
+                        fontSize: 12,
+                        borderColor: Colors.transparent,
+                      ),
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: MyText(
-                      text: controller.pendingRequests.length.toString(),
-                      fontSize: 13,
-                      borderColor: Colors.transparent,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 90,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                scrollDirection: Axis.horizontal,
-                itemCount: controller.pendingRequests.length,
-                itemBuilder: (context, index) {
-                  final request = controller.pendingRequests[index];
-                  return _requestCard(controller, request, index);
-                },
+              SizedBox(
+                height: 95,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.pendingRequests.length,
+                  itemBuilder: (context, index) {
+                    final request = controller.pendingRequests[index];
+                    return _requestCard(controller, request, index);
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-          ],
-          const Padding(
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 8),
-            child: MyText(text: "My Friends", fontSize: 21),
-          ),
-          Expanded(
-            child: controller.friends.isNotEmpty
-                ? ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 5,
-                    ),
-                    itemCount: controller.friends.length,
-                    itemBuilder: (context, index) {
-                      final friend = controller.friends[index];
-                      return AnimatorWidget(
-                        effect: AnimationEffect.scale,
-                        delay: Duration(milliseconds: 50 * index),
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.brown.shade700.withValues(
-                              alpha: 0.85,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: Colors.amber, width: 2),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.3),
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
+              const SizedBox(height: 12),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(5, 0, 5, 8),
+                child: MyText(text: "My Friends", fontSize: 18),
+              ),
+            ],
+
+            Expanded(
+              child: controller.friends.isNotEmpty
+                  ? ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 5,
+                      ),
+                      itemCount: controller.friends.length,
+                      itemBuilder: (context, index) {
+                        final friend = controller.friends[index];
+                        return AnimatorWidget(
+                          effect: AnimationEffect.scale,
+                          delay: Duration(milliseconds: 50 * index),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.brown.shade700.withValues(
+                                alpha: 0.85,
                               ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              // Avatar
-                              Container(
-                                width: 55,
-                                height: 55,
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(AppImages.profileBgCard),
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: Colors.amber, width: 2),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.3),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                // Avatar
+                                Container(
+                                  width: 55,
+                                  height: 55,
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        AppImages.profileBgCard,
+                                      ),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  child: Image.asset(
+                                    friend.avatar,
                                     fit: BoxFit.contain,
                                   ),
                                 ),
-                                child: Image.asset(
-                                  friend.avatar,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              const SizedBox(width: 15),
+                                const SizedBox(width: 15),
 
-                              // Friend Info
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    MyText(text: friend.name, fontSize: 18),
-                                    MyText(
-                                      text:
-                                          "LVL ${friend.level} | PID: ${friend.pid}",
-                                      fontSize: 12,
-                                      color: Colors.amberAccent,
-                                      borderColor: Colors.transparent,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            color: friend.isOnline
-                                                ? Colors.green
-                                                : Colors.grey,
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: Colors.white,
-                                              width: 1,
+                                // Friend Info
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      MyText(text: friend.name, fontSize: 18),
+                                      MyText(
+                                        text:
+                                            "LVL ${friend.level} | PID: ${friend.pid}",
+                                        fontSize: 12,
+                                        color: Colors.amberAccent,
+                                        borderColor: Colors.transparent,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                              color: friend.isOnline
+                                                  ? Colors.green
+                                                  : Colors.grey,
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.white,
+                                                width: 1,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        MyText(
-                                          text: friend.isOnline
-                                              ? "Online"
-                                              : "Offline",
-                                          fontSize: 12,
-                                          color: friend.isOnline
-                                              ? Colors.greenAccent
-                                              : Colors.grey,
-                                          borderColor: Colors.transparent,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                          const SizedBox(width: 5),
+                                          MyText(
+                                            text: friend.isOnline
+                                                ? "Online"
+                                                : "Offline",
+                                            fontSize: 12,
+                                            color: friend.isOnline
+                                                ? Colors.greenAccent
+                                                : Colors.grey,
+                                            borderColor: Colors.transparent,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              // Actions
-                              IconButton(
-                                onPressed: () => controller.removeFriend(index),
-                                icon: const Icon(
-                                  Icons.person_remove,
-                                  color: Colors.redAccent,
-                                  size: 22,
+                                // Actions
+                                IconButton(
+                                  onPressed: () =>
+                                      controller.removeFriend(index),
+                                  icon: const Icon(
+                                    Icons.person_remove,
+                                    color: Colors.redAccent,
+                                    size: 22,
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
                                 ),
-                                padding: EdgeInsets.zero,
-                                constraints: const BoxConstraints(),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.person_pin_outlined, size: 50),
+                            const SizedBox(height: 10),
+                            const MyText(
+                              text: "No Friends found",
+                              fontSize: 25,
+                            ),
+                            const Text(
+                              "Search for a Player ID to Add a Friend",
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.person_pin_outlined, size: 50),
-                        const SizedBox(height: 10),
-                        const MyText(text: "No Friends found", fontSize: 25),
-                        const Text("Search for a Player ID to Add a Friend"),
-                      ],
+                      ),
                     ),
-                  ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _requestCard(
     FriendsController controller,
-    FriendModel request,
+    PendingRequestModel request,
     int index,
   ) {
     return Container(
@@ -229,40 +247,47 @@ class FriendsScreen extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            child: Image.asset(request.avatar, fit: BoxFit.contain),
+            child: Image.asset(
+              AppImages.imageMap[request.senderId?.avatar] ?? AppImages.p1,
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FittedBox(child: MyText(text: request.name, fontSize: 16)),
-                MyText(
-                  text: "PID: ${request.pid}",
-                  fontSize: 11,
-                  color: Colors.amberAccent,
-                  borderColor: Colors.transparent,
-                ),
-                const SizedBox(height: 7),
-                Row(
-                  children: [
-                    _requestAction(
-                      icon: Icons.check,
-                      color: Colors.green,
-                      tooltip: "Accept request",
-                      onPressed: () => controller.acceptRequest(index),
-                    ),
-                    const SizedBox(width: 7),
-                    _requestAction(
-                      icon: Icons.close,
-                      color: Colors.redAccent,
-                      tooltip: "Decline request",
-                      onPressed: () => controller.rejectRequest(index),
-                    ),
-                  ],
-                ),
-              ],
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MyText(text: request.senderId?.name ?? "", fontSize: 16),
+                  MyText(
+                    text: "PID: ${request.senderId!.pid}",
+                    fontSize: 11,
+                    color: Colors.amberAccent,
+                    borderColor: Colors.transparent,
+                  ),
+                  const SizedBox(height: 7),
+                  Row(
+                    children: [
+                      _requestAction(
+                        icon: Icons.check,
+                        color: Colors.green,
+                        tooltip: "Accept request",
+                        onPressed: () => controller.acceptRequest(index),
+                      ),
+                      const SizedBox(width: 7),
+                      _requestAction(
+                        icon: Icons.close,
+                        color: Colors.redAccent,
+                        tooltip: "Decline request",
+                        onPressed: () => controller.rejectRequest(index),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -301,6 +326,7 @@ class FriendsScreen extends StatelessWidget {
         builder: (context, constraints) {
           double maxHeight = constraints.maxHeight;
           return Container(
+            height: Get.height * 0.72,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.black.withValues(alpha: 0.5),
@@ -390,29 +416,46 @@ class FriendsScreen extends StatelessWidget {
                             effect: AnimationEffect.scale,
                             child: Column(
                               children: [
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 5),
                                 // --- Avatar and Details in a Row ---
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: 70,
-                                      height: 70,
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            AppImages.profileBgCard,
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: 70,
+                                          height: 70,
+                                          padding: const EdgeInsets.all(6),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                AppImages.profileBgCard,
+                                              ),
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
-                                          fit: BoxFit.contain,
+                                          child: Image.asset(
+                                            AppImages.imageMap[controller
+                                                    .searchedPlayer!
+                                                    .avatar] ??
+                                                AppImages.p1,
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
-                                      ),
-                                      child: Image.asset(
-                                        controller.searchedPlayer!.avatar,
-                                        fit: BoxFit.contain,
-                                      ),
+                                        if (controller.searchedPlayer!.flag !=
+                                            null)
+                                          Positioned(
+                                            top: 5,
+                                            child: Text(
+                                              flags[controller
+                                                  .searchedPlayer!
+                                                  .flag]!,
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                    const SizedBox(width: 15),
+                                    const SizedBox(width: 5),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -420,13 +463,14 @@ class FriendsScreen extends StatelessWidget {
                                         children: [
                                           FittedBox(
                                             child: MyText(
-                                              text: controller
-                                                  .searchedPlayer!
-                                                  .name,
+                                              text:
+                                                  controller
+                                                      .searchedPlayer!
+                                                      .name ??
+                                                  "",
                                               fontSize: 18,
                                             ),
                                           ),
-                                          const SizedBox(height: 4),
                                           FittedBox(
                                             child: MyText(
                                               text:
@@ -441,7 +485,7 @@ class FriendsScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 25),
+                                const SizedBox(height: 10),
                                 // --- Add Friend Button below in Column ---
                                 ElevatedButton(
                                   onPressed: controller.sendRequest,

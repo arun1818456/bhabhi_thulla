@@ -1,8 +1,6 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
 
 class HomeController extends GetxController with BaseClass {
-  MySocketController socketController = Get.find<MySocketController>();
-  final FriendsController friendsController = Get.put(FriendsController());
   UserDataModel userData = UserDataModel();
   bool isSoloMode = false;
   bool isFriendPlayMode = false;

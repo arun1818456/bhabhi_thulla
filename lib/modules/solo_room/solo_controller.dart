@@ -67,10 +67,10 @@ class SoloRoomController extends GetxController with BaseClass {
         ? Get.find<FriendsController>()
         : Get.put(FriendsController());
 
-    final onlineFriends = friendsController.friends
-        .where((friend) => friend.isOnline)
-        .toList();
-
+    // final onlineFriends = friendsController.friends
+    //     .where((friend) => friend.isOnline)
+    //     .toList();
+    final onlineFriends = friendsController.friends;
     if (onlineFriends.isEmpty) {
       Get.snackbar(
         "No Friends Online",

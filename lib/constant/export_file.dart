@@ -3,6 +3,7 @@
 // export 'package:firebase_auth/firebase_auth.dart';
 // export 'package:firebase_core/firebase_core.dart';
 export 'package:flutter/material.dart';
+
 // export 'package:google_sign_in/google_sign_in.dart';
 export 'package:bhabhi_thulla/home.dart';
 export 'package:bhabhi_thulla/routes/app_pages.dart';
@@ -40,9 +41,8 @@ export 'package:bhabhi_thulla/modules/auth/auth_controller.dart';
 export 'package:bhabhi_thulla/constant/api_constant.dart';
 export 'package:bhabhi_thulla/constant/local_keys.dart';
 export 'package:bhabhi_thulla/services/api_handler.dart';
-export 'package:bhabhi_thulla/models/friend_model.dart';
 export 'package:bhabhi_thulla/constant/lists.dart';
-export 'package:bhabhi_thulla/modules/profile/profile_controller.dart';// Comman
+export 'package:bhabhi_thulla/modules/profile/profile_controller.dart'; // Comman
 
 export 'package:bhabhi_thulla/models/animated_card_model.dart';
 export 'package:bhabhi_thulla/modules/game/game_controller.dart';
