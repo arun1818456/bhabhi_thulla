@@ -1,4 +1,3 @@
-
 import '../../constant/export_file.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,6 +10,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ScrollController _scrollController = ScrollController();
   double scrollOffset = 0;
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -146,7 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          const FittedBox(child: MyText(text: 'ARUN')),
+                          FittedBox(
+                            child: MyText(text: controller.userData.name ?? ""),
+                          ),
                           const Spacer(),
                           Flexible(
                             flex: 3,
@@ -157,22 +159,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Flexible(
                                   child: FittedBox(
                                     child: MyText(
-                                      text: "PID : 5433244",
+                                      text: "PID : ${controller.userData.pid}",
                                       color: Colors.brown,
                                       borderColor: Colors.transparent,
                                     ),
                                   ),
                                 ),
-                                Flexible(
-                                  child: FittedBox(
-                                    child: MyText(
-                                      text: "Country : INDIA",
-                                      color: Colors.brown,
-                                      borderColor: Colors.transparent,
-                                      fontSize: 14,
+                                if (controller.userData.flag != null)
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: MyText(
+                                        text:
+                                            "Country : ${controller.userData.flag}",
+                                        color: Colors.brown,
+                                        borderColor: Colors.transparent,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -292,7 +296,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          const FittedBox(child: MyText(text: 'ARUN')),
+                          FittedBox(
+                            child: MyText(text: controller.userData.name ?? ""),
+                          ),
                           const Spacer(),
                           Flexible(
                             flex: 3,
@@ -303,22 +309,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Flexible(
                                   child: FittedBox(
                                     child: MyText(
-                                      text: "PID : 5433244",
+                                      text: "PID : ${controller.userData.pid}",
                                       color: Colors.brown,
                                       borderColor: Colors.transparent,
                                     ),
                                   ),
                                 ),
-                                Flexible(
-                                  child: FittedBox(
-                                    child: MyText(
-                                      text: "Country : INDIA",
-                                      color: Colors.brown,
-                                      borderColor: Colors.transparent,
-                                      fontSize: 14,
+                                if (controller.userData.flag != null)
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: MyText(
+                                        text:
+                                            "Country : ${controller.userData.flag}",
+                                        color: Colors.brown,
+                                        borderColor: Colors.transparent,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),

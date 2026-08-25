@@ -1,11 +1,12 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/models/pending_req_model.dart';
+import 'package:bhabhi_thulla/modules/ui_widgets/friend_request_notification.dart';
 
 class DataController extends GetxController with BaseClass {
   MySocketController socketController = Get.find<MySocketController>();
 
   // List<PendingRequestModel> friends = [];
   List<PendingRequestModel> pendingRequests = [];
+  List<UserDataModel> myFriends = [];
 
   @override
   void onInit() {
@@ -54,10 +55,105 @@ class DataController extends GetxController with BaseClass {
 
   void friendRequestReceived(dynamic data) {
     print("friendRequestReceived : $data");
+
+    // ==========================================
+    // Convert socket data to model
+    // ==========================================
+
+    final request = PendingRequestModel.fromJson(
+      Map<String, dynamic>.from(data),
+    );
+
+    // Add to pending requests
+    pendingRequests.add(request);
+
+    // ==========================================
+    // Get FriendsController safely
+    // ==========================================
+
+    if (!Get.isRegistered<FriendsController>()) {
+      Get.put(FriendsController());
+    }
+
+    final FriendsController friendsController = Get.find<FriendsController>();
+    friendsController.pendingRequests = pendingRequests;
+    friendsController.update();
+    // ==========================================
+    // Request ID
+    // ==========================================
+
+    final String? requestId = request.sId;
+
+    // ==========================================
+    // Show notification
+    // ==========================================
+
+    Get.showSnackbar(
+      GetSnackBar(
+        backgroundColor: Colors.transparent,
+        snackPosition: SnackPosition.TOP,
+
+        duration: const Duration(seconds: 8),
+
+        margin: const EdgeInsets.only(left: 8, right: 8, top: 25),
+
+        padding: EdgeInsets.zero,
+
+        snackStyle: SnackStyle.FLOATING,
+
+        messageText: FriendRequestNotification(
+          data: request,
+          onAccept: () {
+            if (requestId == null) {
+              print("❌ Request ID is null");
+              return;
+            }
+
+            friendsController.acceptRequest(
+              receiverId: getUserData().id!,
+              requestId: requestId,
+            );
+            pendingRequests.removeWhere((element) => element.sId == requestId);
+            update();
+            Get.closeCurrentSnackbar();
+          },
+
+          onReject: () {
+            if (requestId == null) {
+              print("❌ Request ID is null");
+              return;
+            }
+
+            friendsController.rejectRequest(
+              receiverId: getUserData().id!,
+              requestId: requestId,
+            );
+            pendingRequests.removeWhere((element) => element.sId == requestId);
+            update();
+            Get.closeCurrentSnackbar();
+          },
+
+          onClose: () {
+            Get.closeCurrentSnackbar();
+          },
+        ),
+      ),
+    );
+
+    update();
   }
 
   void friendAdded(dynamic data) {
     print("friendAdded : $data");
+    myFriends.add(UserDataModel.fromJson(data));
+    if (!Get.isRegistered<FriendsController>()) {
+      Get.put(FriendsController());
+    }
+
+    final FriendsController friendsController = Get.find<FriendsController>();
+    friendsController.myFriends = myFriends;
+    friendsController.update();
+    update();
   }
 
   void getPendingRequests() async {

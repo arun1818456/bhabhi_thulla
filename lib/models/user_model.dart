@@ -11,6 +11,8 @@ class UserDataModel {
   String? createdAt;
   int? coins;
   int? diamonds;
+  int? level;
+  bool? isOnline;
 
   UserDataModel({
     this.id,
@@ -25,6 +27,8 @@ class UserDataModel {
     this.diamonds,
     this.avatar,
     this.createdAt,
+    this.level,
+    this.isOnline,
   });
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
@@ -40,6 +44,8 @@ class UserDataModel {
     diamonds = json['diamonds'];
     avatar = json['avatar'];
     createdAt = json['createdAt'];
+    level = json['level'];
+    isOnline = json['isOnline'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +62,8 @@ class UserDataModel {
     data['diamonds'] = diamonds;
     data['avatar'] = avatar;
     data['createdAt'] = createdAt;
+    data['level'] = level;
+    data['isOnline'] = isOnline;
     return data;
   }
 }

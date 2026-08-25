@@ -70,7 +70,7 @@ class SoloRoomController extends GetxController with BaseClass {
     // final onlineFriends = friendsController.friends
     //     .where((friend) => friend.isOnline)
     //     .toList();
-    final onlineFriends = friendsController.friends;
+    final onlineFriends = friendsController.myFriends;
     if (onlineFriends.isEmpty) {
       Get.snackbar(
         "No Friends Online",
@@ -173,17 +173,17 @@ class SoloRoomController extends GetxController with BaseClass {
                         final friend = onlineFriends[index];
                         return GestureDetector(
                           onTap: () {
-                            Get.back();
-                            socketController.sendFriendRequest(
-                              friendId: friend.pid,
-                              friendName: friend.name,
-                            );
-                            Get.snackbar(
-                              "Invite Sent",
-                              "${friend.name} has been invited.",
-                              backgroundColor: const Color(0xFF2BD67B),
-                              colorText: Colors.white,
-                            );
+                            // Get.back();
+                            // socketController.sendFriendRequest(
+                            //   friendId: friend.pid??"",
+                            //   friendName: friend.name,
+                            // );
+                            // Get.snackbar(
+                            //   "Invite Sent",
+                            //   "${friend.name} has been invited.",
+                            //   backgroundColor: const Color(0xFF2BD67B),
+                            //   colorText: Colors.white,
+                            // );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -222,7 +222,8 @@ class SoloRoomController extends GetxController with BaseClass {
                                       child: Padding(
                                         padding: const EdgeInsets.all(4),
                                         child: Image.asset(
-                                          friend.avatar,
+                                          AppImages.imageMap[friend.avatar] ??
+                                              AppImages.p1,
                                           fit: BoxFit.contain,
                                         ),
                                       ),
@@ -254,7 +255,7 @@ class SoloRoomController extends GetxController with BaseClass {
                                         CrossAxisAlignment.start,
                                     children: [
                                       MyText(
-                                        text: friend.name,
+                                        text: friend.name ?? "",
                                         fontSize: 15,
                                         borderColor: Colors.transparent,
                                         borderWidth: 0,

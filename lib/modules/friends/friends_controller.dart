@@ -1,14 +1,11 @@
-import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/controllers/data_controller.dart';
-import 'package:bhabhi_thulla/models/pending_req_model.dart';
+import '../../constant/export_file.dart';
 
 class FriendsController extends GetxController with BaseClass {
   final TextEditingController searchController = TextEditingController();
   DataController dataController = Get.find<DataController>();
   UserDataModel? searchedPlayer;
   List<PendingRequestModel> pendingRequests = [];
-
-  List friends = [];
+  List<UserDataModel> myFriends = [];
 
   @override
   void onInit() {
@@ -45,13 +42,13 @@ class FriendsController extends GetxController with BaseClass {
         "senderId": getUserData().id,
         "receiverId": searchedPlayer!.id,
       };
-      var res = await httpRequest(REQUEST.post, sendFriendRequestApiEP, data);
+      await httpRequest(REQUEST.post, sendFriendRequestApiEP, data);
       showMySnackBar(
         "Friend request sent to ${searchedPlayer!.name}!",
         success: true,
       );
-      // searchedPlayer = null;
-      // searchController.clear();
+      searchedPlayer = null;
+      searchController.clear();
     } catch (e) {
       showMySnackBar("$e", error: true);
     } finally {
@@ -59,40 +56,38 @@ class FriendsController extends GetxController with BaseClass {
     }
   }
 
-  void acceptRequest(int index) {
+  void acceptRequest({required String requestId, required String receiverId}) {
     try {
-      Map data = {
-        "requestId": pendingRequests[index].sId,
-        "receiverId": getUserData().id,
-      };
+      Map data = {"requestId": requestId, "receiverId": receiverId};
       httpRequest(REQUEST.post, acceptFriendRequestApiEP, data);
     } catch (e) {
       showMySnackBar("$e", error: true);
     }
-    // final request = pendingRequests.removeAt(index);
-    // friends.insert(0, request);
-    // update();
-    // showMySnackBar("${request.name} is now your friend!", success: true);
+    pendingRequests.removeWhere((element) => element.sId == requestId);
+    dataController.pendingRequests.removeWhere(
+      (element) => element.sId == requestId,
+    );
+    dataController.update();
+    update();
   }
 
-  void rejectRequest(int index) {
+  void rejectRequest({required String requestId, required String receiverId}) {
     try {
-      Map data = {
-        "requestId": pendingRequests[index].sId,
-        "receiverId": getUserData().id,
-      };
+      Map data = {"requestId": requestId, "receiverId": receiverId};
       httpRequest(REQUEST.post, rejectFriendRequestApiEP, data);
     } catch (e) {
       showMySnackBar("$e", error: true);
     }
-
-    // final request = pendingRequests.removeAt(index);
-    // update();
-    // showMySnackBar("Request from ${request.name} declined.");
+    pendingRequests.removeWhere((element) => element.sId == requestId);
+    dataController.pendingRequests.removeWhere(
+      (element) => element.sId == requestId,
+    );
+    dataController.update();
+    update();
   }
 
   void removeFriend(int index) {
-    final friend = friends[index];
+    final friend = myFriends[index];
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
@@ -152,7 +147,7 @@ class FriendsController extends GetxController with BaseClass {
                   // Confirm Button
                   GestureDetector(
                     onTap: () {
-                      friends.removeAt(index);
+                      myFriends.removeAt(index);
                       update();
                       Get.back();
                       showMySnackBar(

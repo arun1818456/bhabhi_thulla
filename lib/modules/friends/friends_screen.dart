@@ -79,15 +79,15 @@ class FriendsScreen extends StatelessWidget {
             ],
 
             Expanded(
-              child: controller.friends.isNotEmpty
+              child: controller.myFriends.isNotEmpty
                   ? ListView.builder(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 5,
                         vertical: 5,
                       ),
-                      itemCount: controller.friends.length,
+                      itemCount: controller.myFriends.length,
                       itemBuilder: (context, index) {
-                        final friend = controller.friends[index];
+                        final friend = controller.myFriends[index];
                         return AnimatorWidget(
                           effect: AnimationEffect.scale,
                           delay: Duration(milliseconds: 50 * index),
@@ -124,7 +124,8 @@ class FriendsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Image.asset(
-                                    friend.avatar,
+                                    AppImages.imageMap[friend.avatar] ??
+                                        AppImages.p1,
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -136,10 +137,13 @@ class FriendsScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      MyText(text: friend.name, fontSize: 18),
+                                      MyText(
+                                        text: friend.name ?? "",
+                                        fontSize: 18,
+                                      ),
                                       MyText(
                                         text:
-                                            "LVL ${friend.level} | PID: ${friend.pid}",
+                                            "LVL: ${friend.level ?? "1"} | PID: ${friend.pid}",
                                         fontSize: 12,
                                         color: Colors.amberAccent,
                                         borderColor: Colors.transparent,
@@ -151,7 +155,7 @@ class FriendsScreen extends StatelessWidget {
                                             width: 10,
                                             height: 10,
                                             decoration: BoxDecoration(
-                                              color: friend.isOnline
+                                              color: (friend.isOnline ?? false)
                                                   ? Colors.green
                                                   : Colors.grey,
                                               shape: BoxShape.circle,
@@ -163,11 +167,11 @@ class FriendsScreen extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 5),
                                           MyText(
-                                            text: friend.isOnline
+                                            text: (friend.isOnline ?? false)
                                                 ? "Online"
                                                 : "Offline",
                                             fontSize: 12,
-                                            color: friend.isOnline
+                                            color: (friend.isOnline ?? false)
                                                 ? Colors.greenAccent
                                                 : Colors.grey,
                                             borderColor: Colors.transparent,
@@ -275,14 +279,20 @@ class FriendsScreen extends StatelessWidget {
                         icon: Icons.check,
                         color: Colors.green,
                         tooltip: "Accept request",
-                        onPressed: () => controller.acceptRequest(index),
+                        onPressed: () => controller.acceptRequest(
+                          receiverId: controller.getUserData().id!,
+                          requestId: request.sId!,
+                        ),
                       ),
                       const SizedBox(width: 7),
                       _requestAction(
                         icon: Icons.close,
                         color: Colors.redAccent,
                         tooltip: "Decline request",
-                        onPressed: () => controller.rejectRequest(index),
+                        onPressed: () => controller.rejectRequest(
+                          receiverId: controller.getUserData().id!,
+                          requestId: request.sId!,
+                        ),
                       ),
                     ],
                   ),
@@ -307,7 +317,7 @@ class FriendsScreen extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(8),
         child: Container(
-          width: 30,
+          width: 60,
           height: 27,
           decoration: BoxDecoration(
             color: color,

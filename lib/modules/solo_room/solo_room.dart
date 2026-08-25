@@ -1,6 +1,3 @@
-import 'package:bhabhi_thulla/modules/ui_widgets/flip_room_cards.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/searching_player_card.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/vs.dart';
 import '../../constant/export_file.dart';
 
 class SoloRoom extends StatelessWidget {
