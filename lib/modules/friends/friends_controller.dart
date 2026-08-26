@@ -3,6 +3,7 @@ import '../../constant/export_file.dart';
 class FriendsController extends GetxController with BaseClass {
   final TextEditingController searchController = TextEditingController();
   DataController dataController = Get.find<DataController>();
+  UserDataModel userData = UserDataModel();
   UserDataModel? searchedPlayer;
   List<PendingRequestModel> pendingRequests = [];
   List<UserDataModel> myFriends = [];
@@ -14,7 +15,9 @@ class FriendsController extends GetxController with BaseClass {
   }
 
   void onInitData() {
+    userData = getUserData();
     pendingRequests = dataController.pendingRequests;
+    myFriends = dataController.myFriends;
     update();
   }
 
@@ -26,7 +29,12 @@ class FriendsController extends GetxController with BaseClass {
     }
     try {
       searchedPlayer = null;
-      var res = await httpRequest(REQUEST.get, "$getUserByPIDApiEP/$query", {});
+      var res = await httpRequest(
+        REQUEST.get,
+        "$getUserByPIDApiEP/$query",
+        {},
+        token: userData.token ?? "",
+      );
       searchedPlayer = UserDataModel.fromJson(res["data"]);
     } catch (e) {
       showMySnackBar("$e", error: true);
@@ -38,11 +46,13 @@ class FriendsController extends GetxController with BaseClass {
   Future<void> sendRequest() async {
     if (searchedPlayer == null) return;
     try {
-      Map data = {
-        "senderId": getUserData().id,
-        "receiverId": searchedPlayer!.id,
-      };
-      await httpRequest(REQUEST.post, sendFriendRequestApiEP, data);
+      Map data = {"receiverId": searchedPlayer!.id};
+      await httpRequest(
+        REQUEST.post,
+        sendFriendRequestApiEP,
+        data,
+        token: userData.token ?? "",
+      );
       showMySnackBar(
         "Friend request sent to ${searchedPlayer!.name}!",
         success: true,
@@ -59,7 +69,12 @@ class FriendsController extends GetxController with BaseClass {
   void acceptRequest({required String requestId, required String receiverId}) {
     try {
       Map data = {"requestId": requestId, "receiverId": receiverId};
-      httpRequest(REQUEST.post, acceptFriendRequestApiEP, data);
+      httpRequest(
+        REQUEST.post,
+        acceptFriendRequestApiEP,
+        data,
+        token: userData.token ?? "",
+      );
     } catch (e) {
       showMySnackBar("$e", error: true);
     }
@@ -71,19 +86,42 @@ class FriendsController extends GetxController with BaseClass {
     update();
   }
 
-  void rejectRequest({required String requestId, required String receiverId}) {
+  Future<void> rejectRequest({required String requestId}) async {
     try {
-      Map data = {"requestId": requestId, "receiverId": receiverId};
-      httpRequest(REQUEST.post, rejectFriendRequestApiEP, data);
+      Map data = {"requestId": requestId};
+      await httpRequest(
+        REQUEST.post,
+        rejectFriendRequestApiEP,
+        data,
+        token: userData.token ?? "",
+      );
+      pendingRequests.removeWhere((element) => element.sId == requestId);
+      dataController.pendingRequests.removeWhere(
+        (element) => element.sId == requestId,
+      );
+      dataController.update();
     } catch (e) {
       showMySnackBar("$e", error: true);
     }
-    pendingRequests.removeWhere((element) => element.sId == requestId);
-    dataController.pendingRequests.removeWhere(
-      (element) => element.sId == requestId,
-    );
-    dataController.update();
+
     update();
+  }
+
+  Future<void> removeMyFriend({required String friendId}) async {
+    try {
+      await httpRequest(
+        REQUEST.delete,
+        "$removeMyFriendApiEP/$friendId",
+        {},
+        token: userData.token ?? "",
+      );
+      myFriends.removeWhere((element) => element.id == friendId);
+      dataController.myFriends.removeWhere((element) => element.id == friendId);
+      dataController.update();
+      update();
+    } catch (e) {
+      showMySnackBar("$e", error: true);
+    }
   }
 
   void removeFriend(int index) {
@@ -147,13 +185,8 @@ class FriendsController extends GetxController with BaseClass {
                   // Confirm Button
                   GestureDetector(
                     onTap: () {
-                      myFriends.removeAt(index);
-                      update();
                       Get.back();
-                      showMySnackBar(
-                        "${friend.name} removed successfully!",
-                        success: true,
-                      );
+                      removeMyFriend(friendId: myFriends[index].id ?? "");
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(

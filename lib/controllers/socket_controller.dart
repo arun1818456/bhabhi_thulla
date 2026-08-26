@@ -8,7 +8,10 @@ class MySocketController extends GetxController with BaseClass {
 
   @override
   void onInit() {
-    initializeSocket();
+    // Only connect if user is already logged in
+    if (storage.hasData(LocalKeys.userData)) {
+      initializeSocket();
+    }
     super.onInit();
   }
 
@@ -137,5 +140,18 @@ class MySocketController extends GetxController with BaseClass {
     };
     debugPrint(">>>> send_friend_request: $data");
     socket.value!.emit("send_play_request", data);
+  }
+
+  void disconnectSocket() {
+    if (socket.value != null) {
+      debugPrint("-----------Socket Manual Disconnect-----------");
+      socket.value!.disconnect();
+      socket.value = null;
+      isSocketConnected.value = false;
+      if (timer.value != null) {
+        timer.value!.cancel();
+      }
+      update();
+    }
   }
 }

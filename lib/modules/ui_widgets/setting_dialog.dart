@@ -136,7 +136,7 @@ class SettingsDialog extends StatelessWidget {
 
   Widget _footer(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25,vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       height: 70,
       decoration: const BoxDecoration(
         color: Color(0xff2E8CFF),
@@ -154,7 +154,14 @@ class SettingsDialog extends StatelessWidget {
           SizedBox(width: 30),
 
           Expanded(
-            child: GameButton(text: "Logout", onTap: () {}),
+            child: GameButton(
+              text: "Logout",
+              onTap: () {
+                Get.find<MySocketController>().disconnectSocket();
+                GetStorage().remove(LocalKeys.userData);
+                Get.offAllNamed(AppRoutes.authScreen);
+              },
+            ),
           ),
         ],
       ),
@@ -250,9 +257,15 @@ class _GameButtonState extends State<GameButton> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [widget.color.withValues(alpha: .95), const Color(0xff208BFF)],
+              colors: [
+                widget.color.withValues(alpha: .95),
+                const Color(0xff208BFF),
+              ],
             ),
-            border: Border.all(color: Colors.white.withValues(alpha: .25), width: 2),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: .25),
+              width: 2,
+            ),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black45,

@@ -287,10 +287,8 @@ class FriendsScreen extends StatelessWidget {
                         icon: Icons.close,
                         color: Colors.redAccent,
                         tooltip: "Decline request",
-                        onPressed: () => controller.rejectRequest(
-                          receiverId: controller.getUserData().id!,
-                          requestId: request.sId!,
-                        ),
+                        onPressed: () =>
+                            controller.rejectRequest(requestId: request.sId!),
                       ),
                     ],
                   ),

@@ -6,11 +6,15 @@ class AuthController extends GetxController with BaseClass {
     if (deviceInfo != null) {
       try {
         var response = await httpRequest(REQUEST.post, guestLoginApiEP, {
-          "deviceId": deviceInfo["id"]??"not-found",
+          "deviceId": deviceInfo["id"] ?? "not-found",
         });
         if (response["success"]) {
           storage.write(LocalKeys.userData, response["data"]);
-          Get.offAllNamed(AppRoutes.homeScreen);
+          Future.delayed(Duration(seconds: 3), () {
+            Get.find<MySocketController>().initializeSocket();
+            Get.find<DataController>().onInit();
+            Get.offAllNamed(AppRoutes.homeScreen);
+          });
         }
       } catch (e) {
         debugPrint("Error:- $e");
