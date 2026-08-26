@@ -1,6 +1,4 @@
 
-import 'package:bhabhi_thulla/constant/colors.dart';
-
 import '../constant/export_file.dart';
 
 class LoadingDialog extends StatefulWidget {

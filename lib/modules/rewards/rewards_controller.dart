@@ -1,5 +1,4 @@
-import 'package:bhabhi_thulla/constant/export_file.dart';
-import '../../models/reward_model.dart';
+import '../../constant/export_file.dart';
 
 class RewardsController extends GetxController {
   List<RewardModel> dailyRewards = [
@@ -13,11 +12,41 @@ class RewardsController extends GetxController {
   ];
 
   List<MilestoneModel> milestones = [
-    MilestoneModel(title: "Win 5 Solo Games", totalProgress: 5, currentProgress: 3, rewardAmount: 500, type: RewardType.coin),
-    MilestoneModel(title: "Play 10 Friend Matches", totalProgress: 10, currentProgress: 7, rewardAmount: 20, type: RewardType.diamond),
-    MilestoneModel(title: "Invite 3 Friends", totalProgress: 3, currentProgress: 1, rewardAmount: 1000, type: RewardType.coin),
-    MilestoneModel(title: "Complete Daily Spin", totalProgress: 1, currentProgress: 1, rewardAmount: 2, type: RewardType.diamond),
-    MilestoneModel(title: "Reach Level 10", totalProgress: 10, currentProgress: 8, rewardAmount: 5000, type: RewardType.coin),
+    MilestoneModel(
+      title: "Win 5 Solo Games",
+      totalProgress: 5,
+      currentProgress: 3,
+      rewardAmount: 500,
+      type: RewardType.coin,
+    ),
+    MilestoneModel(
+      title: "Play 10 Friend Matches",
+      totalProgress: 10,
+      currentProgress: 7,
+      rewardAmount: 20,
+      type: RewardType.diamond,
+    ),
+    MilestoneModel(
+      title: "Invite 3 Friends",
+      totalProgress: 3,
+      currentProgress: 1,
+      rewardAmount: 1000,
+      type: RewardType.coin,
+    ),
+    MilestoneModel(
+      title: "Complete Daily Spin",
+      totalProgress: 1,
+      currentProgress: 1,
+      rewardAmount: 2,
+      type: RewardType.diamond,
+    ),
+    MilestoneModel(
+      title: "Reach Level 10",
+      totalProgress: 10,
+      currentProgress: 8,
+      rewardAmount: 5000,
+      type: RewardType.coin,
+    ),
   ];
 
   void claimDailyReward(int index) {
@@ -34,7 +63,8 @@ class RewardsController extends GetxController {
   }
 
   void claimMilestone(int index) {
-    if (milestones[index].currentProgress >= milestones[index].totalProgress && !milestones[index].isClaimed) {
+    if (milestones[index].currentProgress >= milestones[index].totalProgress &&
+        !milestones[index].isClaimed) {
       milestones[index].isClaimed = true;
       update();
       Get.snackbar(

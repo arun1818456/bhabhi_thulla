@@ -1,5 +1,5 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/friend_request_notification.dart';
+
 
 class DataController extends GetxController with BaseClass {
   MySocketController socketController = Get.find<MySocketController>();

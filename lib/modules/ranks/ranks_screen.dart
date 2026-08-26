@@ -1,5 +1,4 @@
 import '../../constant/export_file.dart';
-import '../../models/rank_model.dart';
 
 class RanksScreen extends StatelessWidget {
   const RanksScreen({super.key});

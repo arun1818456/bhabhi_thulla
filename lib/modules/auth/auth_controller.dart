@@ -1,19 +1,18 @@
-
-import 'package:bhabhi_thulla/constant/export_file.dart';
+import '../../constant/export_file.dart';
 
 class AuthController extends GetxController with BaseClass {
   Future<void> onTapGuestLogin() async {
     var deviceInfo = await getDeviceInfo();
     if (deviceInfo != null) {
-      try{
-       var response=await httpRequest(REQUEST.post, guestLoginApiEP, {
-          "deviceId": deviceInfo["id"]
+      try {
+        var response = await httpRequest(REQUEST.post, guestLoginApiEP, {
+          "deviceId": deviceInfo["id"]??"not-found",
         });
-       if(response["success"]){
-         storage.write(LocalKeys.userData, response["data"]);
-         Get.offAllNamed(AppRoutes.homeScreen);
-       }
-      }catch(e){
+        if (response["success"]) {
+          storage.write(LocalKeys.userData, response["data"]);
+          Get.offAllNamed(AppRoutes.homeScreen);
+        }
+      } catch (e) {
         debugPrint("Error:- $e");
       }
     }

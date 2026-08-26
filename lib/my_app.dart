@@ -1,4 +1,3 @@
-import 'package:bhabhi_thulla/controllers/initial_binding.dart';
 import 'constant/export_file.dart';
 
 class MyApp extends StatelessWidget {

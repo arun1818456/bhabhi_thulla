@@ -1,8 +1,5 @@
-import 'package:bhabhi_thulla/widgets/animation_effect.dart';
-import 'package:bhabhi_thulla/widgets/button.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+
+import '../../constant/export_file.dart';
 
 class FriendRoomScreen extends StatelessWidget {
   const FriendRoomScreen({super.key});

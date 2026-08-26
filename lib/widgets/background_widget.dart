@@ -1,7 +1,5 @@
 import 'dart:ui';
-
-import 'package:bhabhi_thulla/constant/app_images.dart';
-import 'package:flutter/material.dart';
+import '../constant/export_file.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget? child;

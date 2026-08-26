@@ -1,7 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:bhabhi_thulla/my_app.dart';
-
 import 'constant/export_file.dart';
 
 GetStorage localStorage = GetStorage();

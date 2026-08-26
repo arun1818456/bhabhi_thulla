@@ -1,5 +1,3 @@
-import 'package:bhabhi_thulla/models/pending_req_model.dart';
-
 import '../../constant/export_file.dart';
 
 class FriendsScreen extends StatelessWidget {

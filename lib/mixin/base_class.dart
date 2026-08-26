@@ -1,8 +1,3 @@
-import 'package:bhabhi_thulla/constant/local_keys.dart';
-import 'package:bhabhi_thulla/models/user_model.dart';
-import 'package:bhabhi_thulla/widgets/full_screen_loader.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:get_storage/get_storage.dart';
 import '../constant/export_file.dart';
 
 mixin BaseClass {
@@ -63,10 +58,7 @@ mixin BaseClass {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [
-                Color(0xff2B1B0F),
-                Color(0xff5A3720),
-              ],
+              colors: [Color(0xff2B1B0F), Color(0xff5A3720)],
             ),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(color: borderColor, width: 2),
@@ -91,10 +83,7 @@ mixin BaseClass {
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      Color(0xffFFD54F),
-                      Color(0xffFFB300),
-                    ],
+                    colors: [Color(0xffFFD54F), Color(0xffFFB300)],
                   ),
                 ),
                 child: Icon(icon, color: Colors.white, size: 26),

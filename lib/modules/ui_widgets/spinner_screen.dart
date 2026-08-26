@@ -1,14 +1,12 @@
 import 'dart:math';
 import 'dart:ui' as ui;
-
-import 'package:bhabhi_thulla/constant/export_file.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/services.dart';
-import 'package:bhabhi_thulla/modules/splash/splash_controller.dart';
 import 'package:spinning_wheel/controller/spin_controller.dart';
 import 'package:spinning_wheel/models/wheel_label_style.dart';
 import 'package:spinning_wheel/models/wheel_segment.dart';
 import 'package:spinning_wheel/spinner_wheel.dart';
+import '../../constant/export_file.dart';
 
 class SpinnerScreen extends StatefulWidget {
   const SpinnerScreen({super.key});

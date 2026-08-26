@@ -1,4 +1,4 @@
-import 'package:bhabhi_thulla/constant/export_file.dart';
+import '../../constant/export_file.dart';
 
 class HomeController extends GetxController with BaseClass {
   UserDataModel userData = UserDataModel();

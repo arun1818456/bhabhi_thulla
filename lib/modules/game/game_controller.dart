@@ -1,21 +1,20 @@
 
-import 'package:bhabhi_thulla/constant/enums.dart';
-import 'package:bhabhi_thulla/constant/export_file.dart';
+import '../../constant/export_file.dart';
 
-class GameController extends GetxController{
-  int players =2;
-  List onTableThrowCards=[];
+class GameController extends GetxController {
+  int players = 2;
+  List onTableThrowCards = [];
   final List<List<dynamic>> handCards = [
     [5, Suit.diamonds],
     [11, Suit.hearts],
     [12, Suit.hearts],
     [13, Suit.clubs],
     [3, Suit.spades],
-    [4,  Suit.hearts],
+    [4, Suit.hearts],
     [4, Suit.clubs],
-    [5,  Suit.spades],
-    [6,  Suit.spades],
-    [7,  Suit.hearts],
+    [5, Suit.spades],
+    [6, Suit.spades],
+    [7, Suit.hearts],
     [12, Suit.hearts],
   ];
 
@@ -25,8 +24,5 @@ class GameController extends GetxController{
     super.onInit();
   }
 
- void  startGame(){
-
-  }
-
+  void startGame() {}
 }

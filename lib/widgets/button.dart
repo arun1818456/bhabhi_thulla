@@ -1,4 +1,3 @@
-import '../constant/colors.dart';
 import '../constant/export_file.dart';
 
 class CustomButton extends StatelessWidget {

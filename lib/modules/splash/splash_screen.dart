@@ -1,5 +1,4 @@
 import '../../constant/export_file.dart';
-import 'splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,7 +8,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
@@ -34,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ],
                   ),
                 ),
-              
+
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

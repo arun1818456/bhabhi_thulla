@@ -1,9 +1,4 @@
-
-import 'package:bhabhi_thulla/constant/colors.dart';
-import 'package:bhabhi_thulla/widgets/button.dart';
-
 import '../../constant/export_file.dart';
-import '../../mixin/base_class.dart';
 
 class CommonDialogs with BaseClass {
   static void common2ButtonsPopUp(

@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import '../../constant/export_file.dart';
 
 class FlipRoomCard extends StatefulWidget {
@@ -57,10 +56,10 @@ class _FlipRoomCardState extends State<FlipRoomCard>
           child: angle <= math.pi / 2
               ? _frontCard()
               : Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationY(math.pi),
-            child: _backCard(),
-          ),
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(math.pi),
+                  child: _backCard(),
+                ),
         );
       },
     );

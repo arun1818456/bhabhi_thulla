@@ -1,4 +1,3 @@
-import 'package:socket_io_client/socket_io_client.dart';
 import '../constant/export_file.dart';
 
 class MySocketController extends GetxController with BaseClass {

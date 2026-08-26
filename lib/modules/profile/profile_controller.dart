@@ -1,4 +1,4 @@
-import 'package:bhabhi_thulla/constant/export_file.dart';
+import '../../constant/export_file.dart';
 
 class ProfileController extends GetxController with BaseClass {
   int selectedIndex = 0;

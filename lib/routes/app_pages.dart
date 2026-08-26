@@ -1,5 +1,4 @@
 
-import 'package:bhabhi_thulla/modules/auth/auth_screen.dart';
 import '../constant/export_file.dart';
 
 class AppPages {

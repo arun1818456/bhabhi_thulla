@@ -47,7 +47,7 @@ dependencies:
   spinning_wheel: ^0.0.7
   confetti: ^0.8.0
   socket_io_client: ^3.1.6
-  device_info_plus: ^13.2.0
+  device_info_plus: 12.1.0
   http: ^1.6.0
 dev_dependencies:
   flutter_test:

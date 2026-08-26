@@ -1,5 +1,4 @@
 import '../../constant/export_file.dart';
-import '../../models/reward_model.dart';
 
 class RewardsScreen extends StatelessWidget {
   const RewardsScreen({super.key});

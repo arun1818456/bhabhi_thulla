@@ -1,7 +1,4 @@
-import 'package:bhabhi_thulla/controllers/data_controller.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/chip_text_card.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/image_card.dart';
-import 'package:bhabhi_thulla/modules/ui_widgets/setting_dialog.dart';
+
 
 import '../../constant/export_file.dart';
 

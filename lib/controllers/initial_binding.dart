@@ -1,6 +1,4 @@
-import 'package:bhabhi_thulla/controllers/data_controller.dart';
-import 'package:bhabhi_thulla/controllers/socket_controller.dart';
-import 'package:get/get.dart';
+import '../constant/export_file.dart';
 
 class InitialBinding extends Bindings {
   @override

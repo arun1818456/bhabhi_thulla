@@ -76,7 +76,6 @@ final List<CardValue> ranks = [
   CardValue.queen,
   CardValue.king,
 ];
-final List<Suit> suits = [Suit.spades, Suit.hearts, Suit.diamonds, Suit.clubs];
 
 /// variables
 final List<GameRoom> rooms = [
