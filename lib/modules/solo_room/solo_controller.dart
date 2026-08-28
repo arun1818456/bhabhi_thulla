@@ -1,14 +1,17 @@
+import 'package:bhabhi_thulla/models/lobby_model.dart';
+
 import '../../constant/export_file.dart';
 
 class SoloRoomController extends GetxController with BaseClass {
   MySocketController socketController = Get.find<MySocketController>();
   UserDataModel userData = UserDataModel();
+  LobbyModel lobbyModel = LobbyModel();
+
+  // Local variables
   int? prizeSelected;
   bool isMatchFounding = false;
   int searchCount = 1;
   Timer? searchTimer;
-  String lobbyId = "";
-  List joinedPlayers = [];
 
   void startSearchingAnimation() {
     searchCount = 1;
@@ -33,9 +36,12 @@ class SoloRoomController extends GetxController with BaseClass {
   @override
   void onInit() {
     userData = getUserData();
+    socketController.socket.value!.on('lobby_created', onLobbyCreated);
     socketController.socket.value!.on('match_status', onMatchStatus);
     socketController.socket.value!.on('lobby_error', onLobbyError);
-    socketController.socket.value!.on('lobby_created', onLobbyCreated);
+    socketController.socket.value!.on('lobbyUpdated', onLobbyUpdated);
+    socketController.socket.value!.on('inviteFailed', onInviteFailed);
+    socketController.socket.value!.on('inviteRejected', inviteRejected);
     super.onInit();
   }
 
@@ -46,6 +52,9 @@ class SoloRoomController extends GetxController with BaseClass {
     socketController.socket.value!.off('lobby_error');
     socketController.socket.value!.off('match_status');
     socketController.socket.value!.off('lobby_created');
+    socketController.socket.value!.off('lobbyUpdated');
+    socketController.socket.value!.off('inviteFailed');
+    socketController.socket.value!.off('inviteRejected');
   }
 
   void onTapToSelectPrize(int entryFee) {
@@ -63,14 +72,14 @@ class SoloRoomController extends GetxController with BaseClass {
   }
 
   void onTapToJoinFriend() {
-    final friendsController = Get.isRegistered<FriendsController>()
-        ? Get.find<FriendsController>()
-        : Get.put(FriendsController());
+    final dataController = Get.find<DataController>();
+    List<UserDataModel> onlineFriends = [];
+    for (var element in dataController.myFriends) {
+      if (element.isOnline == true) {
+        onlineFriends.add(element);
+      }
+    }
 
-    // final onlineFriends = friendsController.friends
-    //     .where((friend) => friend.isOnline)
-    //     .toList();
-    final onlineFriends = friendsController.myFriends;
     if (onlineFriends.isEmpty) {
       Get.snackbar(
         "No Friends Online",
@@ -168,22 +177,12 @@ class SoloRoomController extends GetxController with BaseClass {
                     child: ListView.separated(
                       itemCount: onlineFriends.length,
                       padding: const EdgeInsets.symmetric(vertical: 4),
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      separatorBuilder: (_, a) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final friend = onlineFriends[index];
                         return GestureDetector(
-                          onTap: () {
-                            // Get.back();
-                            // socketController.sendFriendRequest(
-                            //   friendId: friend.pid??"",
-                            //   friendName: friend.name,
-                            // );
-                            // Get.snackbar(
-                            //   "Invite Sent",
-                            //   "${friend.name} has been invited.",
-                            //   backgroundColor: const Color(0xFF2BD67B),
-                            //   colorText: Colors.white,
-                            // );
+                          onTap: (){
+                            socketController.sendInviteRequest(userId: friend.id??"");
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -313,21 +312,32 @@ class SoloRoomController extends GetxController with BaseClass {
 
   //// Socket Listeners
   void onMatchStatus(dynamic data) {
-    print(">>onMatch Status >>> ${data}");
+    debugPrint(">>onMatch Status >>> $data");
+  }
+
+  void onLobbyUpdated(dynamic data) {
+    debugPrint(">>onLobbyUpdated >>> $data");
+  }
+
+  void onInviteFailed(dynamic data) {
+    debugPrint(">>onInviteFailed >>> $data");
+  }
+
+  void inviteRejected(dynamic data) {
+    debugPrint(">>inviteRejected >>> $data");
   }
 
   void onLobbyError(dynamic data) {
     prizeSelected = null;
     showMySnackBar(data["message"]);
     update();
-    print(">>onLobbyError >>> ${data}");
+    debugPrint(">>onLobbyError >>> $data");
   }
 
   void onLobbyCreated(dynamic data) {
-    print(">>onLobbyCreated >>> ${data}");
+    debugPrint(">>onLobbyCreated >>> $data");
     if (data != null) {
-      lobbyId = data["lobbyId"] ?? '';
-      joinedPlayers = data["joinedPlayers"] ?? [];
+      lobbyModel = LobbyModel.fromJson(data);
       update();
     }
   }

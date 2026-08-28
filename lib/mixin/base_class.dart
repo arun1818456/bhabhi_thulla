@@ -64,12 +64,12 @@ mixin BaseClass {
             border: Border.all(color: borderColor, width: 2),
             boxShadow: [
               BoxShadow(
-                color: borderColor.withOpacity(0.45),
+                color: borderColor.withValues(alpha: 0.45),
                 blurRadius: 18,
                 spreadRadius: 2,
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.35),
+                color: Colors.black.withValues(alpha: 0.35),
                 blurRadius: 10,
                 offset: const Offset(0, 6),
               ),

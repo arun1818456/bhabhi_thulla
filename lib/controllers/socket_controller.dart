@@ -63,6 +63,7 @@ class MySocketController extends GetxController with BaseClass {
         isSocketConnected.value = false;
         update();
       });
+      onMethods();
       socket.value!.connect();
     }
   }
@@ -90,6 +91,7 @@ class MySocketController extends GetxController with BaseClass {
     });
   }
 
+  /// //////////
   void joinGame() {
     if (storage.hasData(LocalKeys.userData) &&
         getUserData().id != null &&
@@ -103,16 +105,14 @@ class MySocketController extends GetxController with BaseClass {
     }
   }
 
-  void findMatch({ required int entryFee}){
-    if(socket.value == null || !socket.value!.connected){
+  void findMatch({required int entryFee}) {
+    if (socket.value == null || !socket.value!.connected) {
       initializeSocket();
       return;
     }
-    Map<String, dynamic> data = {
-      "entryFee": entryFee,
-    };
+    Map<String, dynamic> data = {"entryFee": entryFee};
     debugPrint(">>>> find_match: $data");
-    socket.value!.emit("find_match",data);
+    socket.value!.emit("find_match", data);
   }
 
   void onCreateLobby(int entryFee) {
@@ -120,14 +120,25 @@ class MySocketController extends GetxController with BaseClass {
       initializeSocket();
       return;
     }
-    Map<String, dynamic> data = {
-      "entryFee": entryFee,
-    };
+    Map<String, dynamic> data = {"entryFee": entryFee};
     debugPrint(">>>> create_lobby: $data ");
-    socket.value!.emit("create_lobby",data);
+    socket.value!.emit("create_lobby", data);
   }
 
-  void sendFriendRequest({required String friendId, required String friendName}) {
+  void leaveLobby() {
+    if (socket.value == null || !socket.value!.connected) {
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {"userId": getUserData().id};
+    debugPrint(">>>> leave_lobby: $data");
+    socket.value!.emit("leaveLobby", data);
+  }
+
+  void sendFriendRequest({
+    required String friendId,
+    required String friendName,
+  }) {
     if (socket.value == null || !socket.value!.connected) {
       initializeSocket();
       return;
@@ -142,6 +153,10 @@ class MySocketController extends GetxController with BaseClass {
     socket.value!.emit("send_play_request", data);
   }
 
+  void sendInviteRequest({required String userId}) {
+    socket.value?.emit("invitePlayer", {"targetUserId": userId});
+  }
+
   void disconnectSocket() {
     if (socket.value != null) {
       debugPrint("-----------Socket Manual Disconnect-----------");
@@ -153,5 +168,36 @@ class MySocketController extends GetxController with BaseClass {
       }
       update();
     }
+  }
+
+  void onMethods() {
+    socket.value!.on("inviteFailed", (msg) {
+      debugPrint(msg);
+    });
+    socket.value!.on("joinFailed", (msg) {
+      debugPrint(msg);
+    });
+    socket.value!.on("lobbyInvite", (data) {
+      final lobbyId = data["lobbyId"];
+      final ownerId = data["ownerId"];
+
+      Get.defaultDialog(
+        title: "Lobby Invite",
+        middleText: "Join lobby?",
+        textConfirm: "Join",
+        textCancel: "Reject",
+        onConfirm: () {
+          socket.value!.emit("acceptInvite", {
+            "lobbyId": lobbyId,
+          });
+          Get.back();
+        },
+        onCancel: () {
+          socket.value!.emit("rejectInvite", {
+            "ownerId": ownerId,
+          });
+        },
+      );
+    });
   }
 }

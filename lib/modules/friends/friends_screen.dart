@@ -225,7 +225,7 @@ class FriendsScreen extends StatelessWidget {
 
   Widget _requestCard(
     FriendsController controller,
-    PendingRequestModel request,
+    FriendRequestModel request,
     int index,
   ) {
     return Container(

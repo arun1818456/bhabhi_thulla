@@ -503,8 +503,8 @@ class CommonDialogs with BaseClass {
             child: Material(
               color: Colors.transparent,
               child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 16),
+                width: MediaQuery.of(context).size.width/2,
+                // margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: Colors.white,

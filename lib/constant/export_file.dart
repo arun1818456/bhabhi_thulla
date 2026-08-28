@@ -50,7 +50,7 @@ export 'package:get/get.dart';
 export 'package:bhabhi_thulla/mixin/base_class.dart';
 export 'package:bhabhi_thulla/constant/export_file.dart';
 export 'package:bhabhi_thulla/controllers/data_controller.dart';
-export 'package:bhabhi_thulla/models/pending_req_model.dart';
+export 'package:bhabhi_thulla/models/friend_request_model.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/flip_room_cards.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/searching_player_card.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/vs.dart';

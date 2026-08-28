@@ -5,7 +5,7 @@ class DataController extends GetxController with BaseClass {
   UserDataModel userData = UserDataModel();
 
   // List<PendingRequestModel> friends = [];
-  List<PendingRequestModel> pendingRequests = [];
+  List<FriendRequestModel> pendingRequests = [];
   List<UserDataModel> myFriends = [];
 
   @override
@@ -50,7 +50,7 @@ class DataController extends GetxController with BaseClass {
   }
 
   void friendRemovedFromList(dynamic data) {
-    print("friends_presence: $data");
+    debugPrint("friends_presence: $data");
     final String userId = data["userId"].toString();
     myFriends.removeWhere((friend) => friend.id == userId);
     if (Get.isRegistered<FriendsController>()) {
@@ -62,7 +62,7 @@ class DataController extends GetxController with BaseClass {
   }
 
   void myOnlineOfflineFriendsUpdate(dynamic data) {
-    print("friend_presence_changed : $data");
+    debugPrint("friend_presence_changed : $data");
     final friendData = Map<String, dynamic>.from(data["friend"]);
     final String userId = friendData["userId"].toString();
     final bool isOnline = friendData["isOnline"] ?? false;
@@ -80,23 +80,15 @@ class DataController extends GetxController with BaseClass {
   }
 
   void friendRequestReceived(dynamic data) {
-    print("friendRequestReceived : $data");
-
-    // ==========================================
-    // Convert socket data to model
-    // ==========================================
-
-    final request = PendingRequestModel.fromJson(
+    debugPrint("friendRequestReceived : $data");
+    final request = FriendRequestModel.fromJson(
       Map<String, dynamic>.from(data),
     );
 
-    // Add to pending requests
-    pendingRequests.add(request);
-
-    // ==========================================
-    // Get FriendsController safely
-    // ==========================================
-
+    final alreadyExists = pendingRequests.any((e) => e.sId == request.sId);
+    if (!alreadyExists) {
+      pendingRequests.add(request);
+    }
     if (!Get.isRegistered<FriendsController>()) {
       Get.put(FriendsController());
     }
@@ -104,16 +96,7 @@ class DataController extends GetxController with BaseClass {
     final FriendsController friendsController = Get.find<FriendsController>();
     friendsController.pendingRequests = pendingRequests;
     friendsController.update();
-    // ==========================================
-    // Request ID
-    // ==========================================
-
     final String? requestId = request.sId;
-
-    // ==========================================
-    // Show notification
-    // ==========================================
-
     Get.showSnackbar(
       GetSnackBar(
         backgroundColor: Colors.transparent,
@@ -131,7 +114,7 @@ class DataController extends GetxController with BaseClass {
           data: request,
           onAccept: () {
             if (requestId == null) {
-              print("❌ Request ID is null");
+              debugPrint("❌ Request ID is null");
               return;
             }
 
@@ -146,7 +129,7 @@ class DataController extends GetxController with BaseClass {
 
           onReject: () {
             if (requestId == null) {
-              print("❌ Request ID is null");
+              debugPrint("❌ Request ID is null");
               return;
             }
 
@@ -167,8 +150,13 @@ class DataController extends GetxController with BaseClass {
   }
 
   void friendAdded(dynamic data) {
-    print("friendAdded : $data");
-    myFriends.add(UserDataModel.fromJson(data));
+    debugPrint("friendAdded : $data");
+    final user = UserDataModel.fromJson(data);
+    final alreadyExists = myFriends.any((e) => e.id == user.id);
+
+    if (!alreadyExists) {
+      myFriends.add(user);
+    }
     if (!Get.isRegistered<FriendsController>()) {
       Get.put(FriendsController());
     }
@@ -189,7 +177,7 @@ class DataController extends GetxController with BaseClass {
       );
 
       pendingRequests = (res["data"]?["requests"] as List)
-          .map((e) => PendingRequestModel.fromJson(e))
+          .map((e) => FriendRequestModel.fromJson(e))
           .toList();
       myFriends = (res["data"]?["friends"] as List)
           .map((e) => UserDataModel.fromJson(e))

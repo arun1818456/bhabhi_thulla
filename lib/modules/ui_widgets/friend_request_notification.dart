@@ -1,7 +1,7 @@
 import '../../constant/export_file.dart';
 
 class FriendRequestNotification extends StatelessWidget {
-  final PendingRequestModel data;
+  final FriendRequestModel data;
   final VoidCallback onAccept;
   final VoidCallback onReject;
   final VoidCallback onClose;
@@ -29,12 +29,12 @@ class FriendRequestNotification extends StatelessWidget {
         border: Border.all(color: const Color(0xFFFFD45C), width: 2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.55),
+            color: Colors.black.withValues(alpha: .55),
             blurRadius: 15,
             offset: const Offset(0, 6),
           ),
           BoxShadow(
-            color: const Color(0xFFFFB300).withOpacity(.25),
+            color: const Color(0xFFFFB300).withValues(alpha: .25),
             blurRadius: 15,
             spreadRadius: 1,
           ),
@@ -283,7 +283,7 @@ class FriendRequestNotification extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(.40),
+                  color: Colors.black.withValues(alpha: .40),
                   blurRadius: 6,
                   offset: const Offset(0, 4),
                 ),
@@ -300,7 +300,7 @@ class FriendRequestNotification extends StatelessWidget {
                 child: Image.asset(
                   AppImages.imageMap[data.senderId?.avatar] ?? AppImages.p1,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) {
+                  errorBuilder: (_, a, aa) {
                     return const Icon(
                       Icons.person,
                       color: Colors.white,
@@ -331,7 +331,7 @@ class FriendRequestNotification extends StatelessWidget {
                 border: Border.all(color: const Color(0xFFFFD85A), width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.40),
+                    color: Colors.black.withValues(alpha: .40),
                     blurRadius: 4,
                   ),
                 ],
@@ -373,7 +373,7 @@ class FriendRequestNotification extends StatelessWidget {
           border: Border.all(color: const Color(0xFFFFF7A6), width: 1.2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.30),
+              color: Colors.black.withValues(alpha: .30),
               blurRadius: 4,
               offset: const Offset(0, 3),
             ),
@@ -425,7 +425,7 @@ class FriendRequestNotification extends StatelessWidget {
           border: Border.all(color: const Color(0xFFFFB0A8), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.25),
+              color: Colors.black.withValues(alpha: .25),
               blurRadius: 3,
               offset: const Offset(0, 2),
             ),
@@ -477,7 +477,7 @@ class FriendRequestNotification extends StatelessWidget {
           border: Border.all(color: const Color(0xFFFFD05A), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.40),
+              color: Colors.black.withValues(alpha: .40),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -502,7 +502,7 @@ class FriendRequestNotification extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color(0xFFFFC13B).withOpacity(opacity),
+        color: const Color(0xFFFFC13B).withValues(alpha: opacity),
       ),
     );
   }

@@ -5,7 +5,7 @@ class FriendsController extends GetxController with BaseClass {
   DataController dataController = Get.find<DataController>();
   UserDataModel userData = UserDataModel();
   UserDataModel? searchedPlayer;
-  List<PendingRequestModel> pendingRequests = [];
+  List<FriendRequestModel> pendingRequests = [];
   List<UserDataModel> myFriends = [];
 
   @override

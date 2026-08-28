@@ -1,6 +1,6 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
 
-class PendingRequestModel {
+class FriendRequestModel {
   String? sId;
   UserDataModel? senderId;
   String? receiverId;
@@ -8,7 +8,7 @@ class PendingRequestModel {
   String? createdAt;
   String? updatedAt;
 
-  PendingRequestModel({
+  FriendRequestModel({
     this.sId,
     this.senderId,
     this.receiverId,
@@ -17,7 +17,7 @@ class PendingRequestModel {
     this.updatedAt,
   });
 
-  PendingRequestModel.fromJson(Map<String, dynamic> json) {
+  FriendRequestModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     senderId = json['senderId'] != null
         ? UserDataModel.fromJson(json['senderId'])
