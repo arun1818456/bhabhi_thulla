@@ -1,3 +1,5 @@
+import 'package:bhabhi_thulla/modules/ui_widgets/lobby_request_notification.dart';
+
 import '../constant/export_file.dart';
 
 class MySocketController extends GetxController with BaseClass {
@@ -154,7 +156,13 @@ class MySocketController extends GetxController with BaseClass {
   }
 
   void sendInviteRequest({required String userId}) {
-    socket.value?.emit("invitePlayer", {"targetUserId": userId});
+    print(">>> Send Invite ");
+    try {
+      socket.value?.emit("invite_player", {"id": userId});
+      showMySnackBar("Invite Send", success: true);
+    } catch (e) {
+      showMySnackBar(e.toString(), error: true);
+    }
   }
 
   void disconnectSocket() {
@@ -177,26 +185,42 @@ class MySocketController extends GetxController with BaseClass {
     socket.value!.on("joinFailed", (msg) {
       debugPrint(msg);
     });
-    socket.value!.on("lobbyInvite", (data) {
+    socket.value!.on("lobby_invite", (data) {
+      print("... ${data}");
       final lobbyId = data["lobbyId"];
       final ownerId = data["ownerId"];
+      final avatar = data["avatar"];
+      final level = data["level"];
+      final name = data["name"];
+      Get.showSnackbar(
+        GetSnackBar(
+          backgroundColor: Colors.transparent,
+          snackPosition: SnackPosition.TOP,
 
-      Get.defaultDialog(
-        title: "Lobby Invite",
-        middleText: "Join lobby?",
-        textConfirm: "Join",
-        textCancel: "Reject",
-        onConfirm: () {
-          socket.value!.emit("acceptInvite", {
-            "lobbyId": lobbyId,
-          });
-          Get.back();
-        },
-        onCancel: () {
-          socket.value!.emit("rejectInvite", {
-            "ownerId": ownerId,
-          });
-        },
+          duration: const Duration(seconds: 8),
+
+          margin: const EdgeInsets.only(left: 8, right: 8, top: 25),
+
+          padding: EdgeInsets.zero,
+
+          snackStyle: SnackStyle.FLOATING,
+
+          messageText: LobbyRequestNotification(
+            name: name.toString(),
+            avatar: AppImages.imageMap[avatar] ?? AppImages.p1,
+            level: level.toString(),
+            onJoin: () {
+              socket.value!.emit("acceptInvite", {"lobbyId": lobbyId});
+              Get.back();
+            },
+            onDecline: () {
+              print(">>>>> DEcline");
+              socket.value!.emit("reject_invite", {"ownerId": ownerId});
+              Get.closeCurrentSnackbar();
+            },
+            onClose: onClose,
+          ),
+        ),
       );
     });
   }

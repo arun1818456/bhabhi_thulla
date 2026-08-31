@@ -38,10 +38,11 @@ class SoloRoomController extends GetxController with BaseClass {
     userData = getUserData();
     socketController.socket.value!.on('lobby_created', onLobbyCreated);
     socketController.socket.value!.on('match_status', onMatchStatus);
+    socketController.socket.value!.on('rejoin_lobby', onRejoinLobby);
     socketController.socket.value!.on('lobby_error', onLobbyError);
     socketController.socket.value!.on('lobbyUpdated', onLobbyUpdated);
     socketController.socket.value!.on('inviteFailed', onInviteFailed);
-    socketController.socket.value!.on('inviteRejected', inviteRejected);
+    socketController.socket.value!.on('invite_rejected', inviteRejected);
     super.onInit();
   }
 
@@ -181,8 +182,11 @@ class SoloRoomController extends GetxController with BaseClass {
                       itemBuilder: (context, index) {
                         final friend = onlineFriends[index];
                         return GestureDetector(
-                          onTap: (){
-                            socketController.sendInviteRequest(userId: friend.id??"");
+                          onTap: () {
+                            Get.back();
+                            socketController.sendInviteRequest(
+                              userId: friend.id ?? "",
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -325,6 +329,15 @@ class SoloRoomController extends GetxController with BaseClass {
 
   void inviteRejected(dynamic data) {
     debugPrint(">>inviteRejected >>> $data");
+    if (Get.isSnackbarOpen) {
+      Get.closeCurrentSnackbar();
+    }
+    showMySnackBar("Invite Reject By ${data["rejectedBy"]}", alert: true);
+  }
+
+  void onRejoinLobby(dynamic data) {
+    socketController.onCreateLobby(prizeSelected ?? 0);
+    debugPrint(">>onRejoinLobby >>> $data");
   }
 
   void onLobbyError(dynamic data) {
