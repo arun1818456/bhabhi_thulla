@@ -29,7 +29,11 @@ mixin BaseClass {
     bool success = false,
     bool alert = false,
   }) {
-    Get.closeAllSnackbars();
+    try {
+      if (Get.isSnackbarOpen) {
+        Get.closeCurrentSnackbar();
+      }
+    } catch (_) {}
 
     final borderColor = success
         ? const Color(0xffFFD54F)

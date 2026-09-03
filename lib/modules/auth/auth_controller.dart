@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../../constant/export_file.dart';
 
 class AuthController extends GetxController with BaseClass {
@@ -5,8 +7,9 @@ class AuthController extends GetxController with BaseClass {
     var deviceInfo = await getDeviceInfo();
     if (deviceInfo != null) {
       try {
+        final value = 100000 + Random().nextInt(900000);
         var response = await httpRequest(REQUEST.post, guestLoginApiEP, {
-          "deviceId": deviceInfo["id"] ?? "not-found",
+          "deviceId": deviceInfo["id"] ?? "${value.toString()}deleteafteruser",
         });
         if (response["success"]) {
           storage.write(LocalKeys.userData, response["data"]);

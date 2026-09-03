@@ -165,6 +165,15 @@ class MySocketController extends GetxController with BaseClass {
     }
   }
 
+  void onAcceptRequest({required String lobbyId}) {
+    print(">>> Accepted ");
+    try {
+      socket.value!.emit("accept_invite", {"lobbyId": lobbyId});
+    } catch (e) {
+      showMySnackBar(e.toString(), error: true);
+    }
+  }
+
   void disconnectSocket() {
     if (socket.value != null) {
       debugPrint("-----------Socket Manual Disconnect-----------");
@@ -180,13 +189,16 @@ class MySocketController extends GetxController with BaseClass {
 
   void onMethods() {
     socket.value!.on("inviteFailed", (msg) {
-      debugPrint(msg);
+      debugPrint(">>inviteFailed>>> $msg");
     });
-    socket.value!.on("joinFailed", (msg) {
-      debugPrint(msg);
+    socket.value!.on("join_failed", (msg) {
+      debugPrint(">>join_failed>>>$msg");
+    });
+    socket.value!.on("lobby_error", (msg) {
+      debugPrint(">>lobby_error>>>$msg");
     });
     socket.value!.on("lobby_invite", (data) {
-      print("... ${data}");
+      print("lobby_invite >>${data}");
       final lobbyId = data["lobbyId"];
       final ownerId = data["ownerId"];
       final avatar = data["avatar"];
@@ -210,8 +222,8 @@ class MySocketController extends GetxController with BaseClass {
             avatar: AppImages.imageMap[avatar] ?? AppImages.p1,
             level: level.toString(),
             onJoin: () {
-              socket.value!.emit("acceptInvite", {"lobbyId": lobbyId});
-              Get.back();
+              onAcceptRequest(lobbyId: lobbyId);
+              Get.closeCurrentSnackbar();
             },
             onDecline: () {
               print(">>>>> DEcline");

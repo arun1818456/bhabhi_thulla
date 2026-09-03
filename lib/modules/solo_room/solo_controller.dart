@@ -37,11 +37,10 @@ class SoloRoomController extends GetxController with BaseClass {
   void onInit() {
     userData = getUserData();
     socketController.socket.value!.on('lobby_created', onLobbyCreated);
-    socketController.socket.value!.on('match_status', onMatchStatus);
+    socketController.socket.value!.on('lobby_state', onLobbyStatus);
     socketController.socket.value!.on('rejoin_lobby', onRejoinLobby);
     socketController.socket.value!.on('lobby_error', onLobbyError);
-    socketController.socket.value!.on('lobbyUpdated', onLobbyUpdated);
-    socketController.socket.value!.on('inviteFailed', onInviteFailed);
+    socketController.socket.value!.on('lobby_updated', onLobbyUpdated);
     socketController.socket.value!.on('invite_rejected', inviteRejected);
     super.onInit();
   }
@@ -51,10 +50,9 @@ class SoloRoomController extends GetxController with BaseClass {
     searchTimer?.cancel();
     super.onClose();
     socketController.socket.value!.off('lobby_error');
-    socketController.socket.value!.off('match_status');
+    socketController.socket.value!.off('lobby_state');
     socketController.socket.value!.off('lobby_created');
-    socketController.socket.value!.off('lobbyUpdated');
-    socketController.socket.value!.off('inviteFailed');
+    socketController.socket.value!.off('lobby_updated');
     socketController.socket.value!.off('inviteRejected');
   }
 
@@ -315,7 +313,7 @@ class SoloRoomController extends GetxController with BaseClass {
   }
 
   //// Socket Listeners
-  void onMatchStatus(dynamic data) {
+  void onLobbyStatus(dynamic data) {
     debugPrint(">>onMatch Status >>> $data");
   }
 
@@ -323,15 +321,8 @@ class SoloRoomController extends GetxController with BaseClass {
     debugPrint(">>onLobbyUpdated >>> $data");
   }
 
-  void onInviteFailed(dynamic data) {
-    debugPrint(">>onInviteFailed >>> $data");
-  }
-
   void inviteRejected(dynamic data) {
     debugPrint(">>inviteRejected >>> $data");
-    if (Get.isSnackbarOpen) {
-      Get.closeCurrentSnackbar();
-    }
     showMySnackBar("Invite Reject By ${data["rejectedBy"]}", alert: true);
   }
 

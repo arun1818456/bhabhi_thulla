@@ -41,16 +41,18 @@ Future<dynamic> httpRequest(
     );
   }
   ////////////////////////////////
-  try {
-    final result = await InternetAddress.lookup('google.com');
+  if (!kIsWeb) {
+    try {
+      final result = await InternetAddress.lookup('google.com');
 
-    if (result.isEmpty || result[0].rawAddress.isEmpty) {
+      if (result.isEmpty || result[0].rawAddress.isEmpty) {
+        _showNoInternetDialog();
+        throw FetchDataException("No Internet Connection");
+      }
+    } on SocketException {
       _showNoInternetDialog();
       throw FetchDataException("No Internet Connection");
     }
-  } on SocketException {
-    _showNoInternetDialog();
-    throw FetchDataException("No Internet Connection");
   }
 
   ////////////////////////////////////
