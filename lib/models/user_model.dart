@@ -31,21 +31,40 @@ class UserDataModel {
     this.isOnline,
   });
 
-  UserDataModel.fromJson(Map<String, dynamic> json) {
-    id = json['_id'] ?? json['id'];
-    pid = json['pid'];
-    flag = json['flag'];
-    name = json['name'];
-    email = json['email'];
-    token = json['token'];
-    deviceToken = json['deviceToken'].toString();
-    profileUrl = json['profileUrl'];
-    coins = json['coins'];
-    diamonds = json['diamonds'];
-    avatar = json['avatar'];
-    createdAt = json['createdAt'];
-    level = json['level'];
-    isOnline = json['isOnline'];
+  UserDataModel.fromJson(Map<dynamic, dynamic> rawJson) {
+    Map<String, dynamic> json = Map<String, dynamic>.from(rawJson);
+
+    // Check if user object is nested inside 'user' or 'userId' field
+    if (json['user'] is Map) {
+      json = Map<String, dynamic>.from(json['user']);
+    } else if (json['userId'] is Map) {
+      json = Map<String, dynamic>.from(json['userId']);
+    }
+
+    id = json['_id']?.toString() ??
+        json['id']?.toString() ??
+        json['userId']?.toString();
+    pid = json['pid'] is int
+        ? json['pid']
+        : int.tryParse(json['pid']?.toString() ?? '');
+    flag = json['flag']?.toString();
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    token = json['token']?.toString();
+    deviceToken = json['deviceToken']?.toString();
+    profileUrl = json['profileUrl']?.toString();
+    coins = json['coins'] is int
+        ? json['coins']
+        : int.tryParse(json['coins']?.toString() ?? '');
+    diamonds = json['diamonds'] is int
+        ? json['diamonds']
+        : int.tryParse(json['diamonds']?.toString() ?? '');
+    avatar = json['avatar']?.toString();
+    createdAt = json['createdAt']?.toString();
+    level = json['level'] is int
+        ? json['level']
+        : int.tryParse(json['level']?.toString() ?? '');
+    isOnline = json['isOnline'] == true;
   }
 
   Map<String, dynamic> toJson() {

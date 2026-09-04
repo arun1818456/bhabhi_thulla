@@ -57,80 +57,80 @@ Future<dynamic> httpRequest(
 
   ////////////////////////////////////
   try {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      switch (requestType) {
-        case REQUEST.get:
-          value = await http.get(
-            Uri.parse("$baseUrl$url"),
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $token",
-              // HttpHeaders.contentTypeHeader: "application/json",
-              // 'Content-Type': 'application/json; charset=UTF-8',
-              // HttpHeaders.authorizationHeader: token,
-              // 'token': token,
-              // HttpHeaders.authorizationHeader: 'Bearer $token',
-            },
-          );
-          break;
-        case REQUEST.post:
-          value = await http.post(
-            Uri.parse("$baseUrl$url"),
-            headers: token.isEmpty
-                ? {"Content-Type": "application/json"}
-                : {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer $token",
-                  },
-            // headers: (token.isEmpty)
-            //     ? {HttpHeaders.contentTypeHeader: "application/json"}
-            //     : {
-            //         HttpHeaders.contentTypeHeader: "application/json",
-            //         // HttpHeaders.authorizationHeader: token,
-            //         // 'token': token,
-            //         HttpHeaders.authorizationHeader: 'Bearer $token',
-            //       },
-            body: data,
-          );
-          break;
-        case REQUEST.put:
-          value = await http.put(
-            Uri.parse("$baseUrl$url"),
-            headers: {
-              HttpHeaders.contentTypeHeader: "application/json",
-              // HttpHeaders.authorizationHeader:  token,
-              // 'token': token,
-              HttpHeaders.authorizationHeader: 'Bearer $token',
-            },
-            body: data,
-          );
-          break;
-        case REQUEST.patch:
-          value = await http.patch(
-            Uri.parse("$baseUrl$url"),
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $token",
-            },
-            body: data,
-          );
-          break;
-        case REQUEST.delete:
-          value = await http.delete(
-            Uri.parse("$baseUrl$url"),
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer $token",
-              // HttpHeaders.contentTypeHeader: "application/json",
-              // // HttpHeaders.authorizationHeader:  token,
-              // // 'token': token,
-              // HttpHeaders.authorizationHeader: 'Bearer $token',
-            },
-            body: data,
-          );
-          break;
-      }
+    // final result = await InternetAddress.lookup('google.com');
+    // if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    switch (requestType) {
+      case REQUEST.get:
+        value = await http.get(
+          Uri.parse("$baseUrl$url"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+            // HttpHeaders.contentTypeHeader: "application/json",
+            // 'Content-Type': 'application/json; charset=UTF-8',
+            // HttpHeaders.authorizationHeader: token,
+            // 'token': token,
+            // HttpHeaders.authorizationHeader: 'Bearer $token',
+          },
+        );
+        break;
+      case REQUEST.post:
+        value = await http.post(
+          Uri.parse("$baseUrl$url"),
+          headers: token.isEmpty
+              ? {"Content-Type": "application/json"}
+              : {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer $token",
+                },
+          // headers: (token.isEmpty)
+          //     ? {HttpHeaders.contentTypeHeader: "application/json"}
+          //     : {
+          //         HttpHeaders.contentTypeHeader: "application/json",
+          //         // HttpHeaders.authorizationHeader: token,
+          //         // 'token': token,
+          //         HttpHeaders.authorizationHeader: 'Bearer $token',
+          //       },
+          body: data,
+        );
+        break;
+      case REQUEST.put:
+        value = await http.put(
+          Uri.parse("$baseUrl$url"),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            // HttpHeaders.authorizationHeader:  token,
+            // 'token': token,
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          },
+          body: data,
+        );
+        break;
+      case REQUEST.patch:
+        value = await http.patch(
+          Uri.parse("$baseUrl$url"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+          },
+          body: data,
+        );
+        break;
+      case REQUEST.delete:
+        value = await http.delete(
+          Uri.parse("$baseUrl$url"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token",
+            // HttpHeaders.contentTypeHeader: "application/json",
+            // // HttpHeaders.authorizationHeader:  token,
+            // // 'token': token,
+            // HttpHeaders.authorizationHeader: 'Bearer $token',
+          },
+          body: data,
+        );
+        break;
+      // }
     }
     if (kDebugMode) {
       final decoded = safeDecode(value.body);

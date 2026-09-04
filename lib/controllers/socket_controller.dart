@@ -1,6 +1,7 @@
 import 'package:bhabhi_thulla/modules/ui_widgets/lobby_request_notification.dart';
 
 import '../constant/export_file.dart';
+import '../models/lobby_model.dart';
 
 class MySocketController extends GetxController with BaseClass {
   Rx<Socket?> socket = Rx<Socket?>(null);
@@ -190,6 +191,23 @@ class MySocketController extends GetxController with BaseClass {
   void onMethods() {
     socket.value!.on("inviteFailed", (msg) {
       debugPrint(">>inviteFailed>>> $msg");
+    });
+    socket.value!.on("lobby_state", (data) {
+      debugPrint(">>lobby_state>>> $data");
+      if (data != null && data is Map) {
+        HomeController homeController = Get.find<HomeController>();
+        homeController.isSoloMode = true;
+        SoloRoomController soloRoomController;
+        if (Get.isRegistered<SoloRoomController>()) {
+          soloRoomController = Get.find<SoloRoomController>();
+        } else {
+          soloRoomController = Get.put(SoloRoomController());
+        }
+        soloRoomController.prizeSelected = data["entryFee"];
+        soloRoomController.lobbyModel = LobbyModel.fromJson(data);
+        soloRoomController.update();
+        homeController.update();
+      }
     });
     socket.value!.on("join_failed", (msg) {
       debugPrint(">>join_failed>>>$msg");

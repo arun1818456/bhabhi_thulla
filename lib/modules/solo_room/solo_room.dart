@@ -34,6 +34,13 @@ class SoloRoom extends StatelessWidget {
 
 Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
   final size = MediaQuery.of(context).size;
+
+  // Filter out my user ID from lobbyModel.players to get other players
+  final String myId = controller.userData.id ?? "";
+  final List<UserDataModel> otherPlayers = (controller.lobbyModel.players ?? [])
+      .where((player) => player.id != null && player.id != myId)
+      .toList();
+
   return SizedBox(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,13 +50,13 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// PLAYER
+            /// MY PLAYER (ALWAYS FIRST)
             playerCard(
-              controller.userData.name ?? "--",
-              true,
-              controller.isMatchFounding,
-              controller,
-              0,
+              player: controller.userData,
+              isMe: true,
+              isSearching: controller.isMatchFounding,
+              controller: controller,
+              searchCount: 0,
             ),
 
             SizedBox(width: size.width * .03),
@@ -61,20 +68,21 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
 
             /// OPPONENTS
             Row(
-              children: List.generate(
-                3,
-                (index) => Padding(
+              children: List.generate(3, (index) {
+                final UserDataModel? opponentPlayer =
+                    index < otherPlayers.length ? otherPlayers[index] : null;
+                return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: playerCard(
-                    "Search",
-                    false,
-                    controller.isMatchFounding,
-                    controller,
-                    controller.searchCount,
+                    player: opponentPlayer,
+                    isMe: false,
+                    isSearching: controller.isMatchFounding,
+                    controller: controller,
+                    searchCount: controller.searchCount,
                     index: index,
                   ),
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),
@@ -134,14 +142,44 @@ Widget matchCenterRow(BuildContext context, SoloRoomController controller) {
 /// PLAYER CARD
 ///------------------------------------------------------------
 
-Widget playerCard(
-  String playerName,
-  bool isMe,
-  bool isSearching,
-  SoloRoomController controller,
-  int searchCount, {
-  index = 0,
+Widget playerCard({
+  required UserDataModel? player,
+  required bool isMe,
+  required bool isSearching,
+  required SoloRoomController controller,
+  required int searchCount,
+  int index = 0,
 }) {
+  final bool hasPlayer = player != null;
+
+  // Determine Name
+  final String playerName = isMe
+      ? (controller.userData.name ?? "--")
+      : hasPlayer
+      ? (player.name ?? "Player")
+      : "Search";
+
+  // Determine Avatar
+  final String? avatarKey = isMe
+      ? controller.userData.avatar
+      : hasPlayer
+      ? player.avatar
+      : null;
+
+  // Determine Flag
+  final String? flagCode = isMe
+      ? (controller.userData.flag ?? "IN")
+      : hasPlayer
+      ? (player.flag ?? "IN")
+      : null;
+
+  final String flagEmoji =
+      (flagCode != null && flags.containsKey(flagCode.toUpperCase()))
+      ? flags[flagCode.toUpperCase()]!
+      : (flagCode != null && flagCode.isNotEmpty)
+      ? flagCode
+      : "🇮🇳";
+
   return Column(
     children: [
       Stack(
@@ -159,12 +197,11 @@ Widget playerCard(
                 colors: [Color(0xff3949AB), Color(0xff171D4E)],
               ),
             ),
-            child: isMe
+            child: (isMe || hasPlayer)
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(18),
                     child: Image.asset(
-                      AppImages.imageMap[controller.userData.avatar] ??
-                          AppImages.p1,
+                      AppImages.imageMap[avatarKey] ?? AppImages.p1,
                       fit: BoxFit.fitHeight,
                     ),
                   )
@@ -192,13 +229,13 @@ Widget playerCard(
                     ),
                   ),
           ),
-          if (isMe)
+          if (isMe || hasPlayer)
             Positioned(
               left: 5,
               top: 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
-                child: Text(flags["AU"]!, style: TextStyle(fontSize: 25)),
+                child: Text(flagEmoji, style: const TextStyle(fontSize: 25)),
               ),
             ),
           if (isMe)
@@ -221,7 +258,7 @@ Widget playerCard(
       ),
       const SizedBox(height: 28),
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 41,
         decoration: BoxDecoration(
           color: const Color(0xff1A214B),
@@ -229,6 +266,7 @@ Widget playerCard(
         ),
         alignment: Alignment.center,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             MyText(
               text: playerName,
@@ -237,7 +275,7 @@ Widget playerCard(
               fontSize: 22,
               fontWeight: FontWeight.w100,
             ),
-            if (isSearching)
+            if (!hasPlayer && isSearching)
               MyText(
                 text: ". " * searchCount,
                 borderColor: Colors.transparent,

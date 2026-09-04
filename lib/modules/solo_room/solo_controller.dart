@@ -37,10 +37,10 @@ class SoloRoomController extends GetxController with BaseClass {
   void onInit() {
     userData = getUserData();
     socketController.socket.value!.on('lobby_created', onLobbyCreated);
-    socketController.socket.value!.on('lobby_state', onLobbyStatus);
     socketController.socket.value!.on('rejoin_lobby', onRejoinLobby);
     socketController.socket.value!.on('lobby_error', onLobbyError);
     socketController.socket.value!.on('lobby_updated', onLobbyUpdated);
+    socketController.socket.value!.on('lobby_state', onLobbyUpdated);
     socketController.socket.value!.on('invite_rejected', inviteRejected);
     super.onInit();
   }
@@ -50,10 +50,10 @@ class SoloRoomController extends GetxController with BaseClass {
     searchTimer?.cancel();
     super.onClose();
     socketController.socket.value!.off('lobby_error');
-    socketController.socket.value!.off('lobby_state');
     socketController.socket.value!.off('lobby_created');
     socketController.socket.value!.off('lobby_updated');
-    socketController.socket.value!.off('inviteRejected');
+    socketController.socket.value!.off('lobby_state');
+    socketController.socket.value!.off('invite_rejected');
   }
 
   void onTapToSelectPrize(int entryFee) {
@@ -319,6 +319,14 @@ class SoloRoomController extends GetxController with BaseClass {
 
   void onLobbyUpdated(dynamic data) {
     debugPrint(">>onLobbyUpdated >>> $data");
+    if (data != null && data is Map) {
+      try {
+        lobbyModel = LobbyModel.fromJson(data);
+        update();
+      } catch (e, stack) {
+        debugPrint("Error parsing onLobbyUpdated: $e\n$stack");
+      }
+    }
   }
 
   void inviteRejected(dynamic data) {
@@ -340,9 +348,13 @@ class SoloRoomController extends GetxController with BaseClass {
 
   void onLobbyCreated(dynamic data) {
     debugPrint(">>onLobbyCreated >>> $data");
-    if (data != null) {
-      lobbyModel = LobbyModel.fromJson(data);
-      update();
+    if (data != null && data is Map) {
+      try {
+        lobbyModel = LobbyModel.fromJson(data);
+        update();
+      } catch (e, stack) {
+        debugPrint("Error parsing onLobbyCreated: $e\n$stack");
+      }
     }
   }
 }

@@ -19,17 +19,25 @@ class LobbyModel {
     this.coins,
   });
 
-  factory LobbyModel.fromJson(Map<String, dynamic> json) {
+  factory LobbyModel.fromJson(Map<dynamic, dynamic> rawJson) {
+    final Map<String, dynamic> json = Map<String, dynamic>.from(rawJson);
     return LobbyModel(
-      lobbyId: json["lobbyId"],
-      ownerId: json["ownerId"],
-      entryFee: json["entryFee"],
-      playersCount: json["playersCount"],
+      lobbyId: json["lobbyId"]?.toString(),
+      ownerId: json["ownerId"]?.toString(),
+      entryFee: json["entryFee"] is int
+          ? json["entryFee"]
+          : int.tryParse(json["entryFee"]?.toString() ?? ''),
+      playersCount: json["playersCount"] is int
+          ? json["playersCount"]
+          : int.tryParse(json["playersCount"]?.toString() ?? ''),
       players: (json["players"] as List<dynamic>?)
-          ?.map((e) => UserDataModel.fromJson(e))
+          ?.map((e) => UserDataModel.fromJson(
+              e is Map<String, dynamic> ? e : Map<String, dynamic>.from(e as Map)))
           .toList(),
-      status: json["status"],
-      coins: json["coins"],
+      status: json["status"]?.toString(),
+      coins: json["coins"] is int
+          ? json["coins"]
+          : int.tryParse(json["coins"]?.toString() ?? ''),
     );
   }
 
