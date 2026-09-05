@@ -21,7 +21,7 @@ class MySocketController extends GetxController with BaseClass {
   void initializeSocket() {
     if (socket.value != null) {
       if (!socket.value!.connected) {
-        debugPrint("-----------Socket Reconnected-----------");
+        debugPrint("-----------Socket Re-Connected-----------");
         socket.value!.connect();
       } else {
         joinGame();
@@ -94,115 +94,25 @@ class MySocketController extends GetxController with BaseClass {
     });
   }
 
-  /// //////////
-  void joinGame() {
-    if (storage.hasData(LocalKeys.userData) &&
-        getUserData().id != null &&
-        getUserData().id.toString().isNotEmpty) {
-      Map<String, dynamic> data = {
-        "userId": getUserData().id,
-        "name": getUserData().name,
-      };
-      debugPrint("-----------Socket Joining Game: $data-----------");
-      socket.value?.emit("join_game", data);
-    }
-  }
-
-  void findMatch({required int entryFee}) {
-    if (socket.value == null || !socket.value!.connected) {
-      initializeSocket();
-      return;
-    }
-    Map<String, dynamic> data = {"entryFee": entryFee};
-    debugPrint(">>>> find_match: $data");
-    socket.value!.emit("find_match", data);
-  }
-
-  void onCreateLobby(int entryFee) {
-    if (socket.value == null || !socket.value!.connected) {
-      initializeSocket();
-      return;
-    }
-    Map<String, dynamic> data = {"entryFee": entryFee};
-    debugPrint(">>>> create_lobby: $data ");
-    socket.value!.emit("create_lobby", data);
-  }
-
-  void leaveLobby() {
-    if (socket.value == null || !socket.value!.connected) {
-      initializeSocket();
-      return;
-    }
-    Map<String, dynamic> data = {"userId": getUserData().id};
-    debugPrint(">>>> leave_lobby: $data");
-    socket.value!.emit("leaveLobby", data);
-  }
-
-  void sendFriendRequest({
-    required String friendId,
-    required String friendName,
-  }) {
-    if (socket.value == null || !socket.value!.connected) {
-      initializeSocket();
-      return;
-    }
-    Map<String, dynamic> data = {
-      "userId": getUserData().id,
-      "userName": getUserData().name,
-      "friendId": friendId,
-      "friendName": friendName,
-    };
-    debugPrint(">>>> send_friend_request: $data");
-    socket.value!.emit("send_play_request", data);
-  }
-
-  void sendInviteRequest({required String userId}) {
-    print(">>> Send Invite ");
-    try {
-      socket.value?.emit("invite_player", {"id": userId});
-      showMySnackBar("Invite Send", success: true);
-    } catch (e) {
-      showMySnackBar(e.toString(), error: true);
-    }
-  }
-
-  void onAcceptRequest({required String lobbyId}) {
-    print(">>> Accepted ");
-    try {
-      socket.value!.emit("accept_invite", {"lobbyId": lobbyId});
-    } catch (e) {
-      showMySnackBar(e.toString(), error: true);
-    }
-  }
-
-  void disconnectSocket() {
-    if (socket.value != null) {
-      debugPrint("-----------Socket Manual Disconnect-----------");
-      socket.value!.disconnect();
-      socket.value = null;
-      isSocketConnected.value = false;
-      if (timer.value != null) {
-        timer.value!.cancel();
-      }
-      update();
-    }
-  }
+  /// Listen  On Full App Socket Methods
 
   void onMethods() {
     socket.value!.on("inviteFailed", (msg) {
-      debugPrint(">>inviteFailed>>> $msg");
+      showMySnackBar(msg, alert: true);
     });
     socket.value!.on("lobby_state", (data) {
       debugPrint(">>lobby_state>>> $data");
       if (data != null && data is Map) {
-        HomeController homeController = Get.find<HomeController>();
+        HomeController homeController = Get.isRegistered<HomeController>()
+            ? Get.find<HomeController>()
+            : Get.put(HomeController(), permanent: true);
+
         homeController.isSoloMode = true;
-        SoloRoomController soloRoomController;
-        if (Get.isRegistered<SoloRoomController>()) {
-          soloRoomController = Get.find<SoloRoomController>();
-        } else {
-          soloRoomController = Get.put(SoloRoomController());
-        }
+
+        SoloRoomController soloRoomController = Get.isRegistered<SoloRoomController>()
+            ? Get.find<SoloRoomController>()
+            : Get.put(SoloRoomController(), permanent: true);
+
         soloRoomController.prizeSelected = data["entryFee"];
         soloRoomController.lobbyModel = LobbyModel.fromJson(data);
         soloRoomController.update();
@@ -253,5 +163,79 @@ class MySocketController extends GetxController with BaseClass {
         ),
       );
     });
+  }
+
+  /// //////////
+  void joinGame() {
+    if (storage.hasData(LocalKeys.userData) &&
+        getUserData().id != null &&
+        getUserData().id.toString().isNotEmpty) {
+      Map<String, dynamic> data = {
+        "userId": getUserData().id,
+        "name": getUserData().name,
+      };
+      debugPrint("-----------Socket Joining Game: $data-----------");
+      socket.value?.emit("join_game", data);
+    }
+  }
+
+  // void findMatch({required int entryFee}) {
+  //   if (socket.value == null || !socket.value!.connected) {
+  //     initializeSocket();
+  //     return;
+  //   }
+  //   Map<String, dynamic> data = {"entryFee": entryFee};
+  //   debugPrint(">>>> find_match: $data");
+  //   socket.value!.emit("find_match", data);
+  // }
+
+  void sendFriendRequest({
+    required String friendId,
+    required String friendName,
+  }) {
+    if (socket.value == null || !socket.value!.connected) {
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {
+      "userId": getUserData().id,
+      "userName": getUserData().name,
+      "friendId": friendId,
+      "friendName": friendName,
+    };
+    debugPrint(">>>> send_friend_request: $data");
+    socket.value!.emit("send_play_request", data);
+  }
+
+  void sendInviteRequest({required String userId}) {
+    print(">>> Send Invite ");
+    try {
+      socket.value?.emit("invite_player", {"id": userId});
+      showMySnackBar("Invite Send", success: true);
+    } catch (e) {
+      showMySnackBar(e.toString(), error: true);
+    }
+  }
+
+  void onAcceptRequest({required String lobbyId}) {
+    print(">>> Accepted ");
+    try {
+      socket.value!.emit("accept_invite", {"lobbyId": lobbyId});
+    } catch (e) {
+      showMySnackBar(e.toString(), error: true);
+    }
+  }
+
+  void disconnectSocket() {
+    if (socket.value != null) {
+      debugPrint("-----------Socket Manual Disconnect-----------");
+      socket.value!.disconnect();
+      socket.value = null;
+      isSocketConnected.value = false;
+      if (timer.value != null) {
+        timer.value!.cancel();
+      }
+      update();
+    }
   }
 }

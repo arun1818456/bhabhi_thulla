@@ -1,4 +1,5 @@
 import 'package:bhabhi_thulla/constant/export_file.dart';
+import 'package:bhabhi_thulla/models/lobby_model.dart';
 
 class DataController extends GetxController with BaseClass {
   MySocketController socketController = Get.find<MySocketController>();
@@ -7,6 +8,8 @@ class DataController extends GetxController with BaseClass {
   // List<PendingRequestModel> friends = [];
   List<FriendRequestModel> pendingRequests = [];
   List<UserDataModel> myFriends = [];
+
+  LobbyModel initLobbyModel = LobbyModel();
 
   @override
   void onInit() {
@@ -23,7 +26,7 @@ class DataController extends GetxController with BaseClass {
 
     if (storage.hasData(LocalKeys.userData)) {
       userData = getUserData();
-      getPendingRequests();
+      getApiData();
     }
   }
 
@@ -167,7 +170,7 @@ class DataController extends GetxController with BaseClass {
     update();
   }
 
-  void getPendingRequests() async {
+  void getApiData() async {
     try {
       var res = await httpRequest(
         REQUEST.get,
@@ -182,6 +185,25 @@ class DataController extends GetxController with BaseClass {
       myFriends = (res["data"]?["friends"] as List)
           .map((e) => UserDataModel.fromJson(e))
           .toList();
+      if (res["data"] != null &&
+          res["data"] is Map &&
+          res["data"].containsKey("lobby") &&
+          res["data"]["lobby"] != null) {
+        final soloController = Get.isRegistered<SoloRoomController>()
+            ? Get.find<SoloRoomController>()
+            : Get.put(SoloRoomController(), permanent: true);
+
+        final homeController = Get.isRegistered<HomeController>()
+            ? Get.find<HomeController>()
+            : Get.put(HomeController(), permanent: true);
+
+        homeController.isSoloMode = true;
+        homeController.update();
+
+        soloController.lobbyModel = LobbyModel.fromJson(res["data"]["lobby"]);
+        soloController.prizeSelected = soloController.lobbyModel.entryFee;
+        soloController.update();
+      }
     } catch (e) {
       showMySnackBar("$e", error: true);
     }

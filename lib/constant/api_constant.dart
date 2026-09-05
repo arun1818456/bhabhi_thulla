@@ -1,5 +1,5 @@
-// String baseUrl = "http://172.25.171.57:3000";
-String baseUrl = "http://192.168.193.57:3000";
+String baseUrl = "http://10.47.222.57:3000";
+// String baseUrl = "http://192.168.193.57:3000";
 
 const String guestLoginApiEP = "/api/user/guest";
 const String getUserByPIDApiEP = "/api/user/user";

@@ -37,10 +37,12 @@ class SoloRoomController extends GetxController with BaseClass {
   void onInit() {
     userData = getUserData();
     socketController.socket.value!.on('lobby_created', onLobbyCreated);
-    socketController.socket.value!.on('rejoin_lobby', onRejoinLobby);
+    socketController.socket.value!.on(
+      'rejoin_lobby',
+      onRejoinLobby,
+    ); // if user not Enter in the lobby
     socketController.socket.value!.on('lobby_error', onLobbyError);
     socketController.socket.value!.on('lobby_updated', onLobbyUpdated);
-    socketController.socket.value!.on('lobby_state', onLobbyUpdated);
     socketController.socket.value!.on('invite_rejected', inviteRejected);
     super.onInit();
   }
@@ -48,26 +50,87 @@ class SoloRoomController extends GetxController with BaseClass {
   @override
   void onClose() {
     searchTimer?.cancel();
-    super.onClose();
     socketController.socket.value!.off('lobby_error');
     socketController.socket.value!.off('lobby_created');
     socketController.socket.value!.off('lobby_updated');
-    socketController.socket.value!.off('lobby_state');
     socketController.socket.value!.off('invite_rejected');
+    super.onClose();
   }
 
   void onTapToSelectPrize(int entryFee) {
     prizeSelected = entryFee;
-    socketController.onCreateLobby(entryFee);
+    Map<String, dynamic> data = {"entryFee": entryFee};
+    debugPrint(">>>> create_lobby: $data ");
+    socketController.socket.value!.emit("create_lobby", data);
+    update();
+  }
+
+  void exitLobby() {
+    final String lobbyId = lobbyModel.lobbyId ?? "";
+    debugPrint(">>>> Exiting Lobby ID: $lobbyId");
+    if (lobbyId.isNotEmpty && socketController.socket.value != null) {
+      Map<String, dynamic> data = {"lobbyId": lobbyId};
+      debugPrint(">>>> exit_on_lobby: $data");
+      socketController.socket.value!.emit("exit_on_lobby", data);
+    }
+    prizeSelected = null;
+    isMatchFounding = false;
+    lobbyModel = LobbyModel();
+    stopSearchingAnimation();
     update();
   }
 
   void onTapStartMatch() {
     startSearchingAnimation();
     isMatchFounding = true;
-    socketController.findMatch(entryFee: prizeSelected ?? 160);
+    // socketController.findMatch(entryFee: prizeSelected ?? 160);
     update();
     // CloudTransition.push(context, const GameScreen());
+  }
+
+  //// Socket Listeners
+  void onLobbyStatus(dynamic data) {
+    debugPrint(">>onMatch Status >>> $data");
+  }
+
+  void onLobbyUpdated(dynamic data) {
+    debugPrint(">>onLobbyUpdated >>> $data");
+    if (data != null && data is Map) {
+      try {
+        lobbyModel = LobbyModel.fromJson(data);
+        update();
+      } catch (e, stack) {
+        debugPrint("Error parsing onLobbyUpdated: $e\n$stack");
+      }
+    }
+  }
+
+  void inviteRejected(dynamic data) {
+    debugPrint(">>inviteRejected >>> $data");
+    showMySnackBar("Invite Reject By ${data["rejectedBy"]}", alert: true);
+  }
+
+  void onRejoinLobby(dynamic data) {
+    Map<String, dynamic> data = {"entryFee": prizeSelected};
+    socketController.socket.value!.emit("create_lobby", data);
+    debugPrint(">>onRejoinLobby >>> $data");
+  }
+
+  void onLobbyError(dynamic data) {
+    showMySnackBar(data["message"]);
+    debugPrint(">>onLobbyError >>> $data");
+  }
+
+  void onLobbyCreated(dynamic data) {
+    debugPrint(">>onLobbyCreated >>> $data");
+    if (data != null && data is Map) {
+      try {
+        lobbyModel = LobbyModel.fromJson(data);
+        update();
+      } catch (e, stack) {
+        debugPrint("Error parsing onLobbyCreated: $e\n$stack");
+      }
+    }
   }
 
   void onTapToJoinFriend() {
@@ -80,12 +143,7 @@ class SoloRoomController extends GetxController with BaseClass {
     }
 
     if (onlineFriends.isEmpty) {
-      Get.snackbar(
-        "No Friends Online",
-        "All of your friends are currently offline.",
-        backgroundColor: const Color(0xFFFFC857),
-        colorText: Colors.black,
-      );
+      showMySnackBar("No Friends Online", alert: true);
       return;
     }
 
@@ -179,12 +237,19 @@ class SoloRoomController extends GetxController with BaseClass {
                       separatorBuilder: (_, a) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final friend = onlineFriends[index];
+                        bool isAlreadyJoined =
+                            (lobbyModel.players?.any(
+                              (element) => element.id == friend.id,
+                            ) ??
+                            false);
                         return GestureDetector(
                           onTap: () {
-                            Get.back();
-                            socketController.sendInviteRequest(
-                              userId: friend.id ?? "",
-                            );
+                            if (!isAlreadyJoined) {
+                              Get.back();
+                              socketController.sendInviteRequest(
+                                userId: friend.id ?? "",
+                              );
+                            }
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -284,14 +349,18 @@ class SoloRoomController extends GetxController with BaseClass {
                                     ).withValues(alpha: 0.12),
                                     borderRadius: BorderRadius.circular(999),
                                     border: Border.all(
-                                      color: const Color(0xFF46E7C2),
+                                      color: isAlreadyJoined
+                                          ? Colors.blue
+                                          : const Color(0xFF46E7C2),
                                       width: 1.2,
                                     ),
                                   ),
-                                  child: const MyText(
-                                    text: "Invite",
+                                  child: MyText(
+                                    text: isAlreadyJoined ? "Joined" : "Invite",
                                     fontSize: 11,
-                                    color: Colors.greenAccent,
+                                    color: isAlreadyJoined
+                                        ? Colors.blue
+                                        : Colors.greenAccent,
                                     borderColor: Colors.transparent,
                                     borderWidth: 0,
                                   ),
@@ -310,51 +379,5 @@ class SoloRoomController extends GetxController with BaseClass {
         ),
       ),
     );
-  }
-
-  //// Socket Listeners
-  void onLobbyStatus(dynamic data) {
-    debugPrint(">>onMatch Status >>> $data");
-  }
-
-  void onLobbyUpdated(dynamic data) {
-    debugPrint(">>onLobbyUpdated >>> $data");
-    if (data != null && data is Map) {
-      try {
-        lobbyModel = LobbyModel.fromJson(data);
-        update();
-      } catch (e, stack) {
-        debugPrint("Error parsing onLobbyUpdated: $e\n$stack");
-      }
-    }
-  }
-
-  void inviteRejected(dynamic data) {
-    debugPrint(">>inviteRejected >>> $data");
-    showMySnackBar("Invite Reject By ${data["rejectedBy"]}", alert: true);
-  }
-
-  void onRejoinLobby(dynamic data) {
-    socketController.onCreateLobby(prizeSelected ?? 0);
-    debugPrint(">>onRejoinLobby >>> $data");
-  }
-
-  void onLobbyError(dynamic data) {
-    prizeSelected = null;
-    showMySnackBar(data["message"]);
-    update();
-    debugPrint(">>onLobbyError >>> $data");
-  }
-
-  void onLobbyCreated(dynamic data) {
-    debugPrint(">>onLobbyCreated >>> $data");
-    if (data != null && data is Map) {
-      try {
-        lobbyModel = LobbyModel.fromJson(data);
-        update();
-      } catch (e, stack) {
-        debugPrint("Error parsing onLobbyCreated: $e\n$stack");
-      }
-    }
   }
 }

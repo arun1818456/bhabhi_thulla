@@ -57,6 +57,13 @@ class HomeController extends GetxController with BaseClass {
   }
 
   void onTapArrowBack() {
+    print(">>>>>>>>");
+    if (Get.isRegistered<SoloRoomController>()) {
+      print(">>>>wwwww>>>>");
+      final soloController = Get.find<SoloRoomController>();
+      soloController.exitLobby();
+    }
+    update();
     isSoloMode = false;
     isFriendPlayMode = false;
     isFriendsMode = false;
@@ -64,11 +71,5 @@ class HomeController extends GetxController with BaseClass {
     isRewardsMode = false;
     isProfileMode = false;
     spinPage = false;
-    SoloRoomController controller = SoloRoomController();
-    controller.prizeSelected = null;
-    controller.isMatchFounding = false;
-    controller.stopSearchingAnimation();
-    controller.update();
-    update();
   }
 }

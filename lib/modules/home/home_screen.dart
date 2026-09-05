@@ -21,6 +21,8 @@ class HomeScreen extends StatelessWidget {
                           controller.isFriendPlayMode ||
                           controller.isFriendsMode ||
                           controller.isRanksMode ||
+                          controller.isProfileMode ||
+                          controller.spinPage ||
                           controller.isRewardsMode) ...[
                         InkWell(
                           onTap: controller.onTapArrowBack,
@@ -44,49 +46,16 @@ class HomeScreen extends StatelessWidget {
                                     ? "Friends"
                                     : controller.isRanksMode
                                     ? "Global Ranks"
-                                    : "Daily Rewards",
+                                    : controller.isProfileMode
+                                    ? "My Profile"
+                                    : controller.isRewardsMode
+                                    ? "Daily Rewards"
+                                    : "",
                                 fontSize: 23,
                                 color: Colors.white,
                                 borderColor: Colors.black,
                               ),
                             ],
-                          ),
-                        ),
-                      ] else if (controller.isProfileMode) ...[
-                        InkWell(
-                          onTap: () {
-                            controller.isProfileMode = false;
-                            controller.update();
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                AppImages.arrowBackBox,
-                                height: 45,
-                                width: 55,
-                              ),
-                              MyText(text: "My Profile", fontSize: 23),
-                            ],
-                          ),
-                        ),
-                      ] else if (controller.spinPage) ...[
-                        InkWell(
-                          onTap: () {
-                            controller.spinPage = false;
-                            controller.update();
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          child: Image.asset(
-                            AppImages.arrowBackBox,
-                            height: 45,
-                            width: 55,
                           ),
                         ),
                       ] else ...[
@@ -103,9 +72,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Image.asset(
-                              AppImages.imageMap[controller
-                                      .userData
-                                      .profileUrl] ??
+                              AppImages.imageMap[controller.userData.avatar] ??
                                   AppImages.p1,
                               fit: BoxFit.contain,
                             ),
