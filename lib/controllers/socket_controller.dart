@@ -99,6 +99,7 @@ class MySocketController extends GetxController with BaseClass {
   void onMethods() {
     socket.value!.on("inviteFailed", (msg) {
       showMySnackBar(msg, alert: true);
+      showMySnackBar(msg, alert: true);
     });
     socket.value!.on("lobby_state", (data) {
       debugPrint(">>lobby_state>>> $data");
@@ -109,7 +110,8 @@ class MySocketController extends GetxController with BaseClass {
 
         homeController.isSoloMode = true;
 
-        SoloRoomController soloRoomController = Get.isRegistered<SoloRoomController>()
+        SoloRoomController soloRoomController =
+            Get.isRegistered<SoloRoomController>()
             ? Get.find<SoloRoomController>()
             : Get.put(SoloRoomController(), permanent: true);
 
@@ -179,15 +181,15 @@ class MySocketController extends GetxController with BaseClass {
     }
   }
 
-  // void findMatch({required int entryFee}) {
-  //   if (socket.value == null || !socket.value!.connected) {
-  //     initializeSocket();
-  //     return;
-  //   }
-  //   Map<String, dynamic> data = {"entryFee": entryFee};
-  //   debugPrint(">>>> find_match: $data");
-  //   socket.value!.emit("find_match", data);
-  // }
+  void findMatch({required int entryFee}) {
+    if (socket.value == null || !socket.value!.connected) {
+      initializeSocket();
+      return;
+    }
+    Map<String, dynamic> data = {"entryFee": entryFee, "playersCount": 4};
+    debugPrint(">>>> find_match: $data");
+    socket.value!.emit("find_match", data);
+  }
 
   void sendFriendRequest({
     required String friendId,

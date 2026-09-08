@@ -41,7 +41,10 @@ class SoloRoomController extends GetxController with BaseClass {
       'rejoin_lobby',
       onRejoinLobby,
     ); // if user not Enter in the lobby
+
     socketController.socket.value!.on('lobby_error', onLobbyError);
+    socketController.socket.value!.on('lobby_searching', lobbySearching);
+    socketController.socket.value!.on('match_started', matchStarted);
     socketController.socket.value!.on('lobby_updated', onLobbyUpdated);
     socketController.socket.value!.on('invite_rejected', inviteRejected);
     super.onInit();
@@ -59,7 +62,7 @@ class SoloRoomController extends GetxController with BaseClass {
 
   void onTapToSelectPrize(int entryFee) {
     prizeSelected = entryFee;
-    Map<String, dynamic> data = {"entryFee": entryFee};
+    Map<String, dynamic> data = {"entryFee": entryFee, "playersCount": 4};
     debugPrint(">>>> create_lobby: $data ");
     socketController.socket.value!.emit("create_lobby", data);
     update();
@@ -83,14 +86,27 @@ class SoloRoomController extends GetxController with BaseClass {
   void onTapStartMatch() {
     startSearchingAnimation();
     isMatchFounding = true;
-    // socketController.findMatch(entryFee: prizeSelected ?? 160);
+    socketController.findMatch(entryFee: prizeSelected ?? 160);
     update();
-    // CloudTransition.push(context, const GameScreen());
   }
 
   //// Socket Listeners
-  void onLobbyStatus(dynamic data) {
-    debugPrint(">>onMatch Status >>> $data");
+
+  void lobbySearching(dynamic data) {
+    debugPrint(">>lobbySearching >>> $data");
+    isMatchFounding = true;
+    startSearchingAnimation();
+    update();
+  }
+
+  void matchStarted(dynamic data) {
+    CloudTransition.push(Get.context!, const GameScreen());
+    isMatchFounding = false;
+    prizeSelected = null;
+    Get.find<HomeController>().isSoloMode = false;
+    stopSearchingAnimation();
+    update();
+    debugPrint(">>onMatchs start >>> $data");
   }
 
   void onLobbyUpdated(dynamic data) {
