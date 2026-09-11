@@ -2,7 +2,7 @@ import '../constant/export_file.dart';
 
 class AnimatingCardModel {
   final Key key;
-  final List<dynamic> card;
+  final Map card;
   final Offset startOffset;
   final Offset endOffset;
   final AnimationController controller;

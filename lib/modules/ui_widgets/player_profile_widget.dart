@@ -3,6 +3,8 @@ import '../../constant/export_file.dart';
 class PlayerProfileWidget extends StatelessWidget {
   final String name;
   final String avatar;
+  final String? flag;
+  final int? level;
   final int cardCount;
   final bool isUser;
   final bool isWinner;
@@ -13,6 +15,8 @@ class PlayerProfileWidget extends StatelessWidget {
     super.key,
     required this.name,
     required this.avatar,
+    this.flag,
+    this.level,
     required this.cardCount,
     this.isUser = false,
     this.isWinner = false,
@@ -22,6 +26,8 @@ class PlayerProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String flagEmoji = _getFlagEmoji(flag);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -40,19 +46,52 @@ class PlayerProfileWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Color(0xff29b6f6), width: 2),
+                  border: Border.all(color: const Color(0xff29b6f6), width: 2),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    avatar,
-                    width: 38,
-                    height: 40,
-                    fit: BoxFit.fill,
-                  ),
+                  child: _buildAvatar(avatar),
                 ),
               ),
             ),
+            // FLAG EMOJI (TOP-LEFT)
+            if (flag != null && flag!.isNotEmpty)
+              Positioned(
+                top: -3,
+                left: -3,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(flagEmoji, style: const TextStyle(fontSize: 10)),
+                ),
+              ),
+            // LEVEL BADGE (TOP-RIGHT)
+            if (level != null && level! > 0)
+              Positioned(
+                top: -3,
+                right: -3,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFB34DFF), Color(0xFF5C1DAD)],
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: const Color(0xFFFFD85A), width: 1),
+                  ),
+                  child: Text(
+                    "$level",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 3),
@@ -76,5 +115,45 @@ class PlayerProfileWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildAvatar(String avatarKey) {
+    if (avatarKey.startsWith("http://") || avatarKey.startsWith("https://")) {
+      return Image.network(
+        avatarKey,
+        width: 38,
+        height: 40,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) =>
+            Image.asset(AppImages.p1, width: 38, height: 40, fit: BoxFit.cover),
+      );
+    }
+    if (AppImages.imageMap.containsKey(avatarKey)) {
+      return Image.asset(
+        AppImages.imageMap[avatarKey]!,
+        width: 38,
+        height: 40,
+        fit: BoxFit.cover,
+      );
+    }
+    return Image.asset(
+      avatarKey,
+      width: 38,
+      height: 40,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) =>
+          Image.asset(AppImages.p1, width: 38, height: 40, fit: BoxFit.cover),
+    );
+  }
+
+  String _getFlagEmoji(String? rawFlag) {
+    if (rawFlag == null || rawFlag.trim().isEmpty) {
+      return flags["IN"] ?? "🇮🇳";
+    }
+    final String cleanFlag = rawFlag.trim().toUpperCase();
+    if (flags.containsKey(cleanFlag)) {
+      return flags[cleanFlag]!;
+    }
+    return rawFlag;
   }
 }

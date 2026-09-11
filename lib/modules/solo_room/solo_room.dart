@@ -20,7 +20,16 @@ class SoloRoom extends StatelessWidget {
                     effect: AnimationEffect.scale,
                     child: GestureDetector(
                       onTap: () {
-                        controller.onTapToSelectPrize(room.entryFee);
+                        print(">>>>> ${room.entryFee}");
+                        print(">>>>> ${controller.userData.coins}");
+                        if (room.entryFee < (controller.userData.coins ?? 0)) {
+                          controller.onTapToSelectPrize(room.entryFee);
+                        } else {
+                          controller.showMySnackBar(
+                            "Insufficient Funds",
+                            alert: true,
+                          );
+                        }
                       },
                       child: FlipRoomCard(room: room),
                     ),

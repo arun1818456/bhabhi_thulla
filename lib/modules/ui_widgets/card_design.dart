@@ -6,6 +6,7 @@ class PlayingCard extends StatelessWidget {
   final double width;
   final double height;
   final bool isTransform;
+  final bool isHighlighted;
 
   const PlayingCard({
     super.key,
@@ -14,6 +15,7 @@ class PlayingCard extends StatelessWidget {
     this.width = 100,
     this.height = 110,
     this.isTransform = false,
+    this.isHighlighted = false,
   });
 
   @override
@@ -24,8 +26,17 @@ class PlayingCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade400, width: 0.8),
+        border: Border.all(
+          color: isHighlighted ? const Color(0xFFFFD700) : Colors.grey.shade400,
+          width: isHighlighted ? 2.2 : 0.8,
+        ),
         boxShadow: [
+          if (isHighlighted)
+            BoxShadow(
+              color: const Color(0xFFFFD700).withValues(alpha: 0.7),
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
           BoxShadow(
             color: Colors.black.withValues(alpha: .6),
             blurRadius: 4,
