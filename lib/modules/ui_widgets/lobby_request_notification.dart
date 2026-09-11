@@ -325,7 +325,7 @@ class LobbyRequestNotification extends StatelessWidget {
                 child: Image.asset(
                   avatar,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) {
+                  errorBuilder: (_, a, aa) {
                     return const Icon(
                       Icons.person_rounded,
                       color: Colors.white,

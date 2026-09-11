@@ -2,7 +2,7 @@
 import '../../constant/export_file.dart';
 
 class GameController extends GetxController {
-  int players = 2;
+  int ? totalPlayers ;
   List onTableThrowCards = [];
   final List<List<dynamic>> handCards = [
     [5, Suit.diamonds],

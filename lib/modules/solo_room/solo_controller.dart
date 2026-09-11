@@ -100,11 +100,11 @@ class SoloRoomController extends GetxController with BaseClass {
   }
 
   void matchStarted(dynamic data) {
-    CloudTransition.push(Get.context!, const GameScreen());
+    CloudTransition.push(Get.context!,  GameScreen(data: data,));
     isMatchFounding = false;
     prizeSelected = null;
-    Get.find<HomeController>().isSoloMode = false;
     stopSearchingAnimation();
+    Get.find<HomeController>().onTapArrowBack();
     update();
     debugPrint(">>onMatchs start >>> $data");
   }

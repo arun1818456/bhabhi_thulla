@@ -3,14 +3,19 @@ import 'dart:ui';
 import '../../constant/export_file.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
-
+  const GameScreen({super.key, required this.data});
+  final Map data;
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   final List<AnimatingCardModel> _animatingCards = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -42,7 +47,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     controller.update();
 
     final targetAlignment =
-        tablePositions[controller.onTableThrowCards.length % tablePositions.length];
+        tablePositions[controller.onTableThrowCards.length %
+            tablePositions.length];
     const targetWidth = 85.0;
     const targetHeight = 95.0;
 
@@ -102,11 +108,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: _buildTopIcon(Icons.wifi_off, Colors.red),
-                ),
+                // Positioned(
+                //   top: 10,
+                //   left: 10,
+                //   child: _buildTopIcon(Icons.wifi_off, Colors.red),
+                // ),
                 Align(
                   alignment: const Alignment(0, -0.9),
                   child: PlayerProfileWidget(
@@ -189,15 +195,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           final t = animCard.animation.value;
           final curve = Curves.easeInOut.transform(t);
 
-          final position =
-              Offset.lerp(animCard.startOffset, animCard.endOffset, curve)!;
+          final position = Offset.lerp(
+            animCard.startOffset,
+            animCard.endOffset,
+            curve,
+          )!;
 
           final arc = sin(pi * t) * -2;
           final rotatedPosition = position.translate(0, arc);
 
           final List<double> tableRotations = [0.05, -0.08, 0.03, -0.04];
           final targetRotation =
-              tableRotations[controller.onTableThrowCards.length % tableRotations.length];
+              tableRotations[controller.onTableThrowCards.length %
+                  tableRotations.length];
           final rotation = lerpDouble(-0.02, targetRotation, t)!;
 
           return Positioned(

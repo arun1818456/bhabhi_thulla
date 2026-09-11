@@ -128,7 +128,7 @@ class MySocketController extends GetxController with BaseClass {
       debugPrint(">>lobby_error>>>$msg");
     });
     socket.value!.on("lobby_invite", (data) {
-      print("lobby_invite >>${data}");
+      debugPrint("lobby_invite >>$data");
       final lobbyId = data["lobbyId"];
       final ownerId = data["ownerId"];
       final avatar = data["avatar"];
@@ -156,7 +156,7 @@ class MySocketController extends GetxController with BaseClass {
               Get.closeCurrentSnackbar();
             },
             onDecline: () {
-              print(">>>>> DEcline");
+              debugPrint(">>>>> DEcline");
               socket.value!.emit("reject_invite", {"ownerId": ownerId});
               Get.closeCurrentSnackbar();
             },
@@ -210,7 +210,7 @@ class MySocketController extends GetxController with BaseClass {
   }
 
   void sendInviteRequest({required String userId}) {
-    print(">>> Send Invite ");
+    debugPrint(">>> Send Invite ");
     try {
       socket.value?.emit("invite_player", {"id": userId});
       showMySnackBar("Invite Send", success: true);
@@ -220,7 +220,7 @@ class MySocketController extends GetxController with BaseClass {
   }
 
   void onAcceptRequest({required String lobbyId}) {
-    print(">>> Accepted ");
+    debugPrint(">>> Accepted ");
     try {
       socket.value!.emit("accept_invite", {"lobbyId": lobbyId});
     } catch (e) {

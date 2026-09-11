@@ -351,7 +351,7 @@ Widget _buildAvatarImage(String? avatarKey) {
       return Image.network(
         avatarKey,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) =>
+        errorBuilder: (_, a, aa) =>
             Image.asset(AppImages.p1, fit: BoxFit.fitHeight),
       );
     }
@@ -361,7 +361,7 @@ Widget _buildAvatarImage(String? avatarKey) {
     return Image.asset(
       avatarKey,
       fit: BoxFit.fitHeight,
-      errorBuilder: (_, __, ___) =>
+      errorBuilder: (_, a, aa) =>
           Image.asset(AppImages.p1, fit: BoxFit.fitHeight),
     );
   }
