@@ -57,7 +57,6 @@ export 'package:bhabhi_thulla/modules/ui_widgets/vs.dart';
 export 'package:bhabhi_thulla/modules/ui_widgets/friend_request_notification.dart';
 export 'package:socket_io_client/socket_io_client.dart';
 export 'package:bhabhi_thulla/widgets/full_screen_loader.dart';
-export 'package:device_info_plus/device_info_plus.dart';
 export 'package:get_storage/get_storage.dart';
 export 'package:bhabhi_thulla/constant/enums.dart';
 export 'package:bhabhi_thulla/models/rank_model.dart';

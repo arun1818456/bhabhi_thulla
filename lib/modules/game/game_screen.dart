@@ -19,47 +19,45 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     debugPrint("GameScreen data: ${widget.data}");
-
     controller.mySeat = widget.data["yourSeat"] ?? widget.data["seat"];
     controller.playersCount = widget.data["playersCount"];
     controller.roomId = widget.data["roomId"];
-    controller.players = widget.data["players"] != null && widget.data["players"] is List
+    controller.players =
+        widget.data["players"] != null && widget.data["players"] is List
         ? List.from(widget.data["players"])
         : [];
     controller.entryFee = widget.data["entryFee"];
     controller.currentTurn = widget.data["currentTurn"];
+    controller.currentSuitChal = "spades";
+    controller.firstChal = true;
 
     final dynamic rawHandCards =
         widget.data["myCards"] ?? widget.data["handCards"];
     if (rawHandCards != null && rawHandCards is List) {
       controller.handCards = (rawHandCards)
-          .map((e) => e is Map
-              ? Map<String, dynamic>.from(e)
-              : e is List
-                  ? {"rank": parseRank(e[0]), "suit": e[1]}
-                  : <String, dynamic>{})
+          .map(
+            (e) => e is Map
+                ? Map<String, dynamic>.from(e)
+                : e is List
+                ? {"rank": parseRank(e[0]), "suit": e[1]}
+                : <String, dynamic>{},
+          )
           .toList();
+      controller.sortHandCards();
     } else {
       controller.handCards = [];
     }
-
-    if (widget.data["tableCards"] != null && widget.data["tableCards"] is List) {
-      controller.tableCards = (widget.data["tableCards"] as List)
-          .map((e) => e is Map
-              ? Map<String, dynamic>.from(e)
-              : e is List
-                  ? {"rank": parseRank(e[0]), "suit": e[1]}
-                  : <String, dynamic>{})
-          .toList();
-    } else {
-      controller.tableCards = [];
-    }
+    controller.tableCards = [];
 
     controller.onCardPlayedReceived = (data) {
       _handleCardPlayedSocket(data);
     };
 
-    controller.update();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        controller.update();
+      }
+    });
   }
 
   @override
@@ -165,10 +163,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   static const Map<int, Alignment> tableSpotAlignments = {
-    0: Alignment(0.0, 0.22),   // Bottom side of table (for Pos 0 / Me)
-    1: Alignment(0.28, 0.02),  // Right side of table (for Pos 1 / Right Player)
-    2: Alignment(0.0, -0.22),  // Top side of table (for Pos 2 / Top Player / Samne)
-    3: Alignment(-0.28, 0.02), // Left side of table (for Pos 3 / Left Player)
+    0: Alignment(0.0, 0.22),
+    // Bottom side of table (for Pos 0 / Me)
+    1: Alignment(0.28, 0.02),
+    // Right side of table (for Pos 1 / Right Player)
+    2: Alignment(0.0, -0.22),
+    // Top side of table (for Pos 2 / Top Player / Samne)
+    3: Alignment(-0.28, 0.02),
+    // Left side of table (for Pos 3 / Left Player)
   };
 
   void _handleCardPlayedSocket(Map data) {
@@ -294,14 +296,32 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   ) {
     if (_animatingCards.isNotEmpty) return;
     if (!controller.isMyTurn) {
-      debugPrint(
-        "Not my turn! mySeat: ${controller.mySeat}, currentTurn: ${controller.currentTurn}",
-      );
+      controller.showMySnackBar("It's not your turn!", alert: true);
       return;
     }
     if (index < 0 || index >= controller.handCards.length) return;
 
     final Map card = Map<String, dynamic>.from(controller.handCards[index]);
+
+    if (!controller.isCardPlayable(card)) {
+      if (controller.firstChal) {
+        controller.showMySnackBar(
+          "First move must be Ace of Spades!",
+          alert: true,
+        );
+      } else {
+        controller.showMySnackBar(
+          "You must play a ${controller.currentSuitName} card!",
+          alert: true,
+        );
+      }
+      return;
+    }
+
+    if (controller.firstChal) {
+      controller.firstChal = false;
+    }
+
     card["posIndex"] = 0; // My position is always 0 (Bottom)
     card["seat"] = controller.mySeat;
 
@@ -387,6 +407,50 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     controller: controller,
                     onCardTap: (index, startOffset) =>
                         _onHandCardTap(controller, index, startOffset, w, h),
+                  ),
+                ),
+                Positioned(
+                  bottom: 25,
+                  right: 15,
+                  child: GestureDetector(
+                    onTap: () {
+                      controller.sortHandCards();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF2E8CFF), Color(0xFF1A52B8)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.white, width: 1.5),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black45,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.sort_rounded, color: Colors.white, size: 18),
+                          SizedBox(width: 4),
+                          Text(
+                            "SORT",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 ..._buildFlyingCards(

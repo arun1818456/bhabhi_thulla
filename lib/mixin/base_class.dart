@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 import '../constant/export_file.dart';
 
 mixin BaseClass {
@@ -11,15 +13,18 @@ mixin BaseClass {
     }
   }
 
-  Future getDeviceInfo() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    try {
-      final deviceInfo = await deviceInfoPlugin.deviceInfo;
-      final allInfo = deviceInfo.data;
-      return allInfo;
-    } catch (e) {
-      debugPrint("Error fetching device info: $e");
+  Future<String> getUniqueDeviceId() async {
+    const key = "unique_device_id";
+
+    String? deviceId = storage.read(key);
+
+    if (deviceId == null || deviceId.isEmpty) {
+      deviceId = const Uuid().v4();
+
+      await storage.write(key, deviceId);
     }
+
+    return deviceId;
   }
 
   void showMySnackBar(

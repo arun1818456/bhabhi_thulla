@@ -35,7 +35,6 @@ class MyHandCard extends StatelessWidget {
         final totalWidth = cards.length == 1
             ? cardWidth
             : cardWidth + (cards.length - 1) * distance;
-        final double bottomOffset = isMyTurn ? -18.0 : -25.0;
 
         return SizedBox(
           height: 125,
@@ -56,28 +55,45 @@ class MyHandCard extends StatelessWidget {
               );
               final Suit cardSuit = parseSuit(rawCard["suit"]);
 
+              final bool isPlayable = controller.isCardPlayable(rawCard);
+              final bool isHighlighted = isMyTurn && isPlayable;
+
               return Positioned(
                 left: index * distance,
-                bottom: -verticalOffset + bottomOffset,
+                bottom: -verticalOffset + (isHighlighted ? -18.0 : -25.0),
                 child: Transform.rotate(
                   angle: rotation,
                   child: GestureDetector(
-                    onTapDown: isMyTurn
-                        ? (details) {
-                            onCardTap(
-                              index,
-                              details.globalPosition -
-                                  const Offset(cardWidth / 2, cardWidth / 2),
-                            );
-                          }
-                        : null,
-                    onTap: () {},
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: (details) {
+                      if (!isMyTurn) {
+                        controller.showMySnackBar("It's not your turn!", alert: true);
+                      } else if (!isPlayable) {
+                        if (controller.firstChal) {
+                          controller.showMySnackBar(
+                            "First move must be Ace of Spades!",
+                            alert: true,
+                          );
+                        } else {
+                          controller.showMySnackBar(
+                            "You must play a ${controller.currentSuitName} card!",
+                            alert: true,
+                          );
+                        }
+                      } else {
+                        onCardTap(
+                          index,
+                          details.globalPosition -
+                              const Offset(cardWidth / 2, cardWidth / 2),
+                        );
+                      }
+                    },
                     child: PlayingCard(
                       value: cardValue,
                       suit: cardSuit,
                       width: cardWidth,
                       height: 105,
-                      isHighlighted: isMyTurn,
+                      isHighlighted: isHighlighted,
                     ),
                   ),
                 ),
