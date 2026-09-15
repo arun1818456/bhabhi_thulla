@@ -147,6 +147,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           ? playerMap["cardCount"]
           : (isUser ? controller.handCards.length : 13);
 
+      final int pSeat = playerMap["seat"] is int
+          ? playerMap["seat"]
+          : int.tryParse(playerMap["seat"]?.toString() ?? '') ?? -1;
+
+      final bool isTurn = (pSeat != -1 &&
+          controller.currentTurn != null &&
+          pSeat == controller.currentTurn);
+
       return Align(
         alignment: playerAlignments[posIndex],
         child: PlayerProfileWidget(
@@ -156,6 +164,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           level: level,
           cardCount: cardCount,
           isUser: isUser,
+          isTurn: isTurn,
           cardsIcon: !isUser,
         ),
       );

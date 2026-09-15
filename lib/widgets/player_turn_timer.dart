@@ -106,6 +106,13 @@ class _TurnTimerState extends State<TurnTimer>
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.isRunning) {
+      return Padding(
+        padding: const EdgeInsets.all(6),
+        child: widget.child,
+      );
+    }
+
     return AnimatedBuilder(
       animation: controller,
       builder: (_, a) {
@@ -148,6 +155,8 @@ class _BorderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (progress <= 0) return;
+
     final path = Path()
       ..addRRect(
         RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius)),

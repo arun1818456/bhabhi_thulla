@@ -7,6 +7,7 @@ class PlayerProfileWidget extends StatelessWidget {
   final int? level;
   final int cardCount;
   final bool isUser;
+  final bool isTurn;
   final bool isWinner;
   final List<IconData>? statusIcons;
   final bool cardsIcon;
@@ -19,6 +20,7 @@ class PlayerProfileWidget extends StatelessWidget {
     this.level,
     required this.cardCount,
     this.isUser = false,
+    this.isTurn = false,
     this.isWinner = false,
     this.statusIcons,
     this.cardsIcon = false,
@@ -36,17 +38,22 @@ class PlayerProfileWidget extends StatelessWidget {
           children: [
             TurnTimer(
               duration: const Duration(seconds: 30),
-              isRunning: true,
+              isRunning: isTurn,
               borderRadius: 12,
               onCompleted: () {
-                debugPrint("TIME OVER");
+                debugPrint("TIME OVER for $name");
               },
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xff29b6f6), width: 2),
+                  border: Border.all(
+                    color: isTurn
+                        ? const Color(0xFFFFD700)
+                        : const Color(0xff29b6f6),
+                    width: isTurn ? 2.5 : 2,
+                  ),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
@@ -99,13 +106,15 @@ class PlayerProfileWidget extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 60, maxWidth: 120),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.5),
+            color: isTurn
+                ? const Color(0xFFFFD700).withValues(alpha: 0.85)
+                : Colors.black.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
             name,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isTurn ? Colors.black : Colors.white,
               fontSize: 10,
               fontWeight: FontWeight.w900,
             ),
